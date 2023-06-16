@@ -1,14 +1,22 @@
-import requests
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.dispatcher.filters import Command
+import logging
+
+API_TOKEN = '1355012700:AAGZAeq9HihUdmwhbb_R-y-uMMgu4N0PJg4'
+logging.basicConfig(level=logging.INFO)
+
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
 
 
-country = 'usa'
-operator = 'any'
+@dp.message_handler(Command('help'))
+async def echo(message: types.Message):
+    await message.answer(message.text)
 
-headers = {
-    'Accept': 'application/json',
-}
 
-response = requests.get('https://5sim.net/v1/guest/products/' + country + '/' + operator, headers=headers)
-req_result = response.json()
-print(req_result['openai']['Price'])
-#john's branch
+@dp.message_handler(Command('start'))
+async def replier(message: types.Message):
+    await message.reply('My name is chiki')
+
+
+executor.start_polling(dp, skip_updates=True)
