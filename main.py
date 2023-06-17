@@ -22,53 +22,52 @@
 # executor.start_polling(dp, skip_updates=True)
 
 
-# class Teacher:
-#     def __init__(self):
-#         self.__name = 'Jahon'
-#         self.__surname = 'Masharipov'
-#         self.__age = 1
-#
-#     @property
-#     def get_age(self):
-#         return self.__age
-#
-#     @age.setter
-#     def set_age(self, age):
-#         if 70 > age >= 18:
-#             self.__age = age
-#             print('Welcome To UZB PORN')
-#         elif 60 < age > 70:
-#             print('BOBO NMA QVOSIZ BRAT')
-#         else:
-#             print('You are too young to watch porn videos')
-#
-#     @staticmethod
-#     def whatismyname(self):
-#         pass
-#
-#
-# teacher = Teacher()
+class Teacher:
+    def __init__(self):
+        self.__name = 'Jahon'
+        self.__surname = 'Masharipov'
+        self.__age = 1
 
+    @property
+    def get_age(self):
+        return self.__age
 
-class Person:
-    def __int__(self, age, name, iq):
-        self.__age = age
-        self.__name = name
-        self.__iq = iq
-
-    def is_genius(self):
-        return self.__is_genius
-
-    def set_iq(self, iq):
-        if iq < 100:
-            self.__is_genius = 0
+    @get_age.setter
+    def set_age(self, age):
+        if 70 > age >= 18:
+            self.__age = age
+            print('Welcome To UZB PORN')
+        elif 60 < age > 70:
+            print('BOBO NMA QVOSIZ BRAT')
         else:
-            self.__is_genius = 1
+            print('You are too young to watch porn videos')
+
+    @staticmethod
+    def whatismyname(self):
+        pass
 
 
-baxti = Person(18, 'Baxtiyor',75)
-baxti.is_genius()
+teacher = Teacher()
+teacher.set_age = 30
 
 
-
-
+# class Person:
+#     def __init__(self, age, name, iq):
+#         self.__is_genius = None
+#         self.__age = age
+#         self.__name = name
+#         self.__iq = iq
+#
+#     def is_genius(self):
+#         return self.__is_genius
+#
+#     def check_iq(self):  # setter
+#         if self.__iq < 100:
+#             self.__is_genius = False
+#         else:
+#             self.__is_genius = True
+#
+#
+# baxti = Person(18, 'Baxtiyor', 98)
+# baxti.check_iq()
+# print(baxti.is_genius())
