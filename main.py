@@ -22,15 +22,53 @@
 # executor.start_polling(dp, skip_updates=True)
 
 
-class Teacher:
-    degree = 'High degree'
-    unversity = 'Amity'
+# class Teacher:
+#     def __init__(self):
+#         self.__name = 'Jahon'
+#         self.__surname = 'Masharipov'
+#         self.__age = 1
+#
+#     @property
+#     def get_age(self):
+#         return self.__age
+#
+#     @age.setter
+#     def set_age(self, age):
+#         if 70 > age >= 18:
+#             self.__age = age
+#             print('Welcome To UZB PORN')
+#         elif 60 < age > 70:
+#             print('BOBO NMA QVOSIZ BRAT')
+#         else:
+#             print('You are too young to watch porn videos')
+#
+#     @staticmethod
+#     def whatismyname(self):
+#         pass
+#
+#
+# teacher = Teacher()
 
-    def teach(self):
-        print('i am teaching')
+
+class Person:
+    def __int__(self, age, name, iq):
+        self.__age = age
+        self.__name = name
+        self.__iq = iq
+
+    def is_genius(self):
+        return self.__is_genius
+
+    def set_iq(self, iq):
+        if iq < 100:
+            self.__is_genius = 0
+        else:
+            self.__is_genius = 1
 
 
-parveen = Teacher()
-jahongir = Teacher()
-print(parveen.degree)
-parveen.teach()
+baxti = Person(18, 'Baxtiyor',75)
+baxti.is_genius()
+
+
+
+
