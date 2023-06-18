@@ -48,8 +48,8 @@ class Teacher:
 
 
 teacher = Teacher()
-teacher.set_age = 30
-
+teacher.set_age = 120
+print(teacher.get_age)
 
 # class Person:
 #     def __init__(self, age, name, iq):
