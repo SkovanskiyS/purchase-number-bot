@@ -47,27 +47,66 @@ class Teacher:
         pass
 
 
-teacher = Teacher()
-teacher.set_age = 120
-print(teacher.get_age)
+class Person2:
+    def __init__(self, age, name, iq):
+        self.__is_genius = None
+        self.__age = age
+        self.__name = name
+        self.__iq = iq
 
-# class Person:
-#     def __init__(self, age, name, iq):
-#         self.__is_genius = None
-#         self.__age = age
-#         self.__name = name
-#         self.__iq = iq
-#
-#     def is_genius(self):
-#         return self.__is_genius
-#
-#     def check_iq(self):  # setter
-#         if self.__iq < 100:
-#             self.__is_genius = False
-#         else:
-#             self.__is_genius = True
-#
-#
-# baxti = Person(18, 'Baxtiyor', 98)
-# baxti.check_iq()
-# print(baxti.is_genius())
+    def is_genius(self):
+        return self.__is_genius
+
+    def check_iq(self):  # setter
+        if self.__iq < 100:
+            self.__is_genius = False
+        else:
+            self.__is_genius = True
+
+
+class Employee:
+    def __init__(self, name):
+        self.__name = name
+
+    def who_am_i(self):
+        print('my name is ' + self.__name)
+
+
+class Person:
+    def __init__(self):
+        self.__sex = None
+
+    @property
+    def get_sex(self):
+        return self.__sex
+
+    @get_sex.setter
+    def set_gender(self, sex):
+        self.__sex = sex
+
+
+class ITSpecialist(Employee, Person):
+    def __init__(self, name):
+        super().__init__(name)
+
+
+class Animals:
+    def __init__(self, type):
+        self.__type = type
+
+    def return_type(self):
+        print('Type of animal: ' + self.__type)
+
+
+class Tiger(Animals):
+    def __init__(self, type, sound):
+        super().__init__(type)
+        self.__sound = sound
+
+    def return_type(self):
+        super().return_type()
+        print('i do '+self.__sound)
+
+
+man_tiger = Tiger('predator','gav gav')
+man_tiger.return_type()
