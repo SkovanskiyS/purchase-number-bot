@@ -1,1 +1,1 @@
-from . import storage as storage
+from . import storage

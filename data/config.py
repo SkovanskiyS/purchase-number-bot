@@ -8,7 +8,7 @@ env = Env()
 env.read_env()
 
 BOT_TOKEN: str = env.str("BOT_TOKEN")
-
+ADMINS: str = env.list('ADMINS')
 LOGGING_LEVEL: int = env.int("LOGGING_LEVEL", 10)
 
 PG_HOST: str = env.str("PG_HOST")
