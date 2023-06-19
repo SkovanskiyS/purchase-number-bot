@@ -106,7 +106,7 @@ class Tiger(Animals):
     def return_type(self):
         super().return_type()
         print('i do '+self.__sound)
-
+        print()
 
 man_tiger = Tiger('predator','gav gav')
 man_tiger.return_type()
