@@ -116,8 +116,3 @@ class Tiger(Animals):
         print('i do ' + self.__sound)
         print()
 
-
-man_tiger = Tiger('predator', 'gav gav')
-print(man_tiger.type)
-print(man_tiger.sound)
-man_tiger.return_type()
