@@ -94,6 +94,10 @@ class Animals:
     def __init__(self, type):
         self.__type = type
 
+    @property
+    def type(self):
+        return self.__type
+
     def return_type(self):
         print('Type of animal: ' + self.__type)
 
@@ -103,10 +107,17 @@ class Tiger(Animals):
         super().__init__(type)
         self.__sound = sound
 
+    @property
+    def sound(self):
+        return self.__sound
+
     def return_type(self):
         super().return_type()
-        print('i do '+self.__sound)
+        print('i do ' + self.__sound)
         print()
 
-man_tiger = Tiger('predator','gav gav')
+
+man_tiger = Tiger('predator', 'gav gav')
+print(man_tiger.type)
+print(man_tiger.sound)
 man_tiger.return_type()
