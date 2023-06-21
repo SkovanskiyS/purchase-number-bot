@@ -1,1 +1,1 @@
-#baxti cort
+print("hello world ")
