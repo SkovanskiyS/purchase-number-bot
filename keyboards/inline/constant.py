@@ -30,7 +30,7 @@ class Constructor:
                             pay=pay,
                         ))
             else:
-                for key, value in j:
+                for key, value in j[0].items():
                     inlineBtnObject.append([InlineKeyboardButton(text=key, callback_data=value, url=url,
                                                                  web_app=web_app,
                                                                  login_url=login_url,
