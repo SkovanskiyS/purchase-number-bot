@@ -13,13 +13,19 @@ class Constructor:
     ):
         keyBoardsBtnObject = []
         for i, j in enumerate(btn):
-            print(j[i])
             if len(j) > 1:
                 keyBoardsBtnObject.insert(i, [])
                 for k in j:
-                    keyBoardsBtnObject[i].append(KeyboardButton(text=k, request_contact=request_contact))
+                    keyBoardsBtnObject[i].append(KeyboardButton(
+                        text=k, request_user=request_user, request_chat=request_chat, request_location=request_location,
+                        request_contact=request_contact,request_poll=request_poll,web_app=web_app
+                    ))
             else:
-                keyBoardsBtnObject.append([KeyboardButton(text=j[i], request_contact=request_contact)])
-        print(keyBoardsBtnObject)
+                keyBoardsBtnObject.append([KeyboardButton(text=j[0],
+                                                          request_user=request_user, request_chat=request_chat,
+                                                          request_location=request_location,
+                                                          request_contact=request_contact, request_poll=request_poll,
+                                                          web_app=web_app
+                                                          )])
 
         return ReplyKeyboardMarkup(keyboard=keyBoardsBtnObject, resize_keyboard=True)
