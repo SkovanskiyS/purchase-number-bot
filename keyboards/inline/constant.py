@@ -41,3 +41,4 @@ class Constructor:
                                                                  pay=pay, )])
 
         return InlineKeyboardMarkup(inline_keyboard=inlineBtnObject)
+

@@ -1,14 +1,14 @@
+import logging
 from aiogram import executor
-
 from handlers.register import register_all_handlers
 from loader import dp
-from handlers.users.start import register_user
-import logging
 
 
 def on_startup():
-    print('registered')
-    register_all_handlers(dp)
+    try:
+        register_all_handlers(dp)
+    except Exception as ex:
+        logging.info(ex)
 
 
 if __name__ == '__main__':
