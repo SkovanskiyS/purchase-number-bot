@@ -9,6 +9,6 @@ class CreateBtn(Constructor):
 
     @staticmethod
     def request_phone_number():
-        return Constructor.create_btn([['Send phone number']],request_contact=True)
 
+        return Constructor.create_btn([['Отправить номер']],request_contact=True)
 
