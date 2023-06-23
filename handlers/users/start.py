@@ -44,7 +44,7 @@ async def acquire_surname(msg: Message, state: FSMContext):
 async def acquire_phone_number(msg: Message, state: FSMContext):
     answer_phone_number = ''
     if msg.text is None:
-        answer_phone_number = msg.contact
+        answer_phone_number = msg.contact.phone_number
     else:
         answer_phone_number = msg.text
     await state.update_data(
