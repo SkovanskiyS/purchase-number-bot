@@ -7,6 +7,8 @@ class CreateBtn(Constructor):
     def mainMenuBtn():
         return Constructor.create_btn([['Купить номер','Назад']])
 
-
+    @staticmethod
+    def request_phone_number():
+        return Constructor.create_btn([['Send phone number']],request_contact=True)
 
 
