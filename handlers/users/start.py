@@ -93,3 +93,4 @@ def register_user(dp: Dispatcher) -> None:
     # dp.register_callback_query_handler(payme_handler, pay_callback.filter(name='payme'))
     # dp.register_callback_query_handler(click_hander, text_contains='click')
     # dp.register_callback_query_handler(cancel, text='cancel')
+
