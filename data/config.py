@@ -35,3 +35,6 @@ def load_config(path: str | None) -> Config:
     return Config(tg_bot=TgBot(BOT_TOKEN=BOT_TOKEN, ADMINS=ADMINS), db=DataBase(
         database=DATABASE, db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD
     ))
+
+
+
