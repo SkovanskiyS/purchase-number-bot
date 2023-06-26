@@ -8,7 +8,3 @@ def register_all_handlers(dp: Dispatcher):
     )
     for handler in handlers:
         handler(dp)
-
-
-
-
