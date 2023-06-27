@@ -18,7 +18,7 @@ async def main() -> None:
     logging.info('BOT STARTED')
 
     config = load_config('.env')
-    bot: Bot = Bot(token=config.tg_bot.BOT_TOKEN)
+    bot: Bot = Bot(token=config.tg_bot.BOT_TOKEN,parse_mode='HTML')
     storage: MemoryStorage = MemoryStorage()
     dp: Dispatcher = Dispatcher(bot, storage=storage)
     dp.middleware.setup(ThrottlingMiddleware())

@@ -1,5 +1,5 @@
 from aiogram import Dispatcher
-from handlers.users.start import register_user
+from handlers.users.commands_handler import register_user
 
 
 def register_all_handlers(dp: Dispatcher):
@@ -8,6 +8,7 @@ def register_all_handlers(dp: Dispatcher):
     )
     for handler in handlers:
         handler(dp)
+
 
 
 
