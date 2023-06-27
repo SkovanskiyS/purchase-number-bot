@@ -1,14 +1,10 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from keyboards.default.constant import Constructor
-
+from lexicon.lexicon_RU import LEXICON_BUTTONS
 
 class CreateBtn(Constructor):
     @staticmethod
-    def mainMenuBtn():
-        return Constructor.create_btn([['Купить номер','Назад']])
+    def MenuBtn():
+        return Constructor.create_btn([[LEXICON_BUTTONS['buy_number']],[LEXICON_BUTTONS['contact_with']]])
 
-    @staticmethod
-    def request_phone_number():
-
-        return Constructor.create_btn([['Отправить номер']],request_contact=True)
 
