@@ -1,7 +1,9 @@
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 
-class Registration(StatesGroup):
-    NAME = State()
-    SURNAME = State()
-    PHONE_NUMBER = State()
+class Purchase(StatesGroup):
+    service: State = State()
+    country: State = State()
+    operator: State = State()
+
+

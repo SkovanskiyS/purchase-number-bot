@@ -3,6 +3,11 @@ from dataclasses import dataclass
 
 
 @dataclass
+class FiveSimAPI:
+    API_KEY: str
+
+
+@dataclass
 class DataBase:
     database: str
     db_host: str
@@ -20,12 +25,14 @@ class TgBot:
 class Config:
     tg_bot: TgBot
     db: DataBase
+    api: FiveSimAPI
 
 
 def load_config(path: str | None) -> Config:
     env = Env()
     env.read_env()
     BOT_TOKEN = env.str('BOT_TOKEN')
+    API_KEY = env.str('API_KEY')
     ADMINS = list(map(int, env.list('ADMINS')))
     DATABASE = env.str('DATABASE')
     DB_HOST = env.str('DB_HOST')
@@ -34,7 +41,4 @@ def load_config(path: str | None) -> Config:
 
     return Config(tg_bot=TgBot(BOT_TOKEN=BOT_TOKEN, ADMINS=ADMINS), db=DataBase(
         database=DATABASE, db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD
-    ))
-
-
-
+    ),api=FiveSimAPI(API_KEY=API_KEY))
