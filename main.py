@@ -6,7 +6,6 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data.config import load_config
 from handlers.register import register_all_handlers
 from middleware.throttling import ThrottlingMiddleware
-from middleware.test import TestMiddleware
 from services.commands import set_main_menu
 
 
@@ -23,7 +22,6 @@ async def main() -> None:
     storage: MemoryStorage = MemoryStorage()
     dp: Dispatcher = Dispatcher(bot, storage=storage)
     dp.middleware.setup(ThrottlingMiddleware())
-    dp.middleware.setup(TestMiddleware())
     register_all_handlers(dp)
 
     await set_main_menu(bot)
