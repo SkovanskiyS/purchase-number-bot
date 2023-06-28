@@ -5,5 +5,5 @@ class Purchase(StatesGroup):
     service: State = State()
     country: State = State()
     operator: State = State()
-
-
+    confirm: State = State()
+    payment: State = State()

@@ -16,11 +16,12 @@ class Constructor:
         inlineBtnObject = []
         for i, j in enumerate(btn):
             if len(j) > 1:
-                inlineBtnObject.insert(i, [])
+                index = len(inlineBtnObject)
+                inlineBtnObject.insert(index, [])
                 for k in j:
                     for key, value in k.items():
-                        inlineBtnObject[i].append(InlineKeyboardButton(
-                            text=key, callback_data=value, url=url,
+                        inlineBtnObject[index].append(InlineKeyboardButton(
+                            text=value, callback_data=key, url=url,
                             web_app=web_app,
                             login_url=login_url,
                             switch_inline_query=switch_inline_query,
@@ -31,7 +32,7 @@ class Constructor:
                         ))
             else:
                 for key, value in j[0].items():
-                    inlineBtnObject.append([InlineKeyboardButton(text=key, callback_data=value, url=url,
+                    inlineBtnObject.append([InlineKeyboardButton(text=value, callback_data=key, url=url,
                                                                  web_app=web_app,
                                                                  login_url=login_url,
                                                                  switch_inline_query=switch_inline_query,
@@ -41,4 +42,3 @@ class Constructor:
                                                                  pay=pay, )])
 
         return InlineKeyboardMarkup(inline_keyboard=inlineBtnObject)
-
