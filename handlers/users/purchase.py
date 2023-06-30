@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery,LabeledPrice
 
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_OTHERS, LEXICON_CONFIRMATION, LEXICON_OPERATOR_INFO, LEXICON_ERRORS, \
@@ -91,10 +91,25 @@ async def confirm_data(call: CallbackQuery, state: FSMContext):
     await call.message.delete()
     text = f'{LEXICON_PAYMENT["choose"]}'
     await call.message.answer(text, reply_markup=CreateInlineBtn.payment())
+    await Purchase.next()
+
+
+async def payment_handler(call: CallbackQuery, state: FSMContext):
+    pass
+
+    """
+    Handle a payment process
+    """
 
 
 def register_callbacks(dp: Dispatcher):
-    dp.register_callback_query_handler(service_handler, state=Purchase.service)
-    dp.register_callback_query_handler(country_handler, state=Purchase.country)
-    dp.register_callback_query_handler(operator_handler, state=Purchase.operator)
-    dp.register_callback_query_handler(confirm_data, state=Purchase.confirm)
+    handlers = {
+        service_handler: Purchase.service,
+        country_handler: Purchase.country,
+        operator_handler: Purchase.operator,
+        confirm_data: Purchase.confirm,
+        payment_handler: Purchase.payment,
+    }
+
+    for key,value in handlers.items():
+        dp.register_callback_query_handler(key,state=value)
