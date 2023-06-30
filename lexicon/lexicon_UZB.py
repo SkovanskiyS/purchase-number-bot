@@ -66,7 +66,7 @@ Hurmat bilan,
     # ----------------------------------
 
     'about': """
-Xush kelibsiz! Biz Delta Dynisma jamoasiman.</b>
+<b>Xush kelibsiz! Biz Delta Dynisma jamoasimiz.</b>
 
 Biz dasturlash va turli obyekt-ma'lumotlarni o'rnating (ORM) tizimlari bo'yicha mutahassis bir startapmiz.
 
