@@ -25,6 +25,11 @@ class CreateInlineBtn(Constructor):
                                                {'click': LEXICON_PAYMENT['click']}],
                                               [{'qiwi': LEXICON_PAYMENT['qiwi']}]])
 
+    @staticmethod
+    def language():
+        return Constructor.create_inline_btn([[{'lang:ru':'🇷🇺'},
+                                               {'lang:uzb':'🇺🇿'},
+                                               {'lang:eng':'🇺🇸'}]])
 
 class Pagination:
     def __init__(self, current_page):

@@ -7,3 +7,7 @@ class Purchase(StatesGroup):
     operator: State = State()
     confirm: State = State()
     payment: State = State()
+
+
+class Language(StatesGroup):
+    choose_lang = State()

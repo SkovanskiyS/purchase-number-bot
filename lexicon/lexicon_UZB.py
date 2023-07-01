@@ -68,7 +68,7 @@ Hurmat bilan,
     'about': """
 <b>Xush kelibsiz! Biz Delta Dynisma jamoasimiz.</b>
 
-Biz dasturlash va turli obyekt-ma'lumotlarni o'rnating (ORM) tizimlari bo'yicha mutahassis bir startapmiz.
+Biz dasturiy ta'minot va turli ORM tizimlarini ishlab chiqishga ixtisoslashgan startapmiz (Object-Relational Mapping).
 
 Bizning maqsadimiz, tashkilotlarga jarayonlarni avtomatlashtirishda, effektivlikni oshirishda va biznes maqsadlarini erishishda yordam beradigan innovatsion yechimlar yaratishdir. Biz ishonchli, moslashtirilgan va skaylab qolish imkoniyatlari bo'lgan yuqori sifatli dasturlar va ORM tizimlari taklif qilamiz.
 
