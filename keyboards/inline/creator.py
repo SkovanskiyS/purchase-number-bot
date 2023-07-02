@@ -1,6 +1,8 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup
 
+from database.dbApi import DB_API
+from database.others import countries_btn_
 from database.pages import current_page
 from keyboards.inline.constructor import Constructor
 from lexicon.lexicon_RU import LEXICON_INLINE_BUTTONS, LEXICON_OPERATOR_INFO, LEXICON_CONFIRMATION, LEXICON_PAYMENT
@@ -35,64 +37,38 @@ class CreateInlineBtn(Constructor):
 class Pagination:
     def __init__(self, current_page):
         self.page: int = current_page
+        self.lang: tuple = None
+
+    def get_language(self, user_id):
+        db_api = DB_API()
+        db_api.connect()
+        return db_api.get_current_language(user_id)
 
     def __call__(self, *args, **kwargs) -> InlineKeyboardMarkup:
-        filtered_data = FilterData()
-        data_ct = {'afghanistan': 'Афганистан', 'albania': 'Албания', 'algeria': 'Алжир', 'angola': 'Ангола', 'anguilla': 'Ангилья', 'antiguaandbarbuda': 'Антигуа и Барбуда', 'argentina': 'Аргентина', 'armenia': 'Армения', 'aruba': 'Аруба', 'australia': 'Австралия', 'austria': 'Австрия', 'azerbaijan': 'Азербайджан', 'bahamas': 'Багамы', 'bahrain': 'Бахрейн', 'bangladesh': 'Бангладеш', 'barbados': 'Барбадос', 'belarus': 'Беларусь', 'belgium': 'Бельгия', 'belize': 'Белиз', 'benin': 'Бенин', 'bhutane': 'Бутан', 'bih': 'Босния и Герцеговина', 'bolivia': 'Боливия', 'botswana': 'Ботсвана', 'brazil': 'Бразилия', 'bulgaria': 'Болгария', 'burkinafaso': 'Буркина-Фасо', 'burundi': 'Бурунди', 'cambodia': 'Камбоджи', 'cameroon': 'Камерун', 'canada': 'Канада', 'capeverde': 'Кабо-Верде', 'caymanislands': 'Острова Кайман', 'chad': 'Чад', 'chile': 'Чили', 'china': 'Китай', 'colombia': 'Колумбия', 'comoros': 'Коморы', 'congo': 'Конго', 'costarica': 'Коста-Рика', 'croatia': 'Хорватия', 'cyprus': 'Кипр', 'czech': 'Чехия', 'denmark': 'Дания', 'djibouti': 'Джибути', 'dominica': 'Доминика', 'dominicana': 'Доминиканская Республика', 'easttimor': 'Восточный Тимор', 'ecuador': 'Эквадор', 'egypt': 'Египет', 'england': 'Великобритания', 'equatorialguinea': 'Экваториальная Гвинея', 'eritrea': 'Эритрея', 'estonia': 'Эстония', 'ethiopia': 'Эфиопия', 'finland': 'Финляндия', 'france': 'Франция', 'frenchguiana': 'Французская Гвиана', 'gabon': 'Габон', 'gambia': 'Гамбия', 'georgia': 'Грузия', 'germany': 'Германия', 'ghana': 'Гана', 'greece': 'Греция', 'grenada': 'Гренада', 'guadeloupe': 'Гваделупа', 'guatemala': 'Гватемала', 'guinea': 'Гвинея', 'guineabissau': 'Гвинея-Бисау', 'guyana': 'Гайана', 'haiti': 'Гаити', 'honduras': 'Гондурас', 'hongkong': 'Гонконг', 'hungary': 'Венгрия', 'india': 'Индия', 'indonesia': 'Индонезия', 'ireland': 'Ирландия', 'israel': 'Израиль', 'italy': 'Италия', 'ivorycoast': "Кот-д'Ивуар", 'jamaica': 'Ямайка', 'japan': 'Япония', 'jordan': 'Иордания', 'kazakhstan': 'Казахстан', 'kenya': 'Кения', 'kuwait': 'Кувейт', 'kyrgyzstan': 'Кыргызстан', 'laos': 'Лаос', 'latvia': 'Латвия', 'lesotho': 'Лесото', 'liberia': 'Либерия', 'lithuania': 'Литва', 'luxembourg': 'Люксембург', 'macau': 'Макао', 'madagascar': 'Мадагаскар', 'malawi': 'Малави', 'malaysia': 'Малайзия', 'maldives': 'Мальдивы', 'mauritania': 'Мавритания', 'mauritius': 'Маврикий', 'mexico': 'Мексика', 'moldova': 'Молдавия', 'mongolia': 'Монголия', 'montenegro': 'Черногория', 'montserrat': 'Монтсеррат', 'morocco': 'Марокко', 'mozambique': 'Мозамбик', 'myanmar': 'Мьянма', 'namibia': 'Намибия', 'nepal': 'Непал', 'netherlands': 'Нидерланды', 'newcaledonia': 'Новая Каледония', 'newzealand': 'Новая Зеландия', 'nicaragua': 'Никарагуа', 'niger': 'Нигер', 'nigeria': 'Нигерия', 'northmacedonia': 'Северная Македония', 'norway': 'Норвегия', 'oman': 'Оман', 'pakistan': 'Пакистан', 'panama': 'Панама', 'papuanewguinea': 'Папуа-Новая Гвинея', 'paraguay': 'Парагвай', 'peru': 'Перу', 'philippines': 'Филиппины', 'poland': 'Польша', 'portugal': 'Португалия', 'puertorico': 'Пуэрто-Рико', 'reunion': 'Реюньон', 'romania': 'Румыния', 'russia': 'Россия', 'rwanda': 'Руанда', 'saintkittsandnevis': 'Сент-Китс и Невис', 'saintlucia': 'Сент-Люсия', 'saintvincentandgrenadines': 'Сент-Винсент и Гренадины', 'salvador': 'Сальвадор', 'samoa': 'Самоа', 'saotomeandprincipe': 'Сан-Томе и Принсипи', 'saudiarabia': 'Саудовская Аравия', 'senegal': 'Сенегал', 'serbia': 'Сербия', 'seychelles': 'Сейшелы', 'sierraleone': 'Сьерра-Леоне', 'singapore': 'Сингапур', 'slovakia': 'Словакия', 'slovenia': 'Словения', 'solomonislands': 'Соломоновы острова', 'southafrica': 'Южная Африка', 'southkorea': 'Южная Корея', 'spain': 'Испания', 'srilanka': 'Шри-Ланка', 'suriname': 'Суринам', 'swaziland': 'Эсватини', 'sweden': 'Швеция', 'switzerland': 'Швейцария', 'taiwan': 'Тайвань', 'tajikistan': 'Таджикистан', 'tanzania': 'Танзания', 'thailand': 'Таиланд', 'tit': 'Тринидад и Тобаго', 'togo': 'Того', 'tonga': 'Тонга', 'tunisia': 'Тунис', 'turkey': 'Турция', 'turkmenistan': 'Туркменистан', 'turksandcaicos': 'Теркс и Кайкос', 'uganda': 'Уганда', 'ukraine': 'Украина', 'uruguay': 'Уругвай', 'usa': 'США', 'uzbekistan': 'Узбекистан', 'venezuela': 'Венесуэла', 'vietnam': 'Вьетнам', 'virginislands': 'Виргинские острова', 'zambia': 'Замбия', 'zimbabwe': 'Зимбабве'}
-        all_data = [{k: v} for k, v in data_ct.items()]
-        count_of_pages = len(all_data) // 10
-        sorted_data = [[] for _ in range(count_of_pages + 1)]
-        offset_start = 0
-        offset_end = 10
-
-        for i in sorted_data:
-            i.extend(all_data[offset_start:offset_end])
-            offset_start = offset_end
-            offset_end += 10
-
+        countries_data = countries_btn_[self.lang[0]]
         if current_page['page'] < 0:
             current_page['page'] = 17
         elif current_page['page'] > 17:
             current_page['page'] = 0
 
         self.page = current_page['page']
-        bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{count_of_pages}'}, {'next': '>>'}]
-        countries_btn = [{key: value for d in sorted_data[self.page] for key, value in d.items()}]
+        bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{17}'}, {'next': '>>'}]
+        countries_btn = [{key: value for d in countries_data[self.page] for key, value in d.items()}]
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn])
         return btn
 
-    """
-    old version
-    and should be optimized
-    """
-    # filtered_data = FilterData()
-    # all_data: list[dict[str:str]] = list({k: v} for k, v in filtered_data().items())
-    # sorted_data = []
-    # count_of_pages: int = len(all_data) // 10
-    # offset_start: int = 0
-    # offset_end: int = 10
-    # # create page indexes
-    # for i in range(count_of_pages + 1):
-    #     sorted_data.insert(i, [])
-    # for i in sorted_data:
-    #     for j in all_data[offset_start:offset_end]:
-    #         i.append(j)
-    #     offset_start = offset_end
-    #     offset_end += 10
-    # if 0 <= self.page <= count_of_pages:
-    #     bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{count_of_pages}'}, {'next': '>>'}]
-    #     countries_btn = [{key: value for d in sorted_data[self.page] for key, value in d.items()}]
-    #     btn = Constructor.create_inline_btn([countries_btn, bottom_btn])
-    #     return btn
-    # else:
-    #     from database.pages import current_page
-    #     current_page['page'] = 0
-    #     self.page = 0
-    #     bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{count_of_pages}'}, {'next': '>>'}]
-    #     countries_btn = [{key: value for d in sorted_data[self.page] for key, value in d.items()}]
-    #     btn = Constructor.create_inline_btn([countries_btn, bottom_btn])
-    #     return btn
 
+        # all_data = [{k: v} for k, v in countries_data.items()]
+        # count_of_pages = len(all_data) // 10
+        # sorted_data = [[] for _ in range(count_of_pages + 1)]
+        # offset_start = 0
+        # offset_end = 10
+        #
+        # for i in sorted_data:
+        #     i.extend(all_data[offset_start:offset_end])
+        #     offset_start = offset_end
+        #     offset_end += 10
+        #
 
 class Operator:
     def __init__(self, country, product):

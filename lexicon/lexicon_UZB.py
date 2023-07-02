@@ -98,7 +98,8 @@ LEXICON_COMMANDS_STARTUP: dict[str:str] = {
 LEXICON_BUTTONS: dict[str:str] = {
     'buy_number': "📲 Raqam sotib olish",
     'contact_with': "📡 Biz bilan bog'lanish",
-    'cancel': '🚫 Sotib olishni bekor qilish'
+    'cancel': '🚫 Sotib olishni bekor qilish',
+    'change_lang': "🏳 Tilni o'zgartirish"
 }
 
 LEXICON_INLINE_BUTTONS: dict[str:str] = {
@@ -115,7 +116,8 @@ LEXICON_BUY: dict[str:str] = {
 LEXICON_OTHERS: dict[str:str] = {
     'notification': '<b>❕ Siz avtomat holatda ekansiz, [/start | /help] kabi buyruqlar ishlamaydi.</b>',
     'canceled': '⛔️ Sotib olishni bekor qildingiz',
-    'confirm': "✅ Quyida ko'rsatilgan ma'lumotni tasdiqlang: "
+    'confirm': "✅ Quyida ko'rsatilgan ma'lumotni tasdiqlang: ",
+    'language_changed': "<b>Ajoyib! Bot tilini muvaffaqiyatli o'zgartirdingiz.</b> Endi men siz bilan yangi tilni ishlataman.Agar sizda savollar yoki so'rovlar bo'lsa, /help buyrug'ini ishlatishingiz mumkin."
 }
 
 LEXICON_OPERATOR_INFO = {

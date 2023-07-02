@@ -102,7 +102,9 @@ LEXICON_COMMANDS_STARTUP: dict[str:str] = {
 LEXICON_BUTTONS: dict[str:str] = {
     'buy_number': '📲 Buy Phone Number',
     'contact_with': '📡 Contact Us',
-    'cancel':'🚫 Cancel Purchase'
+    'cancel':'🚫 Cancel Purchase',
+    'change_lang': '🏳️ Change the language'
+
 }
 
 LEXICON_INLINE_BUTTONS: dict[str:str] = {
@@ -119,7 +121,9 @@ LEXICON_BUY: dict[str:str] = {
 LEXICON_OTHERS: dict[str:str] = {
     'notification':'<b>❕ You are in machine state, commands like [/start | /help] will not work.</b>',
     'canceled':'⛔️ You canceled the order',
-    'confirm':'✅ Confirm the data below: '
+    'confirm':'✅ Confirm the data below: ',
+    'language_changed': "<b>Great! The language of the bot has been successfully changed.</b> I will now use the new language to communicate with you.If you have any questions or requests, use /help"
+
 }
 
 LEXICON_OPERATOR_INFO = {

@@ -1,18 +1,26 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message, LabeledPrice, Invoice
+from aiogram.types import Message
 
+from database.dbApi import DB_API
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
 from lexicon.lexicon_RU import LEXICON_COMMANDS
+from misc.states import Language
 from misc.throttling_limit import rate_limit
 
 
 @rate_limit(limit=5)
-async def start_handler(msg: Message):
-    await msg.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
-    #await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
+async def start_handler(msg: Message, **data):
+    db_api = DB_API()
+    db_api.connect()
+
+    if db_api.user_exists(msg.from_user.id):
+        await msg.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
+    else:
+        await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
+        await Language.first()
 
 
 @rate_limit(limit=5)
@@ -35,6 +43,11 @@ async def about_handler(msg: Message):
     await msg.answer(LEXICON_COMMANDS['about'])
 
 
+async def cancel(msg: Message, state: FSMContext):
+    await msg.answer('Canceled')
+    await state.finish()
+
+
 def register_user(dp: Dispatcher) -> None:
     handlers_ = {
         start_handler: 'start',
@@ -46,3 +59,5 @@ def register_user(dp: Dispatcher) -> None:
 
     for handler, command in handlers_.items():
         dp.register_message_handler(handler, Command(command))
+
+    dp.register_message_handler(cancel, Command('cancel'), state=Language.choose_lang)

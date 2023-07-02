@@ -6,8 +6,8 @@ from aiogram.types import Message
 from database.pages import current_page
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
-from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_BUTTONS, LEXICON_OTHERS
-from misc.states import Purchase
+from lexicon.LEXICON_DEFINER import LEXICON_BUY, LEXICON_BUTTONS, LEXICON_OTHERS
+from misc.states import Purchase, Language
 from misc.throttling_limit import rate_limit
 
 
@@ -25,7 +25,14 @@ async def cancel_purchase(msg: Message, state: FSMContext) -> None:
     await msg.answer(LEXICON_OTHERS['canceled'], reply_markup=CreateBtn.MenuBtn())
 
 
+@rate_limit(limit=5)
+async def change_language(msg: Message):
+    await msg.answer('Choose language:\n\nCancel: /cancel', reply_markup=CreateInlineBtn.language())
+    await Language.first()
+
+
 def register_buy_handler(dp: Dispatcher):
     dp.register_message_handler(cancel_purchase, Text(equals=LEXICON_BUTTONS['cancel']),
                                 state=Purchase.all_states_names)
     dp.register_message_handler(buy_handler, Text(equals=LEXICON_BUTTONS['buy_number']))
+    dp.register_message_handler(change_language, Text(equals=LEXICON_BUTTONS['change_lang']))

@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.types import CallbackQuery,LabeledPrice
+from aiogram.types import CallbackQuery
 
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_OTHERS, LEXICON_CONFIRMATION, LEXICON_OPERATOR_INFO, LEXICON_ERRORS, \
@@ -25,6 +25,7 @@ async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
     finally:
         await call.message.delete()
         pagination_obj = Pagination(current_page=0)
+        pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
         await call.message.answer(LEXICON_BUY['choose_country'], reply_markup=pagination_obj())
         await Purchase.next()
 
@@ -32,6 +33,8 @@ async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
 async def country_handler(call: CallbackQuery, state: FSMContext):
     from database.pages import current_page
     pagination_obj = Pagination(current_page=0)
+    pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
+
     try:
         match call.data:
             case 'next':

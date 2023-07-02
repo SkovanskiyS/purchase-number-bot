@@ -20,5 +20,5 @@ class FilterData(ApiRequest):
     def __call__(self, *args, **kwargs):
         json_data: dict = self.get_data().json()
         for key, value in json_data.items():
-            self.__filtered_data[key] = value['text_ru']
+            self.__filtered_data[key] = value['text_en']
         return self.__filtered_data
