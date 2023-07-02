@@ -11,8 +11,8 @@ from misc.throttling_limit import rate_limit
 
 @rate_limit(limit=5)
 async def start_handler(msg: Message):
-    # await msg.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
-    await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
+    await msg.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
+    #await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
 
 
 @rate_limit(limit=5)
