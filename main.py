@@ -5,8 +5,8 @@ from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data.config import load_config
 from handlers.register import register_all_handlers
+from middleware.language_middleware import setup_middleware
 from middleware.throttling import ThrottlingMiddleware
-from middleware.on_process import HandleProcessData
 from services.commands import set_main_menu
 from database.dbApi import DB_API
 
@@ -24,7 +24,8 @@ async def main() -> None:
     storage: MemoryStorage = MemoryStorage()
     dp: Dispatcher = Dispatcher(bot, storage=storage)
     dp.middleware.setup(ThrottlingMiddleware())
-    dp.middleware.setup(HandleProcessData())
+    dp.middleware.setup(setup_middleware())
+
     register_all_handlers(dp)
 
     await set_main_menu(bot)
@@ -41,6 +42,7 @@ async def main() -> None:
     await dp.skip_updates()
     await dp.start_polling(bot)
 
+_ = setup_middleware().gettext
 
 if __name__ == '__main__':
     asyncio.run(main())

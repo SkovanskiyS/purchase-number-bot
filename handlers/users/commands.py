@@ -6,9 +6,11 @@ from aiogram.types import Message
 from database.dbApi import DB_API
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
+# from lexicon.lexicon_RU import LEXICON_COMMANDS
 from lexicon.lexicon_RU import LEXICON_COMMANDS
 from misc.states import Language
 from misc.throttling_limit import rate_limit
+from main import _
 
 
 @rate_limit(limit=5)
@@ -17,7 +19,7 @@ async def start_handler(msg: Message, **data):
     db_api.connect()
 
     if db_api.user_exists(msg.from_user.id):
-        await msg.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
+        await msg.answer(_(LEXICON_COMMANDS['start']), reply_markup=CreateBtn.MenuBtn())
     else:
         await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
         await Language.first()
