@@ -10,6 +10,7 @@ from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_OTHERS, LEXICON_CONFIRMATION
 from misc.cost_modification import change_price
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
+from i18n import _
 
 
 async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
@@ -26,7 +27,7 @@ async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
         await call.message.delete()
         pagination_obj = Pagination(current_page=0)
         pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
-        await call.message.answer(LEXICON_BUY['choose_country'], reply_markup=pagination_obj())
+        await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
         await Purchase.next()
 
 
@@ -49,7 +50,7 @@ async def country_handler(call: CallbackQuery, state: FSMContext):
                 await call.message.delete()
                 operator_obj = Operator(country=data['country'], product=data['service'])
                 inline_keyboard = operator_obj()
-                await call.message.answer(LEXICON_BUY['choose_operator'] + '\n' + operator_obj.description,
+                await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
                                           reply_markup=inline_keyboard, disable_web_page_preview=True)
                 await Purchase.next()
 
@@ -73,17 +74,18 @@ async def operator_handler(call: CallbackQuery, state: FSMContext):
         operator_info = GetPrice(url)
         d_dict = operator_info()[country][service][operator]
         if d_dict['count'] == 0:
-            await call.answer(LEXICON_ERRORS['empty'], show_alert=True)
-            await call.message.answer(LEXICON_ERRORS['empty'])
+            await call.answer(_('empty'), show_alert=True)
+            await call.message.answer(_('empty'))
             await Purchase.country.set()
             pagination_obj = Pagination(current_page=0)
-            await call.message.answer(LEXICON_BUY['choose_country'], reply_markup=pagination_obj())
+            print(pagination_obj)
+            await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
 
         else:
             cost = change_price(d_dict['cost'])
-            text = f"<b>{LEXICON_OTHERS['confirm']}\n\n{LEXICON_CONFIRMATION['service']}: <i>{service.title()}</i>\n" \
-                   f"\n{LEXICON_CONFIRMATION['country']}: <i>{country.title()}</i>\n\n" \
-                   f"{LEXICON_CONFIRMATION['operator']}: <i>{operator.title()}</i>\n\n{LEXICON_OPERATOR_INFO['cost']}: {cost} </b>"
+            text = f"<b>{_('confirm')}\n\n{_('service')}: <i>{service.title()}</i>\n" \
+                   f"\n{_('country')}: <i>{country.title()}</i>\n\n" \
+                   f"{_('operator')}: <i>{operator.title()}</i>\n\n{_('cost')}: {cost} </b>"
             await call.message.answer(text, reply_markup=CreateInlineBtn.confirmation())
             await Purchase.next()
     except Exception as ex:
@@ -92,7 +94,7 @@ async def operator_handler(call: CallbackQuery, state: FSMContext):
 
 async def confirm_data(call: CallbackQuery, state: FSMContext):
     await call.message.delete()
-    text = f'{LEXICON_PAYMENT["choose"]}'
+    text = f'{_("choose")}'
     await call.message.answer(text, reply_markup=CreateInlineBtn.payment())
     await Purchase.next()
 
@@ -114,5 +116,5 @@ def register_callbacks(dp: Dispatcher):
         payment_handler: Purchase.payment,
     }
 
-    for key,value in handlers.items():
-        dp.register_callback_query_handler(key,state=value)
+    for key, value in handlers.items():
+        dp.register_callback_query_handler(key, state=value)

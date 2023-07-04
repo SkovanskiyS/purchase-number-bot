@@ -42,7 +42,6 @@ async def main() -> None:
     await dp.skip_updates()
     await dp.start_polling(bot)
 
-_ = setup_middleware().gettext
 
 if __name__ == '__main__':
     asyncio.run(main())

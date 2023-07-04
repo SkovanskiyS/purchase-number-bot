@@ -10,7 +10,7 @@ from keyboards.inline.creator import CreateInlineBtn
 from lexicon.lexicon_RU import LEXICON_COMMANDS
 from misc.states import Language
 from misc.throttling_limit import rate_limit
-from main import _
+from i18n import _
 
 
 @rate_limit(limit=5)
@@ -19,30 +19,30 @@ async def start_handler(msg: Message, **data):
     db_api.connect()
 
     if db_api.user_exists(msg.from_user.id):
-        await msg.answer(_(LEXICON_COMMANDS['start']), reply_markup=CreateBtn.MenuBtn())
+        await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
     else:
-        await msg.answer('Choose language:', reply_markup=CreateInlineBtn.language())
+        await msg.answer(_('Choose language:'), reply_markup=CreateInlineBtn.language())
         await Language.first()
 
 
 @rate_limit(limit=5)
 async def help_handler(msg: Message):
-    await msg.answer(LEXICON_COMMANDS['help'])
+    await msg.answer(_('help'))
 
 
 @rate_limit(limit=5)
 async def faq_handler(msg: Message):
-    await msg.answer(LEXICON_COMMANDS['faq'])
+    await msg.answer(_('faq'))
 
 
 @rate_limit(limit=5)
 async def contact_handler(msg: Message):
-    await msg.answer(LEXICON_COMMANDS['contact'])
+    await msg.answer(_('contact'))
 
 
 @rate_limit(limit=5)
 async def about_handler(msg: Message):
-    await msg.answer(LEXICON_COMMANDS['about'])
+    await msg.answer(_('about'))
 
 
 async def cancel(msg: Message, state: FSMContext):

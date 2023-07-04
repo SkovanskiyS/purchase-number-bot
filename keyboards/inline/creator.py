@@ -9,23 +9,23 @@ from lexicon.lexicon_RU import LEXICON_INLINE_BUTTONS, LEXICON_OPERATOR_INFO, LE
 from misc.cost_modification import change_price
 from services.API_5sim.fetch_countries import FilterData
 from services.API_5sim.fetch_operator import GetPrice
-
+from i18n import _
 
 class CreateInlineBtn(Constructor):
     @staticmethod
     def services():
-        return Constructor.create_inline_btn([[{'telegram': LEXICON_INLINE_BUTTONS['telegram']}
-                                                  , {'openai': LEXICON_INLINE_BUTTONS['chatgpt']}]])
+        return Constructor.create_inline_btn([[{'telegram': _('telegram')}
+                                                  , {'openai': _('chatgpt')}]])
 
     @staticmethod
     def confirmation():
-        return Constructor.create_inline_btn([[{'confirm_callback': LEXICON_CONFIRMATION['confirm']}]])
+        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}]])
 
     @staticmethod
     def payment():
-        return Constructor.create_inline_btn([[{'payme': LEXICON_PAYMENT['payme']},
-                                               {'click': LEXICON_PAYMENT['click']}],
-                                              [{'qiwi': LEXICON_PAYMENT['qiwi']}]])
+        return Constructor.create_inline_btn([[{'payme': _('payme')},
+                                               {'click': _('click')}],
+                                              [{'qiwi': _('qiwi')}]])
 
     @staticmethod
     def language():
@@ -96,9 +96,9 @@ class Operator:
             operators_dict[item] = item
 
             self.description += f"""\n\t<b>{str(item).upper()}</b>:\n
-<i>{LEXICON_OPERATOR_INFO['cost']}: {cost} </i>
-<i>{LEXICON_OPERATOR_INFO['quantity']}: {quantity} </i>
-<i>{LEXICON_OPERATOR_INFO['rate']}: {rate} </i>
+<i>{_('cost')}: {cost} </i>
+<i>{_('quantity')}: {quantity} </i>
+<i>{_('rate')}: {rate} </i>
 
             """
         return Constructor.create_inline_btn([[operators_dict]])

@@ -1,15 +1,15 @@
 from keyboards.default.constructor import Constructor
 from lexicon.lexicon_RU import LEXICON_BUTTONS
-
+from i18n import _
 
 class CreateBtn(Constructor):
     @staticmethod
     def MenuBtn():
-        return Constructor.create_btn([[LEXICON_BUTTONS['buy_number']], [LEXICON_BUTTONS['contact_with'],LEXICON_BUTTONS['change_lang']]])
+        return Constructor.create_btn([[_('buy_number')], [_('contact_with'),_('change_lang')]])
 
     @staticmethod
     def CancelBtn():
-        return Constructor.create_btn([[LEXICON_BUTTONS['cancel']]])
+        return Constructor.create_btn([[_('cancel')]])
 
 
 

@@ -26,7 +26,7 @@ class TgBot:
 @dataclass
 class I18N:
     I18N_DOMAIN: str
-    BASE_DIR = Path(__file__).parent
+    BASE_DIR = Path(__file__).parent.parent
     LOCALES_DIR = BASE_DIR / 'locales'
 
 
@@ -53,3 +53,4 @@ def load_config(path: str | None) -> Config:
     return Config(tg_bot=TgBot(BOT_TOKEN=BOT_TOKEN, ADMINS=ADMINS), db=DataBase(
         database=DATABASE, db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD
     ), api=FiveSimAPI(API_KEY=API_KEY), i18n=I18N(I18N_DOMAIN=I18N_DOMAIN))
+

@@ -1,4 +1,4 @@
-# English (United States) translations for PROJECT.
+# Uzbek (Latin, Uzbekistan) translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,16 +7,109 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 14:34+0500\n"
-"PO-Revision-Date: 2023-07-04 14:35+0500\n"
+"POT-Creation-Date: 2023-07-04 19:07+0500\n"
+"PO-Revision-Date: 2023-07-04 19:07+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en_US\n"
-"Language-Team: en_US <LL@li.org>\n"
+"Language: uz_Latn_UZ\n"
+"Language-Team: uz_Latn_UZ <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: handlers/users/commands.py:21 handlers/users/language.py:26
+msgid "start"
+msgstr ""
+
+#: handlers/users/commands.py:23
+msgid "Choose language:"
+msgstr ""
+
+#: handlers/users/commands.py:29
+msgid "help"
+msgstr ""
+
+#: handlers/users/commands.py:34
+msgid "faq"
+msgstr ""
+
+#: handlers/users/commands.py:39
+msgid "contact"
+msgstr ""
+
+#: handlers/users/commands.py:44
+msgid "about"
+msgstr ""
+
+#: handlers/users/commands.py:48 handlers/users/keyboard.py:36
+#: keyboards/default/creator.py:12
+msgid "cancel"
+msgstr ""
+
+#: handlers/users/keyboard.py:17
+msgid "notification"
+msgstr ""
+
+#: handlers/users/keyboard.py:18
+msgid "choose_service"
+msgstr ""
+
+#: handlers/users/keyboard.py:26
+msgid "canceled"
+msgstr ""
+
+#: handlers/users/keyboard.py:38 keyboards/default/creator.py:8
+msgid "buy_number"
+msgstr ""
+
+#: handlers/users/keyboard.py:39 keyboards/default/creator.py:8
+msgid "change_lang"
+msgstr ""
+
+#: handlers/users/language.py:29
+msgid "language_changed"
+msgstr ""
+
+#: handlers/users/purchase.py:30 handlers/users/purchase.py:81
+msgid "choose_country"
+msgstr ""
+
+#: handlers/users/purchase.py:53
+msgid "choose_operator"
+msgstr ""
+
+#: handlers/users/purchase.py:77 handlers/users/purchase.py:78
+msgid "empty"
+msgstr ""
+
+#: keyboards/default/creator.py:8
+msgid "contact_with"
+msgstr ""
+
+#: keyboards/inline/creator.py:17
+msgid "telegram"
+msgstr ""
+
+#: keyboards/inline/creator.py:18
+msgid "chatgpt"
+msgstr ""
+
+#: keyboards/inline/creator.py:22
+msgid "confirm"
+msgstr ""
+
+#: keyboards/inline/creator.py:26
+msgid "payme"
+msgstr ""
+
+#: keyboards/inline/creator.py:27
+msgid "click"
+msgstr ""
+
+#: keyboards/inline/creator.py:28
+msgid "qiwi"
+msgstr ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format

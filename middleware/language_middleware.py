@@ -6,20 +6,23 @@ from database.dbApi import DB_API
 from aiogram import types, Dispatcher
 
 
-def get_current_language(user_id):
+async def get_lang(user_id):
     db_api = DB_API()
     db_api.connect()
-    return get_current_language(user_id)
+    lang = db_api.get_current_language(user_id)
+    if lang:
+        return lang[0]
+    return None
 
 
 class ACLMiddleware(I18nMiddleware):
     async def get_user_locale(self, action: str, args: Tuple[Any]) -> Optional[str]:
         user = types.User.get_current()
-        return await get_current_language(user.id)
+        return await get_lang(user.id) or user.locale
 
 
 def setup_middleware():
     config: Config = load_config('../.env')
-    i18n = ACLMiddleware(config.i18n.I18N_DOMAIN,config.i18n.LOCALES_DIR)
+    i18n = ACLMiddleware(config.i18n.I18N_DOMAIN, config.i18n.LOCALES_DIR)
     return i18n
 
