@@ -6,7 +6,7 @@ from aiogram.types import Message
 from database.pages import current_page
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
-from lexicon.LEXICON_DEFINER import LEXICON_BUY, LEXICON_BUTTONS, LEXICON_OTHERS
+from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_BUTTONS, LEXICON_OTHERS
 from misc.states import Purchase, Language
 from misc.throttling_limit import rate_limit
 

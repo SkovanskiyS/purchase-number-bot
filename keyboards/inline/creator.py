@@ -57,7 +57,6 @@ class Pagination:
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn])
         return btn
 
-
         # all_data = [{k: v} for k, v in countries_data.items()]
         # count_of_pages = len(all_data) // 10
         # sorted_data = [[] for _ in range(count_of_pages + 1)]
@@ -69,6 +68,7 @@ class Pagination:
         #     offset_start = offset_end
         #     offset_end += 10
         #
+
 
 class Operator:
     def __init__(self, country, product):
