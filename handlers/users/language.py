@@ -5,12 +5,12 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
 from database.dbApi import DB_API
+from i18n import _
 from keyboards.default.creator import CreateBtn
-from lexicon.lexicon_RU import LEXICON_COMMANDS,LEXICON_OTHERS
 from misc.states import Language
 
 
-async def choose_language(call: CallbackQuery, state:FSMContext):
+async def choose_language(call: CallbackQuery, state: FSMContext):
     lang = call.data.split(':')  # lang:ru - output [lang,ru]
     database_api = DB_API()
     try:
@@ -23,10 +23,10 @@ async def choose_language(call: CallbackQuery, state:FSMContext):
                 last_name=call.from_user.last_name,
                 language=lang[1]
             )
-            await call.message.answer(LEXICON_COMMANDS['start'], reply_markup=CreateBtn.MenuBtn())
+            await call.message.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
         else:
-            database_api.change_language(call.from_user.id,lang[1])
-            await call.message.answer(LEXICON_OTHERS['language_changed'])
+            database_api.change_language(call.from_user.id, lang[1])
+            await call.message.answer(_('language_changed'))
 
         await call.message.delete()
         await state.finish()
@@ -35,4 +35,4 @@ async def choose_language(call: CallbackQuery, state:FSMContext):
 
 
 def register_language(dp: Dispatcher):
-    dp.register_callback_query_handler(choose_language, text_contains='lang',state=Language.choose_lang)
+    dp.register_callback_query_handler(choose_language, text_contains='lang', state=Language.choose_lang)
