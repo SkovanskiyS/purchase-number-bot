@@ -30,7 +30,7 @@ async def cancel_purchase(msg: Message, state: FSMContext) -> None:
 
 @rate_limit(limit=5)
 async def change_language(msg: Message):
-    await msg.answer('Choose language:\n\nCancel: /cancel', reply_markup=CreateInlineBtn.language())
+    await msg.answer(_('Choose language:')+'\n\nCancel: /cancel', reply_markup=CreateInlineBtn.language())
     await Language.first()
 
 

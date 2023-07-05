@@ -83,7 +83,7 @@ async def operator_handler(call: CallbackQuery, state: FSMContext):
 
         else:
             cost = change_price(d_dict['cost'])
-            text = f"<b>{_('confirm')}\n\n{_('service')}: <i>{service.title()}</i>\n" \
+            text = f"<b>{_('confirm_text')}\n\n{_('service')}: <i>{service.title()}</i>\n" \
                    f"\n{_('country')}: <i>{country.title()}</i>\n\n" \
                    f"{_('operator')}: <i>{operator.title()}</i>\n\n{_('cost')}: {cost} </b>"
             await call.message.answer(text, reply_markup=CreateInlineBtn.confirmation())

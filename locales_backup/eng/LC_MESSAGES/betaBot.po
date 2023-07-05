@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 19:07+0500\n"
+"POT-Creation-Date: 2023-07-04 23:05+0500\n"
 "PO-Revision-Date: 2023-07-04 19:07+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -18,22 +18,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/users/commands.py:21 handlers/users/language.py:26
+#: handlers/users/commands.py:21 handlers/users/language.py:27
 msgid "start"
 msgstr ""
 "<b>📞 Hello! I am your bot assistant for purchasing virtual numbers!</b>\n"
+"\n"
 "🔐 Do you want to stay anonymous online or need additional numbers for "
 "your business? You've come to the right place! We offer a fast and "
 "convenient solution for registering on the OpenAI website and creating "
 "new accounts on Telegram.\n"
+"\n"
 "🌍 Our service supports various countries and operators, so you can choose"
 " a number from the desired region. We guarantee complete confidentiality "
 "and anonymity of your data.\n"
+"\n"
 "💳 We have diverse payment methods, including <b>Payme, Click, and "
 "QIWI,</b> to make the purchasing process as convenient as possible for "
-"you.\n"
-"<i>❓ If you have any questions or need assistance, feel free to reach out"
-" to me. I'm ready to help you anytime.</i>"
+"you."
 
 #: handlers/users/commands.py:23
 msgid "Choose language:"
@@ -43,10 +44,13 @@ msgstr ""
 msgid "help"
 msgstr ""
 "<b>Available commands:</b>\n"
-"<i>/start - Begin the process of purchasing virtual numbers./help - Get "
-"information about available commands./faq - Frequently Asked Questions "
-"and answers./contact - Contact us for assistance and support./about - "
-"Learn about our organization.</i>\n"
+"\n"
+"<i>/start - Begin the process of purchasing virtual numbers.\n"
+"/help - Get information about available commands.\n"
+"/faq - Frequently Asked Questions and answers.\n"
+"/contact - Contact us for assistance and support.\n"
+"/about - Learn about our organization.</i>\n"
+"\n"
 "If you have any questions or issues, feel free to reach out to us. We are"
 " ready to help you anytime.\n"
 "\n"
@@ -138,41 +142,41 @@ msgstr ""
 "Masharipov Jaxongir: <i>@o101xd</i>\n"
 "Maraximov Baxtiyor: <i>@urdrops</i></b>"
 
-#: handlers/users/commands.py:48 handlers/users/keyboard.py:36
-#: keyboards/default/creator.py:12
-msgid "cancel"
-msgstr "🚫 Cancel Purchase"
-
-#: handlers/users/keyboard.py:17
+#: handlers/users/keyboard.py:19
 msgid "notification"
 msgstr ""
 "<b>❕ You are in machine state, commands like [/start | /help] will not "
 "work.</b>"
 
-#: handlers/users/keyboard.py:18
+#: handlers/users/keyboard.py:20
 msgid "choose_service"
 msgstr "🔽 Choose one of the provided services."
 
-#: handlers/users/keyboard.py:26
+#: handlers/users/keyboard.py:28
 msgid "canceled"
 msgstr "⛔️ You canceled the order"
 
-#: handlers/users/keyboard.py:38 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:38 keyboards/default/creator.py:12
+msgid "cancel"
+msgstr "🚫 Cancel Purchase"
+
+#: handlers/users/keyboard.py:40 keyboards/default/creator.py:8
 msgid "buy_number"
 msgstr "📲 Buy Phone Number"
 
-#: handlers/users/keyboard.py:39 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:41 keyboards/default/creator.py:8
 msgid "change_lang"
 msgstr "🏳️ Change the language"
 
-#: handlers/users/language.py:29
+#: handlers/users/language.py:30
 msgid "language_changed"
 msgstr ""
-"<b>Great! The language of the bot has been successfully changed.</b> I "
-"will now use the new language to communicate with you.If you have any "
-"questions or requests, use /help"
+"<b>Great! The language of the bot has been successfully changed.</b>\n"
+"\n"
+"<b>❕Use any commands to apply new changes❕</b>\n"
+"Like: /start | /help"
 
-#: handlers/users/purchase.py:30 handlers/users/purchase.py:81
+#: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
 msgstr "🌆 Great, now select the country"
 
@@ -199,7 +203,8 @@ msgid "chatgpt"
 msgstr "🤖 OpenAI|ChatGPT"
 
 #: keyboards/inline/creator.py:22
-msgid "confirm"
+#, fuzzy
+msgid "confirm_btn"
 msgstr "✅ Confirm the data below: "
 
 #: keyboards/inline/creator.py:26
@@ -213,39 +218,6 @@ msgstr "💷 Click"
 #: keyboards/inline/creator.py:28
 msgid "qiwi"
 msgstr "🥝 Qiwi"
-
-msgid "cost"
-msgstr "💶 Cost"
-
-msgid "quantity"
-msgstr "🔄 Quantity"
-
-msgid "rate"
-msgstr "🌟 Rating"
-
-msgid "cost"
-msgstr "💶 Cost"
-
-msgid "quantity"
-msgstr "🔄 Quantity"
-
-msgid "rate"
-msgstr "🌟 Rating"
-
-msgid "service"
-msgstr "1️⃣ Service"
-
-msgid "country"
-msgstr "2️⃣ Country'"
-
-msgid "operator"
-msgstr "3️⃣ Operator"
-
-msgid "confirm_btn"
-msgstr "✅ Confirm"
-
-msgid "choose"
-msgstr "💳 Choose your preferred payment method: "
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
@@ -2955,7 +2927,7 @@ msgstr ""
 #~ msgstr "1️⃣ Service"
 
 #~ msgid "country"
-#~ msgstr "2️⃣ Country"
+#~ msgstr "2️⃣ Country'"
 
 #~ msgid "operator"
 #~ msgstr "3️⃣ Operator"
@@ -2968,4 +2940,10 @@ msgstr ""
 
 #~ msgid "rate"
 #~ msgstr "🌟 Rating"
+
+#~ msgid "confirm_btn"
+#~ msgstr "✅ Confirm"
+
+#~ msgid "choose"
+#~ msgstr "💳 Choose your preferred payment method: "
 

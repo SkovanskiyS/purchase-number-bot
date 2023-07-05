@@ -24,5 +24,6 @@ class ACLMiddleware(I18nMiddleware):
 def setup_middleware():
     config: Config = load_config('../.env')
     i18n = ACLMiddleware(config.i18n.I18N_DOMAIN, config.i18n.LOCALES_DIR)
+    #dp.middleware.setup(i18n)
     return i18n
 
