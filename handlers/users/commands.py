@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message,CallbackQuery
+from aiogram.types import Message, CallbackQuery
 
 from database.dbApi import DB_API
 from keyboards.default.creator import CreateBtn
@@ -20,8 +20,8 @@ async def start_handler(msg: Message, **data):
     if db_api.user_exists(msg.chat.id):
         await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
     else:
-        await msg.answer(_('Choose language:'), reply_markup=CreateInlineBtn.language())
-        await Language.first()
+        await msg.answer("<b>❗️ Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.</b>", reply_markup=CreateInlineBtn.language())
+        # await Language.first()
 
 
 @rate_limit(limit=5)
@@ -61,4 +61,4 @@ def register_user(dp: Dispatcher) -> None:
     for handler, command in handlers_.items():
         dp.register_message_handler(handler, Command(command))
 
-    dp.register_message_handler(cancel, Command('cancel'), state=Language.choose_lang)
+    dp.register_message_handler(cancel, Command('cancel'), state=Language.change_language)
