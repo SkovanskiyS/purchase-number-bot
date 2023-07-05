@@ -11,6 +11,7 @@ from services.API_5sim.fetch_countries import FilterData
 from services.API_5sim.fetch_operator import GetPrice
 from i18n import _
 
+
 class CreateInlineBtn(Constructor):
     @staticmethod
     def services():

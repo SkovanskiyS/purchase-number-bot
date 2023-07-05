@@ -45,7 +45,6 @@ class DB_API:
 
     def insert_user(self, telegram_id, username, first_name, last_name, language):
         with self.connection.cursor() as cursor:
-            print(telegram_id)
             cursor.execute(
                 """
                 INSERT INTO botUsers (user_id, username, first_name, last_name,language) 

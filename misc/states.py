@@ -10,4 +10,4 @@ class Purchase(StatesGroup):
 
 
 class Language(StatesGroup):
-    choose_lang = State()
+    change_language = State()
