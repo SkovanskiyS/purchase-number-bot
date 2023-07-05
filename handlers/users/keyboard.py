@@ -1,18 +1,15 @@
-from i18n import _
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text
 from aiogram.types import Message
 
 from database.pages import current_page
+from i18n import _
+
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
-from lexicon.lexicon_RU import LEXICON_BUY, LEXICON_BUTTONS, LEXICON_OTHERS
 from misc.states import Purchase, Language
 from misc.throttling_limit import rate_limit
 
-
-# test
 
 @rate_limit(limit=5)
 async def buy_handler(msg: Message) -> None:

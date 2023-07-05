@@ -1,6 +1,6 @@
 from keyboards.default.constructor import Constructor
-from lexicon.lexicon_RU import LEXICON_BUTTONS
 from i18n import _
+
 
 class CreateBtn(Constructor):
     @staticmethod
