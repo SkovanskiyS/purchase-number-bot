@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message,CallbackQuery
 
 from database.dbApi import DB_API
 from keyboards.default.creator import CreateBtn
@@ -17,8 +17,7 @@ from i18n import _
 async def start_handler(msg: Message, **data):
     db_api = DB_API()
     db_api.connect()
-
-    if db_api.user_exists(msg.from_user.id):
+    if db_api.user_exists(msg.chat.id):
         await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
     else:
         await msg.answer(_('Choose language:'), reply_markup=CreateInlineBtn.language())
@@ -27,22 +26,22 @@ async def start_handler(msg: Message, **data):
 
 @rate_limit(limit=5)
 async def help_handler(msg: Message):
-    await msg.answer(_('help'))
+    await msg.answer(_('help'), reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=5)
 async def faq_handler(msg: Message):
-    await msg.answer(_('faq'))
+    await msg.answer(_('faq'), reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=5)
 async def contact_handler(msg: Message):
-    await msg.answer(_('contact'))
+    await msg.answer(_('contact'), reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=5)
 async def about_handler(msg: Message):
-    await msg.answer(_('about'))
+    await msg.answer(_('about'), reply_markup=CreateBtn.MenuBtn())
 
 
 async def cancel(msg: Message, state: FSMContext):

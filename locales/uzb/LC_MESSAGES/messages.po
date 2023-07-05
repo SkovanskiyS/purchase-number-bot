@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 19:07+0500\n"
-"PO-Revision-Date: 2023-07-04 19:07+0500\n"
+"POT-Creation-Date: 2023-07-04 23:15+0500\n"
+"PO-Revision-Date: 2023-07-04 23:11+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uz_Latn_UZ\n"
 "Language-Team: uz_Latn_UZ <LL@li.org>\n"
@@ -18,98 +18,234 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/users/commands.py:21 handlers/users/language.py:26
+#: handlers/users/commands.py:21 handlers/users/language.py:27
 msgid "start"
 msgstr ""
+"<b>📞 Salom! Men OpenAI saytidagi ro'yxatdan o'tish uchun va Telegram'da "
+"yangi hisob yaratish uchun virtual raqamlarni sotuvchi botman!</b>\n"
+"\n"
+"🔐 Internetda anonim bo'lishni yoki biznesingiz uchun qo'shimcha raqamlar"
+"ga ehtiyoj qilasizmi? Siz to'g'ri joyga kelgansiz! Biz tezkor va qulay "
+"yechim taqdim etamiz. OpenAI saytiga ro'yxatdan o'tish uchun va Telegram'da "
+"yangi hisoblar yaratish uchun virtual raqam tanlash imkoniyatini taqdim "
+"etamiz.\n"
+"\n"
+"🌍 Bizning xizmatimiz turli mamlakatlarni va operatorlarni qo'llaydi, "
+"shuning uchun siz istalgan mintaqa bo'yicha raqam tanlashingiz mumkin. "
+"Ma'lumotlaringizning to'liq maxfiylik va anonimlikni ta'minlaymiz.\n"
+"\n"
+"💳 Bizda <b>Payme, Click va QIWI</b> kabi turli to'lov usullari mavjud, bu "
+"siz uchun sotib olish jarayonini qulay qilishga yordam beradi."
 
 #: handlers/users/commands.py:23
 msgid "Choose language:"
-msgstr ""
+msgstr "Iltimos, o'zgartirishni hohlagan tilni tanlang."
 
 #: handlers/users/commands.py:29
 msgid "help"
 msgstr ""
+"<b>Mavjud buyruqlar:</b>\n"
+"\n"
+"<i>/start - Virtual raqamlarni sotib olish jarayonini boshlash.\n"
+"/help - Mavjud buyruqlar haqida ma'lumot olish.\n"
+"/faq - Tez-tez so'raladigan savollar va javoblar.\n"
+"/contact - Yordam va qo'llab-quvvatlash uchun biz bilan bog'laning.\n"
+"/about - Tashkilotimiz haqida ma'lumot olish.</i>\n"
+"\n"
+"Agar sizda savollar yoki muammo bo'lsa, bizga murojaat qiling. Biz "
+"sizga har qanday vaqtda yordam berishga tayyormiz.\n"
+"\n"
+"<b>Virtual raqamlarni sotib olish uchun Telegram botimizni "
+"tanlaganingiz uchun rahmat. Sizga eng yaxshi xizmatni va onlayn "
+"tajribangiz uchun eng yuqori darajada xavfsizlikni taqdim etishni "
+"maqsad qilamiz.</b>"
 
 #: handlers/users/commands.py:34
 msgid "faq"
 msgstr ""
+"<b>Virtual raqamlar nima?</b>\n"
+"Virtual raqamlar fizikaviy SIM-karta bilan bog'liq bo'lmagan telefon "
+"raqamlaridir. Ular sizga chiqish qilish va keldirish qilish imkonini "
+"beradilar, SMS-xabarlarini qabul qilish imkonini beradi va ularni "
+"turli onlayn xizmatlarda ro'yxatdan o'tish uchun foydalanishingiz "
+"mumkin.\n"
+"\n"
+"<b>Virtual raqamlarning afzalliklari nima?</b>\n"
+"Virtual raqamlar bir qancha afzalliklarni taqdim etadi, bu afzallar "
+"anonimlik, shaxsiy ma'lumotlarni himoya qilish, turli maqsadlar uchun "
+"turli raqamlarni foydalanish (masalan, onlayn xaridlar, ijtimoiy "
+"tarmoqlarga ro'yxatdan o'tish va boshqa xizmatlar) imkoniyatini "
+"beradi.\n"
+"\n"
+"<b>Virtual raqamni qanday foydalanishim mumkin?</b>\n"
+"Virtual raqamlar onlayn xizmatlarga ro'yxatdan o'tish va tasdiqlash, "
+"tasdiqlovchi kodlarni qabul qilish, keldirish qilish va SMS-xabarlarini "
+"qabul qilish, shaxsiy ma'lumotlarni xavfsiz va anonim saqlash kabi "
+"turli maqsadlar uchun foydalanish mumkin.\n"
+"\n"
+"<b>Virtual raqamlarni sotib olish jarayoni qanday?</b>\n"
+"Virtual raqamlarni sotib olish uchun, siz mamlakatni, operatorni va "
+"xizmatni (Telegram, OpenAI) tanlashingiz va to'lovni amalga oshirishingiz "
+"kerak. Bundan so'ng, tanlangan raqamga kirish olishingiz va sizga "
+"berilgan yo'llanmalarga muvofiq uning foydalanishini boshlashingiz "
+"mumkin.\n"
+"\n"
+"<b>Shaxsiy ma'lumotingizning xavfsizligi qanday ta'minlanadi?</b>\n"
+"Shaxsiy ma'lumotlaringizning xavfsizligi va maxfiylikni biz juda "
+"serioz ko'ramiz. Barcha ma'lumotlar shifrlangan kanallar orqali "
+"uzatiladi va biz sizning ruxsatingiz olmagan holda ma'lumotlaringizni "
+"uchinchi tomonlarga ochishmaymiz."
 
 #: handlers/users/commands.py:39
 msgid "contact"
 msgstr ""
+"Agar sizda savollar, muammo yoki qo'llab-quvvatlash uchun qo'shimcha "
+"yordamga ehtiyoj bo'lsa, biz bilan bog'lanishdan qo'rqmang. Biz har doim "
+"sizga yordam berishga tayyormiz!\n"
+"\n"
+"📧 Email: dynisma.corporation69@gmail.com\n"
+"📨 Telegram: @dynisma_support\n"
+"\n"
+"Yordam xodimlarimiz sizning savollaringizga javob berish va zarur "
+"yordamni tezda taqdim etishadi. Bizga xohlagancha murojaat qiling!\n"
+"\n"
+"Xizmatimizni tanlaganingiz uchun rahmat. Sizning ishonchingizni "
+"qadrlaymiz va virtual raqamlarni sotib olishda eng yaxshi tajribani "
+"taqdim etishga ishonchli bo'lamiz.\n"
+"\n"
+"Eng yaxshi salomlar bilan,\n"
+"<b>Delta Dynisma Jamoasi.</b>"
 
 #: handlers/users/commands.py:44
 msgid "about"
 msgstr ""
+"<b>Xush kelibsiz! Biz Delta Dynisma jamoasimiz.</b>\n"
+"\n"
+"Biz dasturiy ta'minotni ishlab chiqish va turli ob'ektlarga ixtisoslashgan startapmiz."
+"Relyatsion xaritalash (ORM) tizimlari.\n"
+"\n"
+"<b>Maqsadimiz tashkilotlarga yordam beradigan innovatsion echimlarni yaratishdir"
+"jarayonlarni avtomatlashtirish, samaradorlikni oshirish va o'z biznesiga erishish"
+"maqsadlar. Biz yuqori sifatli dasturiy ta'minot va ORM tizimlarini taklif qilamiz "
+"ishonchli, moslashuvchan va kengaytiriladigan.</b>\n"
+"\n"
+"Bizning jamoamiz chuqur bilimga ega bo'lgan tajribali dasturchilardan iborat"
+"Dasturlash va dasturiy ta'minotni ishlab chiqish ko'nikmalari. Biz doimo qolamiz "
+"ta'minlash uchun so'nggi tendentsiyalar va texnologik innovatsiyalar bilan yangilangan"
+"zamonaviy va samarali echimlarga ega mijozlarimiz.\n"
+"\n"
+"<b>Biz yutuqlarimiz va muvaffaqiyatli loyihalarimiz bilan faxrlanamiz, yordam beramiz "
+"Turli sanoat kompaniyalari o'z mahsuldorligini oshiradi va erishadi"
+"muvaffaqiyat.</b>\n"
+"\n"
+"Agar sizda biron bir savol bo'lsa yoki dasturiy ta'minotni ishlab chiqish yoki ORM tizimi kerak bo'lsa"
+"amalga oshirish, biz bilan bog'laning. Biz har doim tayyormiz "
+"ehtiyojlaringizga moslashtirilgan yechimlarni taklif qiling.\n"
+"\n"
+"<b>Delta Dynismani tanlaganingiz uchun tashakkur! Biz sizga yordam berishga tayyormiz "
+"potentsialingizni yuzaga chiqaring va maqsadlaringizga erishing.\n\n"
+"Ta'sischilar:\n"
+"Masharipov Jaxongir: <i>@o101xd</i>\n"
+"Maraximov Baxtiyor: <i>@urdrops</i></b>"
 
-#: handlers/users/commands.py:48 handlers/users/keyboard.py:36
-#: keyboards/default/creator.py:12
-msgid "cancel"
-msgstr ""
-
-#: handlers/users/keyboard.py:17
+#: handlers/users/keyboard.py:19
 msgid "notification"
 msgstr ""
+"<b>❕ Siz mashina holatidasiz, [/start | /help] kabi buyruqlar bajarilmaydi"
+"ish.</b>"
 
-#: handlers/users/keyboard.py:18
+#: handlers/users/keyboard.py:20
 msgid "choose_service"
-msgstr ""
+msgstr "🔽 Taqdim etilgan xizmatlardan birini tanlang."
 
-#: handlers/users/keyboard.py:26
+#: handlers/users/keyboard.py:28
 msgid "canceled"
-msgstr ""
+msgstr "⛔️ Siz buyurtmani bekor qildingiz"
 
-#: handlers/users/keyboard.py:38 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:38 keyboards/default/creator.py:12
+msgid "cancel"
+msgstr "🚫 Xaridni bekor qilish"
+
+#: handlers/users/keyboard.py:40 keyboards/default/creator.py:8
 msgid "buy_number"
-msgstr ""
+msgstr "📲 Telefon raqamini sotib olish"
 
-#: handlers/users/keyboard.py:39 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:41 keyboards/default/creator.py:8
 msgid "change_lang"
-msgstr ""
+msgstr "🏳️ Tilni o'zgartirish"
 
-#: handlers/users/language.py:29
+#: handlers/users/language.py:30
 msgid "language_changed"
 msgstr ""
+"<b>Ajoyib! Bot tili muvaffaqiyatli o'zgartirildi.</b>\n"
+"\n"
+"<b>❕Yangi oʻzgarishlarni qoʻllash uchun istalgan buyruqlardan foydalaning❕</b>\n"
+"Yoqdi: /start | /help"
 
-#: handlers/users/purchase.py:30 handlers/users/purchase.py:81
+#: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
-msgstr ""
+msgstr "🌆 Ajoyib, endi mamlakatni tanlang"
 
 #: handlers/users/purchase.py:53
 msgid "choose_operator"
-msgstr ""
+msgstr "💸 Oxirgi qadam, raqamni sotib olish uchun mos narxni va operatorni tanlang"
 
 #: handlers/users/purchase.py:77 handlers/users/purchase.py:78
 msgid "empty"
-msgstr ""
+msgstr "❌ Afsuski, ushbu mahsulot butunlay sotilib ketdi."
 
 #: keyboards/default/creator.py:8
 msgid "contact_with"
-msgstr ""
+msgstr "📡 Biz bilan bog'lanish"
 
 #: keyboards/inline/creator.py:17
 msgid "telegram"
-msgstr ""
+msgstr "📪 Telegram"
 
 #: keyboards/inline/creator.py:18
 msgid "chatgpt"
-msgstr ""
+msgstr "🤖 OpenAI|ChatGPT"
 
 #: keyboards/inline/creator.py:22
-msgid "confirm"
-msgstr ""
+msgid "confirm_btn"
+msgstr "✅ Tasdiqlash"
 
 #: keyboards/inline/creator.py:26
 msgid "payme"
-msgstr ""
+msgstr "💶 Payme"
 
 #: keyboards/inline/creator.py:27
 msgid "click"
-msgstr ""
+msgstr "💷 Click"
 
 #: keyboards/inline/creator.py:28
 msgid "qiwi"
-msgstr ""
+msgstr "🥝 Qiwi"
+
+msgid "service"
+msgstr "1️⃣ Servis"
+
+msgid "country"
+msgstr "2️⃣ Mamlakat"
+
+msgid "operator"
+msgstr "3️⃣ Operator"
+
+msgid "cost"
+msgstr "💶 Narxi"
+
+msgid "quantity"
+msgstr "🔄 Miqdori"
+
+msgid "rate"
+msgstr "🌟 Reyting"
+
+msgid "choose"
+msgstr "💳 O'zingiz yoqtirgan to'lov usulini tanlang:"
+
+msgid "confirm_text"
+msgstr "✅ Quyidagi tafsilotlarni tasdiqlang: "
+
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format

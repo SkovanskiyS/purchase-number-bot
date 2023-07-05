@@ -1,4 +1,4 @@
-# Russian translations for PROJECT.
+# English (United States) translations for PROJECT.
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
@@ -7,110 +7,240 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 19:07+0500\n"
+"POT-Creation-Date: 2023-07-04 23:15+0500\n"
 "PO-Revision-Date: 2023-07-04 19:07+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ru\n"
-"Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language: en_US\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: handlers/users/commands.py:21 handlers/users/language.py:26
+msgid "confirm_btn"
+msgstr "✅ Confirm"
+
+msgid "confirm_text"
+msgstr "✅ Confirm the data below: "
+
+#: handlers/users/commands.py:21 handlers/users/language.py:27
 msgid "start"
 msgstr ""
+"<b>📞 Hello! I am your bot assistant for purchasing virtual numbers!</b>\n"
+"\n"
+"🔐 Do you want to stay anonymous online or need additional numbers for "
+"your business? You've come to the right place! We offer a fast and "
+"convenient solution for registering on the OpenAI website and creating "
+"new accounts on Telegram.\n"
+"\n"
+"🌍 Our service supports various countries and operators, so you can choose"
+" a number from the desired region. We guarantee complete confidentiality "
+"and anonymity of your data.\n"
+"\n"
+"💳 We have diverse payment methods, including <b>Payme, Click, and "
+"QIWI,</b> to make the purchasing process as convenient as possible for "
+"you."
 
 #: handlers/users/commands.py:23
 msgid "Choose language:"
-msgstr ""
+msgstr "Please choose the language you would like to switch to."
 
 #: handlers/users/commands.py:29
 msgid "help"
 msgstr ""
+"<b>Available commands:</b>\n"
+"\n"
+"<i>/start - Begin the process of purchasing virtual numbers.\n"
+"/help - Get information about available commands.\n"
+"/faq - Frequently Asked Questions and answers.\n"
+"/contact - Contact us for assistance and support.\n"
+"/about - Learn about our organization.</i>\n"
+"\n"
+"If you have any questions or issues, feel free to reach out to us. We are"
+" ready to help you anytime.\n"
+"\n"
+"<b>Thank you for choosing our Telegram bot for purchasing virtual "
+"numbers. We aim to provide you with the best service and security for "
+"your online experience.</b>"
 
 #: handlers/users/commands.py:34
 msgid "faq"
 msgstr ""
+"<b>What are virtual numbers?</b>\n"
+"Virtual numbers are phone numbers that are not tied to a physical SIM "
+"card. They allow you to receive and make outgoing calls, receive SMS "
+"messages, and use them for registration on various online services.\n"
+"\n"
+"<b>What are the advantages of virtual numbers?</b>\n"
+"Virtual numbers offer several advantages, including anonymity, protection"
+" of personal information, the ability to use different numbers for "
+"different purposes such as online purchases, social media registration, "
+"and other services.\n"
+"\n"
+"<b>How can I use a virtual number?</b>\n"
+"Virtual numbers can be used for various purposes, including registration "
+"and verification on online services, receiving confirmation codes, "
+"receiving incoming calls and SMS messages, and maintaining "
+"confidentiality and anonymity online.\n"
+"\n"
+"<b>What is the process of purchasing virtual numbers?</b>\n"
+"To purchase virtual numbers, you need to select the country, operator, "
+"and service (Telegram, OpenAI) and proceed with the payment. After that, "
+"you will gain access to the selected number and can start using it "
+"according to the instructions provided to you.\n"
+"\n"
+"<b>How is the security of my personal information ensured?</b>\n"
+"We take the security and confidentiality of your personal information "
+"very seriously. All data is transmitted through encrypted channels, and "
+"we do not disclose your information to third parties without your "
+"consent."
 
 #: handlers/users/commands.py:39
 msgid "contact"
 msgstr ""
+"If you have any questions, issues, or need additional assistance, please "
+"don't hesitate to contact us. We are always ready to help you!\n"
+"\n"
+"📧 Email: dynisma.corporation69@gmail.com\n"
+"📨 Telegram: @dynisma_support\n"
+"\n"
+"Our support specialists will answer your questions and provide the "
+"necessary assistance as quickly as possible. Feel free to reach out to "
+"us!\n"
+"\n"
+"Thank you for choosing our service. We appreciate your trust and are "
+"committed to providing you with the best experience when purchasing "
+"virtual numbers.\n"
+"\n"
+"Best regards,\n"
+"<b>Delta Dynisma Team.</b>"
 
 #: handlers/users/commands.py:44
 msgid "about"
 msgstr ""
+"<b>Welcome! We are the Delta Dynisma team.</b>\n"
+"\n"
+"We are a startup specializing in software development and various Object-"
+"Relational Mapping (ORM) systems.\n"
+"\n"
+"<b>Our goal is to create innovative solutions that help organizations "
+"automate processes, improve efficiency, and achieve their business "
+"objectives. We offer high-quality software and ORM systems that are "
+"reliable, flexible, and scalable.</b>\n"
+"\n"
+"Our team consists of experienced developers who have deep knowledge and "
+"skills in programming and software development. We constantly stay "
+"updated with the latest trends and technological innovations to provide "
+"our clients with modern and effective solutions.\n"
+"\n"
+"<b>We take pride in our achievements and successful projects, helping "
+"companies from various industries enhance their productivity and achieve "
+"success.</b>\n"
+"\n"
+"If you have any questions or need software development or ORM system "
+"implementation, feel free to reach out to us. We are always ready to "
+"offer customized solutions that meet your needs.\n"
+"\n"
+"<b>Thank you for choosing Delta Dynisma! We are committed to helping you "
+"unleash your potential and achieve your goals.\n"
+"Founders:\n\n"
+"Masharipov Jaxongir: <i>@o101xd</i>\n"
+"Maraximov Baxtiyor: <i>@urdrops</i></b>"
 
-#: handlers/users/commands.py:48 handlers/users/keyboard.py:36
-#: keyboards/default/creator.py:12
-msgid "cancel"
-msgstr ""
-
-#: handlers/users/keyboard.py:17
+#: handlers/users/keyboard.py:19
 msgid "notification"
 msgstr ""
+"<b>❕ You are in machine state, commands like [/start | /help] will not "
+"work.</b>"
 
-#: handlers/users/keyboard.py:18
+#: handlers/users/keyboard.py:20
 msgid "choose_service"
-msgstr ""
+msgstr "🔽 Choose one of the provided services."
 
-#: handlers/users/keyboard.py:26
+#: handlers/users/keyboard.py:28
 msgid "canceled"
-msgstr ""
+msgstr "⛔️ You canceled the order"
 
-#: handlers/users/keyboard.py:38 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:38 keyboards/default/creator.py:12
+msgid "cancel"
+msgstr "🚫 Cancel Purchase"
+
+#: handlers/users/keyboard.py:40 keyboards/default/creator.py:8
 msgid "buy_number"
-msgstr ""
+msgstr "📲 Buy Phone Number"
 
-#: handlers/users/keyboard.py:39 keyboards/default/creator.py:8
+#: handlers/users/keyboard.py:41 keyboards/default/creator.py:8
 msgid "change_lang"
-msgstr ""
+msgstr "🏳️ Change the language"
 
-#: handlers/users/language.py:29
+#: handlers/users/language.py:30
 msgid "language_changed"
 msgstr ""
+"<b>Great! The language of the bot has been successfully changed.</b>\n"
+"\n"
+"<b>❕Use any commands to apply new changes❕</b>\n"
+"Like: /start | /help"
 
-#: handlers/users/purchase.py:30 handlers/users/purchase.py:81
+#: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
-msgstr ""
+msgstr "🌆 Great, now select the country"
 
 #: handlers/users/purchase.py:53
 msgid "choose_operator"
 msgstr ""
+"💸 Last step, choose the corresponding price and operator to purchase the "
+"number"
 
 #: handlers/users/purchase.py:77 handlers/users/purchase.py:78
 msgid "empty"
-msgstr ""
+msgstr "❌ Unfortunately, this item has been completely sold out."
 
 #: keyboards/default/creator.py:8
 msgid "contact_with"
-msgstr ""
+msgstr "📡 Contact Us"
 
 #: keyboards/inline/creator.py:17
 msgid "telegram"
-msgstr ""
+msgstr "📪 Telegram"
 
 #: keyboards/inline/creator.py:18
 msgid "chatgpt"
-msgstr ""
-
-#: keyboards/inline/creator.py:22
-msgid "confirm"
-msgstr ""
+msgstr "🤖 OpenAI|ChatGPT"
 
 #: keyboards/inline/creator.py:26
 msgid "payme"
-msgstr ""
+msgstr "💶 Payme"
 
 #: keyboards/inline/creator.py:27
 msgid "click"
-msgstr ""
+msgstr "💷 Click"
 
 #: keyboards/inline/creator.py:28
 msgid "qiwi"
-msgstr ""
+msgstr "🥝 Qiwi"
+
+msgid "service"
+msgstr "1️⃣ Service"
+
+msgid "country"
+msgstr "2️⃣ Country"
+
+msgid "operator"
+msgstr "3️⃣ Operator"
+
+msgid "cost"
+msgstr "💶 Cost"
+
+msgid "quantity"
+msgstr "🔄 Quantity"
+
+msgid "rate"
+msgstr "🌟 Rating"
+
+msgid "choose"
+msgstr "💳 Choose your preferred payment method: "
+
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
@@ -414,7 +544,6 @@ msgid "%(count)s %(name)s was changed successfully."
 msgid_plural "%(count)s %(name)s were changed successfully."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/options.py:2058
 #, python-format
@@ -422,7 +551,6 @@ msgid "%(total_count)s selected"
 msgid_plural "All %(total_count)s selected"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/options.py:2065
 #, python-format
@@ -859,7 +987,6 @@ msgid_plural ""
 "characters."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/auth/password_validation.py:122
 #, python-format
@@ -867,7 +994,6 @@ msgid "Your password must contain at least %(min_length)d character."
 msgid_plural "Your password must contain at least %(min_length)d characters."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/auth/password_validation.py:206
 #, python-format
@@ -1191,7 +1317,6 @@ msgid "%(value)s million"
 msgid_plural "%(value)s million"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:89
 #, python-format
@@ -1199,7 +1324,6 @@ msgid "%(value)s billion"
 msgid_plural "%(value)s billion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:90
 #, python-format
@@ -1207,7 +1331,6 @@ msgid "%(value)s trillion"
 msgid_plural "%(value)s trillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:93
 #, python-format
@@ -1215,7 +1338,6 @@ msgid "%(value)s quadrillion"
 msgid_plural "%(value)s quadrillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:99
 #, python-format
@@ -1223,7 +1345,6 @@ msgid "%(value)s quintillion"
 msgid_plural "%(value)s quintillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:105
 #, python-format
@@ -1231,7 +1352,6 @@ msgid "%(value)s sextillion"
 msgid_plural "%(value)s sextillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:109
 #, python-format
@@ -1239,7 +1359,6 @@ msgid "%(value)s septillion"
 msgid_plural "%(value)s septillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:111
 #, python-format
@@ -1247,7 +1366,6 @@ msgid "%(value)s octillion"
 msgid_plural "%(value)s octillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:112
 #, python-format
@@ -1255,7 +1373,6 @@ msgid "%(value)s nonillion"
 msgid_plural "%(value)s nonillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:113
 #, python-format
@@ -1263,7 +1380,6 @@ msgid "%(value)s decillion"
 msgid_plural "%(value)s decillion"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:114
 #, python-format
@@ -1271,7 +1387,6 @@ msgid "%(value)s googol"
 msgid_plural "%(value)s googol"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/contrib/humanize/templatetags/humanize.py:158
 msgid "one"
@@ -2043,7 +2158,6 @@ msgid "%(size)d byte"
 msgid_plural "%(size)d bytes"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.10/site-packages/django/template/defaultfilters.py:910
 #, python-format
@@ -2831,4 +2945,6 @@ msgstr ""
 #: venv/lib/python3.10/site-packages/rest_framework/schemas/utils.py:38
 msgid "A {value_type} identifying this {name}."
 msgstr ""
+
+
 

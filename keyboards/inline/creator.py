@@ -29,9 +29,9 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def language():
-        return Constructor.create_inline_btn([[{'lang:ru': '🇷🇺'},
-                                               {'lang:uzb': '🇺🇿'},
-                                               {'lang:eng': '🇺🇸'}]])
+        return Constructor.create_inline_btn([[{'lang:ru': '🇷🇺 RU'},
+                                               {'lang:uzb': '🇺🇿 UZB'},
+                                               {'lang:eng': '🇺🇸 ENG'}]])
 
 
 class Pagination:
