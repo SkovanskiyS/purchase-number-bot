@@ -4,13 +4,12 @@ from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
-from database.dbApi import DB_API
 from i18n import _
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.cost_modification import change_price
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
-
+from database.dbApi import DB_API
 
 async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
     async with state.proxy() as data:
