@@ -38,21 +38,18 @@ class CreateInlineBtn(Constructor):
 class Pagination:
     def __init__(self, current_page):
         self.page: int = current_page
-        self.lang: tuple = None
+        self.lang: str = None
 
     def get_language(self, user_id):
         db_api = DB_API()
         db_api.connect()
-        return db_api.get_current_language(user_id)
+        return db_api.get_current_language(user_id)[0]
 
     def __call__(self, *args, **kwargs) -> InlineKeyboardMarkup:
-        countries_data = countries_btn_[self.lang[0]]
-        if current_page['page'] < 0:
-            current_page['page'] = 17
-        elif current_page['page'] > 17:
-            current_page['page'] = 0
-
-        self.page = current_page['page']
+        countries_data = countries_btn_[self.lang]
+        db_api = DB_API()
+        db_api.connect()
+        print(self.page)
         bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{17}'}, {'next': '>>'}]
         countries_btn = [{key: value for d in countries_data[self.page] for key, value in d.items()}]
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn])

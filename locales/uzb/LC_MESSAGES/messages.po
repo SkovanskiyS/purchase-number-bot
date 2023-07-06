@@ -35,7 +35,10 @@ msgstr ""
 "Ma'lumotlaringizning to'liq maxfiylik va anonimlikni ta'minlaymiz.\n"
 "\n"
 "💳 Bizda <b>Payme, Click va QIWI</b> kabi turli to'lov usullari mavjud, bu "
-"siz uchun sotib olish jarayonini qulay qilishga yordam beradi."
+"siz uchun sotib olish jarayonini qulay qilishga yordam beradi.\n\n"
+"❓ Agar sizda biron bir savol bo'lsa yoki yordam kerak bo'lsa "
+"Men bilan bog'laning. Men sizga istalgan vaqtda yordam berishga tayyorman."
+
 
 #: handlers/users/commands.py:23
 msgid "Choose language:"

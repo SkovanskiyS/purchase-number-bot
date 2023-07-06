@@ -1,25 +1,19 @@
 import requests
-import json
+import base64
 
-# URL сервера RPC
-url = 'https://checkout.paycom.uz/api'
+url = 'https://checkout.paycom.uz/base64(m=649d672a94aff0d52dbda578;ac.test=195;a=5000)'
 
-# Параметры запроса
-payload = {
-    "method": "CheckTransaction",
-    "params": {
-        "id": "64a57a07a58caefa2d34b97f"
-    }
-}
+# Extract the Base64-encoded part from the URL
+encoded_data = url.split('base64(', 1)[1].split(')', 1)[0]
 
-# Отправка запроса
-response = requests.post(url, json=payload)
+# Decode the Base64-encoded data using 'latin-1' encoding
+decoded_data = base64.b64decode(encoded_data).decode('latin-1')
 
-# Проверка статуса ответа
-if response.status_code == 200:
-    # Парсинг ответа
-    result = response.json()
-    print('successfuly')
-    print(result)
-else:
-    print('Ошибка выполнения запроса:', response.status_code)
+# Append the decoded data as a query parameter
+full_url = f"{url.split('base64(')[0]}?data={decoded_data}"
+
+# Send the HTTP GET request
+response = requests.get(full_url)
+
+# Process the response as needed
+print(response.text)

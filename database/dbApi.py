@@ -39,7 +39,8 @@ class DB_API:
                 last_name VARCHAR(255),
                 language VARCHAR(255) DEFAULT 'not_chosen',
                 registered_at TIMESTAMP DEFAULT NOW(),
-                blocked INTEGER DEFAULT 0 NOT NULL)
+                blocked INTEGER DEFAULT 0 NOT NULL,
+                page INTEGER DEFAULT 0 NOT NULL)
                 """
             )
 
@@ -81,6 +82,25 @@ class DB_API:
                 """
                 UPDATE botUsers SET language = %s WHERE user_id = %s
                 """,
-                (new_language,user_id,)
+                (new_language, user_id,)
             )
 
+    def get_current_page(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT page FROM botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+
+            return cursor.fetchone()
+
+    def update_page(self,user_id,page):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE botusers SET page = %s WHERE user_id = %s
+                """,
+                (page,user_id,)
+            )

@@ -1,20 +1,18 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 
 from database.dbApi import DB_API
+from i18n import _
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
-# from lexicon.lexicon_RU import LEXICON_COMMANDS
-from lexicon.lexicon_RU import LEXICON_COMMANDS
 from misc.states import Language
 from misc.throttling_limit import rate_limit
-from i18n import _
 
 
 @rate_limit(limit=5)
-async def start_handler(msg: Message, **data):
+async def start_handler(msg: Message):
     db_api = DB_API()
     db_api.connect()
     if db_api.user_exists(msg.chat.id):
