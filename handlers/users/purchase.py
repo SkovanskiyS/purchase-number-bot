@@ -9,53 +9,52 @@ from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.cost_modification import change_price
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
-
+from database.dbApi import DB_API
 
 async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
-    try:
-        if call.data == 'telegram':
-            async with state.proxy() as data:
-                data['service'] = call.data
-        elif call.data == 'openai':
-            async with state.proxy() as data:
-                data['service'] = call.data
-    except Exception as ex:
-        await call.message.answer(ex)
-    finally:
-        await call.message.delete()
-        pagination_obj = Pagination(current_page=0)
-        pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
-        await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
-        await Purchase.next()
+    async with state.proxy() as data:
+        data['service'] = call.data
+    await call.message.delete()
+    pagination_obj = Pagination(current_page=0)
+    db_api = DB_API()
+    db_api.connect()
+    pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
+    db_api.update_page(call.from_user.id, 0)
+    await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+    await Purchase.next()
 
 
 async def country_handler(call: CallbackQuery, state: FSMContext):
-    from database.pages import current_page
     pagination_obj = Pagination(current_page=0)
+    db_api = DB_API()
+    db_api.connect()
     pagination_obj.lang = pagination_obj.get_language(call.from_user.id)
+    curr_page = db_api.get_current_page(call.from_user.id)[0]
 
-    try:
-        match call.data:
-            case 'next':
-                current_page['page'] += 1
-            case 'previous':
-                current_page['page'] -= 1
-            case 'page':
-                current_page['page'] += 5
-            case _:
-                async with state.proxy() as data:
-                    data['country'] = call.data
-                await call.message.delete()
-                operator_obj = Operator(country=data['country'], product=data['service'])
-                inline_keyboard = operator_obj()
-                await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
-                                          reply_markup=inline_keyboard, disable_web_page_preview=True)
-                await Purchase.next()
+    match call.data:
+        case 'next':
+            curr_page += 1
+        case 'previous':
+            curr_page -= 1
+        case 'page':
+            curr_page += 5
+        case _:
+            async with state.proxy() as data:
+                data['country'] = call.data
+            await call.message.delete()
+            operator_obj = Operator(country=data['country'], product=data['service'])
+            inline_keyboard = operator_obj()
+            await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
+                                      reply_markup=inline_keyboard, disable_web_page_preview=True)
+            await Purchase.next()
+    if curr_page < 0:
+        curr_page = 17
+    elif curr_page > 17:
+        curr_page = 0
 
-        pagination_obj.page = current_page['page']
-        await call.message.edit_reply_markup(reply_markup=pagination_obj())
-    except Exception as ex:
-        logging.info(str(ex))
+    db_api.update_page(call.from_user.id, curr_page)
+    pagination_obj.page = curr_page
+    await call.message.edit_reply_markup(reply_markup=pagination_obj())
 
 
 async def operator_handler(call: CallbackQuery, state: FSMContext):

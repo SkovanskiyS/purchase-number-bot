@@ -40,7 +40,9 @@ msgstr ""
 "\n"
 "💳 We have diverse payment methods, including <b>Payme, Click, and "
 "QIWI,</b> to make the purchasing process as convenient as possible for "
-"you."
+"you.\n\n"
+"❓ If you have any questions or need help feel free to "
+"contact me. I am ready to help you at any time."
 
 #: handlers/users/commands.py:23
 msgid "Choose language:"
