@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message, Invoice, LabeledPrice
+from aiogram.types import Message
 
 from database.dbApi import DB_API
 from i18n import _
@@ -13,37 +13,14 @@ from misc.throttling_limit import rate_limit
 
 @rate_limit(limit=5)
 async def start_handler(msg: Message):
-    # db_api = DB_API()
-    # db_api.connect()
-    # if db_api.user_exists(msg.chat.id):
-    #     await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
-    # else:
-    #     await msg.answer("<b>❗️ Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.</b>", reply_markup=CreateInlineBtn.language())
-    #     # await Language.first()
-    #
-    price = LabeledPrice(label='Product', amount=1500000)  # amount in cents or smallest currency unit
+    db_api = DB_API()
+    db_api.connect()
+    if db_api.user_exists(msg.chat.id):
+        await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
+    else:
+        await msg.answer("<b>❗️ Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.</b>", reply_markup=CreateInlineBtn.language())
+        await Language.first()
 
-    invoice = Invoice(
-        title='Product Invoice',
-        description='This is the invoice for the product.',
-        start_parameter='invoice-payment',
-        currency='UZS',
-        total_amount=[price]
-    )
-
-    await msg.bot.send_invoice(msg.from_user.id,
-
-        title=invoice.title,
-        description=invoice.description,
-        payload=invoice.start_parameter,
-        provider_token="387026696:LIVE:649d58ff94aff0d52dbda442",
-        currency=invoice.currency,
-        prices=invoice.total_amount,
-        need_name=True,
-        need_phone_number=True,
-        need_email=True,
-        need_shipping_address=True,
-        is_flexible=False)
 
 @rate_limit(limit=5)
 async def help_handler(msg: Message):
