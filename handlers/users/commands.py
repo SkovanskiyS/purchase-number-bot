@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-from aiogram.types import Message
+
 
 from database.dbApi import DB_API
 from i18n import _

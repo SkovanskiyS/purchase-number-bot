@@ -4,14 +4,13 @@ from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
-from database.dbApi import DB_API
-from handlers.users.keyboard import cancel_purchase, buy_handler
+
 from i18n import _
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.cost_modification import change_price
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
-
+from database.dbApi import DB_API
 
 async def back_btn(call: CallbackQuery, state: FSMContext):
     current_state = await state.get_state()
