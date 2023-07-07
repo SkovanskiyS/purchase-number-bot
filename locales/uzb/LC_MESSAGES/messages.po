@@ -181,9 +181,6 @@ msgstr "🏳️ Tilni o'zgartirish"
 msgid "language_changed"
 msgstr ""
 "<b>Ajoyib! Bot tili muvaffaqiyatli o'zgartirildi.</b>\n"
-"\n"
-"<b>❕Yangi oʻzgarishlarni qoʻllash uchun istalgan buyruqlardan foydalaning❕</b>\n"
-"Yoqdi: /start | /help"
 
 #: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
@@ -249,6 +246,11 @@ msgstr "💳 O'zingiz yoqtirgan to'lov usulini tanlang:"
 msgid "confirm_text"
 msgstr "✅ Quyidagi tafsilotlarni tasdiqlang: "
 
+msgid "no_operator"
+msgstr "<b>❗️Bu mamlakatda aloqa operatorlari yo'q.</b>"
+
+msgid "back"
+msgstr "🔙 Orqaga"
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format

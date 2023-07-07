@@ -6,5 +6,8 @@ class GetPrice:
         self.url = url
 
     def __call__(self, *args, **kwargs) -> requests.models.Response:
-        res = requests.get(self.url).json()
-        return res
+        try:
+            res = requests.get(self.url).json()
+            return res
+        except Exception as err:
+            print(err)
