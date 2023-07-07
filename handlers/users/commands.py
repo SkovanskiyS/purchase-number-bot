@@ -11,7 +11,7 @@ from misc.states import Language
 from misc.throttling_limit import rate_limit
 
 
-# @rate_limit(limit=5)
+@rate_limit(limit=3)
 async def start_handler(msg: Message):
     db_api = DB_API()
     db_api.connect()
@@ -31,22 +31,22 @@ async def start_handler(msg: Message):
                          reply_markup=CreateInlineBtn.language())
 
 
-@rate_limit(limit=5)
+@rate_limit(limit=3)
 async def help_handler(msg: Message):
     await msg.answer(_('help'), reply_markup=CreateBtn.MenuBtn())
 
 
-@rate_limit(limit=5)
+@rate_limit(limit=3)
 async def faq_handler(msg: Message):
     await msg.answer(_('faq'), reply_markup=CreateBtn.MenuBtn())
 
 
-@rate_limit(limit=5)
+@rate_limit(limit=3)
 async def contact_handler(msg: Message):
     await msg.answer(_('contact'), reply_markup=CreateBtn.MenuBtn())
 
 
-@rate_limit(limit=5)
+@rate_limit(limit=3)
 async def about_handler(msg: Message):
     await msg.answer(_('about'), reply_markup=CreateBtn.MenuBtn())
 

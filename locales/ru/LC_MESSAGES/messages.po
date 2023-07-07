@@ -245,6 +245,9 @@ msgstr "💳 Выберите предпочтительную систему о
 msgid "no_operator"
 msgstr "<b>❗️У данной страны отсутствует наличие операторов связи.</b>"
 
+msgid "back"
+msgstr "🔙 Назад"
+
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
 msgid "Successfully deleted %(count)d %(items)s."

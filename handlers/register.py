@@ -10,7 +10,8 @@ def register_all_handlers(dp: Dispatcher):
         register_language,
         register_user,
         register_buy_handler,
-        register_callbacks
+        register_callbacks,
+
     )
     for handler in handlers:
         handler(dp)

@@ -246,9 +246,11 @@ msgstr "💳 O'zingiz yoqtirgan to'lov usulini tanlang:"
 msgid "confirm_text"
 msgstr "✅ Quyidagi tafsilotlarni tasdiqlang: "
 
-
 msgid "no_operator"
 msgstr "<b>❗️Bu mamlakatda aloqa operatorlari yo'q.</b>"
+
+msgid "back"
+msgstr "🔙 Orqaga"
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
