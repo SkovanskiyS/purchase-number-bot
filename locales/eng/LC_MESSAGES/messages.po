@@ -247,6 +247,36 @@ msgstr "<b>❗️This country does not have any telecom operators.</b>"
 msgid "back"
 msgstr "🔙 Back"
 
+msgid "my_profile"
+msgstr "👤 My profile"
+
+msgid "your_name"
+msgstr "💥 Your name"
+
+msgid "your_lastname"
+msgstr "⚡️ Your surname"
+
+msgid "your_language"
+msgstr "👅 Selected language"
+
+msgid "reg_date"
+msgstr "📅 Registration date"
+
+msgid "bonus"
+msgstr "🌟 Your bonuses"
+
+msgid "referrals"
+msgstr "🖇 The number of your referrals"
+
+msgid "blocked"
+msgstr "🚫 Banned: "
+
+msgid "referral_link"
+msgstr "🔗 Your referral link"
+
+msgid "❗️Ваш аккаунт был заблокирован администратором. Пожалуйста, обратитесь к администратору, чтобы снять это ограничение."
+msgstr "❗️Your account has been blocked by an administrator. Please contact your administrator to remove this restriction."
+
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
 msgid "Successfully deleted %(count)d %(items)s."

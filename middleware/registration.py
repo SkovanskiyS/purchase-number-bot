@@ -1,17 +1,28 @@
+from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
-from aiogram.types import Update
+from aiogram.types import Update,Message
 
 from database.dbApi import DB_API
+from i18n import _
 
 
 class Registration(BaseMiddleware):
+
+    async def on_process_message(self,message:Message,data:dict):
+        database_api = DB_API()
+        database_api.connect()
+        banned_users = database_api.get_all_banned_users()
+        user_id = message.from_user.id
+        if (user_id,) in banned_users:
+            await message.answer('<b>❗️Ваш аккаунт был заблокирован администратором. Пожалуйста, обратитесь к администратору, чтобы снять это ограничение.</b>')
+            raise CancelHandler()
+
     async def on_process_update(self, update: Update, data: dict):
         database_api = DB_API()
         database_api.connect()
+
         if update.callback_query:
             lang = update.callback_query.data.split(':')  # lang:ru - output [lang,ru]
             if 'lang' in update.callback_query.data:
                 database_api.change_language(update.callback_query.from_user.id, lang[1])
                 await update.callback_query.message.delete()
-        # elif update.message.text != '/start' and not database_api.user_exists(update.message.from_user.id): #lock of using other commands whule registering
-        #     raise CancelHandler()

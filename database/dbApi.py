@@ -53,7 +53,7 @@ class DB_API:
                 INSERT INTO botUsers (user_id, username, first_name, last_name,referral) 
                 VALUES (%s, %s, %s, %s, %s)
                 """,
-                (telegram_id, username, first_name, last_name,referral)
+                (telegram_id, username, first_name, last_name, referral)
             )
 
     def check_referral(self, user_id):
@@ -109,11 +109,40 @@ class DB_API:
 
             return cursor.fetchone()
 
-    def update_page(self,user_id,page):
+    def update_page(self, user_id, page):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
                 UPDATE botusers SET page = %s WHERE user_id = %s
                 """,
-                (page,user_id,)
+                (page, user_id,)
             )
+
+    def get_all_info(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT * from botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            return cursor.fetchone()
+
+    def get_user_id(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id from botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            return cursor.fetchone()
+
+    def get_all_banned_users(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT user_id from botusers WHERE blocked = 1
+                """
+            )
+            return cursor.fetchall()
