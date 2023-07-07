@@ -175,8 +175,6 @@ msgid "language_changed"
 msgstr ""
 "<b>Отлично! Язык бота успешно изменен.</b>\n"
 "\n"
-"<b>❕Используйте любые команды, чтобы применить новые изменения❕</b>\n"
-"Например: /start | /help"
 
 #: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
@@ -244,6 +242,8 @@ msgstr "🌟 Оценка"
 msgid "choose"
 msgstr "💳 Выберите предпочтительную систему оплаты: "
 
+msgid "no_operator"
+msgstr "<b>❗️У данной страны отсутствует наличие операторов связи.</b>"
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format

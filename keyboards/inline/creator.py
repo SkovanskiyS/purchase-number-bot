@@ -1,15 +1,11 @@
-from aiogram.dispatcher import FSMContext
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardMarkup,User
 
 from database.dbApi import DB_API
 from database.others import countries_btn_
-from database.pages import current_page
-from keyboards.inline.constructor import Constructor
-from lexicon.lexicon_RU import LEXICON_INLINE_BUTTONS, LEXICON_OPERATOR_INFO, LEXICON_CONFIRMATION, LEXICON_PAYMENT
-from misc.cost_modification import change_price
-from services.API_5sim.fetch_countries import FilterData
-from services.API_5sim.fetch_operator import GetPrice
 from i18n import _
+from keyboards.inline.constructor import Constructor
+from misc.cost_modification import change_price
+from services.API_5sim.fetch_operator import GetPrice
 
 
 class CreateInlineBtn(Constructor):
@@ -39,6 +35,7 @@ class Pagination:
     def __init__(self, current_page):
         self.page: int = current_page
         self.lang: str = None
+        db_api: DB_API
 
     def get_language(self, user_id):
         db_api = DB_API()
@@ -79,24 +76,27 @@ class Operator:
         getPrice = GetPrice(url)
         response_dict: dict = getPrice()
         operators_dict: dict = dict()
-        for item in response_dict[self.country][self.product]:
-            cost: str = response_dict[self.country][self.product][item]['cost']
-            # cost modification
-            cost = change_price(cost)
-            quantity: str = response_dict[self.country][self.product][item]['count']
-            rate: str = ''
-            if 'rate' not in response_dict[self.country][self.product][item]:
-                response_dict[self.country][self.product][item]['rate'] = 'None'
-                rate += response_dict[self.country][self.product][item]['rate']
-            else:
-                rate += str(response_dict[self.country][self.product][item]['rate']) + '/100 %'
+        if response_dict:
+            for item in response_dict[self.country][self.product]:
+                cost: str = response_dict[self.country][self.product][item]['cost']
+                # cost modification
+                cost = change_price(cost)
+                quantity: str = response_dict[self.country][self.product][item]['count']
+                rate: str = ''
+                if 'rate' not in response_dict[self.country][self.product][item]:
+                    response_dict[self.country][self.product][item]['rate'] = 'None'
+                    rate += response_dict[self.country][self.product][item]['rate']
+                else:
+                    rate += str(response_dict[self.country][self.product][item]['rate']) + '/100 %'
 
-            operators_dict[item] = item
+                operators_dict[item] = item
 
-            self.description += f"""\n\t<b>{str(item).upper()}</b>:\n
-<i>{_('cost')}: {cost} </i>
-<i>{_('quantity')}: {quantity} </i>
-<i>{_('rate')}: {rate} </i>
-
-            """
-        return Constructor.create_inline_btn([[operators_dict]])
+                self.description += f"""\n\t<b>{str(item).upper()}</b>:\n
+    <i>{_('cost')}: {cost} </i>
+    <i>{_('quantity')}: {quantity} </i>
+    <i>{_('rate')}: {rate} </i>
+    
+                """
+            return Constructor.create_inline_btn([[operators_dict]])
+        else:
+            pass

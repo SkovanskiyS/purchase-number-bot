@@ -34,25 +34,38 @@ class DB_API:
                 CREATE TABLE IF NOT EXISTS botUsers(
                 id SERIAL PRIMARY KEY,
                 user_id BIGINT NOT NULL UNIQUE,
-                username VARCHAR(255) NOT NULL,
+                username VARCHAR(255),
                 first_name VARCHAR(255) NOT NULL,
                 last_name VARCHAR(255),
-                language VARCHAR(255) DEFAULT 'not_chosen',
+                language VARCHAR(255) DEFAULT 'ru',
                 registered_at TIMESTAMP DEFAULT NOW(),
+                bonus INTEGER DEFAULT 0 NOT NULL,
+                referral INTEGER,
                 blocked INTEGER DEFAULT 0 NOT NULL,
                 page INTEGER DEFAULT 0 NOT NULL)
                 """
             )
 
-    def insert_user(self, telegram_id, username, first_name, last_name, language):
+    def insert_user(self, telegram_id, username, first_name, last_name, referral=None):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
-                INSERT INTO botUsers (user_id, username, first_name, last_name,language) 
+                INSERT INTO botUsers (user_id, username, first_name, last_name,referral) 
                 VALUES (%s, %s, %s, %s, %s)
                 """,
-                (telegram_id, username, first_name, last_name, language)
+                (telegram_id, username, first_name, last_name,referral)
             )
+
+    def check_referral(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT user_id FROM botusers WHERE referral=
+                (SELECT id FROM botusers WHERE user_id=%s)
+                """,
+                (user_id,)
+            )
+            return cursor.fetchall()
 
     def user_exists(self, user_id):
         with self.connection.cursor() as cursor:

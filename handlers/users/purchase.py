@@ -45,9 +45,17 @@ async def country_handler(call: CallbackQuery, state: FSMContext):
             await call.message.delete()
             operator_obj = Operator(country=data['country'], product=data['service'])
             inline_keyboard = operator_obj()
-            await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
-                                      reply_markup=inline_keyboard, disable_web_page_preview=True)
-            await Purchase.next()
+            if inline_keyboard:
+                await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
+                                          reply_markup=inline_keyboard, disable_web_page_preview=True)
+                await Purchase.next()
+            else:
+                await call.message.answer(_('no_operator'))
+                await Purchase.country.set()
+                print(curr_page)
+                await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+            return
+
     if curr_page < 0:
         curr_page = 17
     elif curr_page > 17:

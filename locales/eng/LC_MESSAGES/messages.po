@@ -180,9 +180,7 @@ msgstr "🏳️ Change the language"
 msgid "language_changed"
 msgstr ""
 "<b>Great! The language of the bot has been successfully changed.</b>\n"
-"\n"
-"<b>❕Use any commands to apply new changes❕</b>\n"
-"Like: /start | /help"
+
 
 #: handlers/users/purchase.py:30 handlers/users/purchase.py:82
 msgid "choose_country"
@@ -242,6 +240,10 @@ msgstr "🌟 Rating"
 
 msgid "choose"
 msgstr "💳 Choose your preferred payment method: "
+
+
+msgid "no_operator"
+msgstr "<b>❗️This country does not have any telecom operators.</b>"
 
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
