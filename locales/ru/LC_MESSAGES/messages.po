@@ -248,6 +248,33 @@ msgstr "<b>❗️У данной страны отсутствует налич�
 msgid "back"
 msgstr "🔙 Назад"
 
+msgid "my_profile"
+msgstr "👤 Мой профиль"
+
+msgid "your_name"
+msgstr "💥 Ваше имя"
+
+msgid "your_lastname"
+msgstr "⚡️ Ваше фамилия"
+
+msgid "your_language"
+msgstr "👅 Выбранный язык"
+
+msgid "reg_date"
+msgstr "📅 Дата регистрации"
+
+msgid "bonus"
+msgstr "🌟 Ваши бонусы"
+
+msgid "referrals"
+msgstr "🖇 Количество ваших рефералов"
+
+msgid "blocked"
+msgstr "🚫 Заблокирован"
+
+msgid "referral_link"
+msgstr "🔗 Ваша реферальная ссылка"
+
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
 msgid "Successfully deleted %(count)d %(items)s."

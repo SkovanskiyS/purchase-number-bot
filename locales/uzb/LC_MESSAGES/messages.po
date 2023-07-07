@@ -252,6 +252,37 @@ msgstr "<b>❗️Bu mamlakatda aloqa operatorlari yo'q.</b>"
 msgid "back"
 msgstr "🔙 Orqaga"
 
+msgid "my_profile"
+msgstr "👤 Mening profilim"
+
+msgid "your_name"
+msgstr "💥 Sizning ismingiz"
+
+msgid "your_lastname"
+msgstr "⚡️ Sizning familiyangiz"
+
+
+msgid "your_language"
+msgstr "👅 Tanlangan til"
+
+msgid "reg_date"
+msgstr "📅 Ro'yxatdan o'tilgan sana"
+
+msgid "bonus"
+msgstr "🌟 Sizning bonuslaringiz"
+
+msgid "referrals"
+msgstr "🖇 Siz taklif qilganlar soni"
+
+msgid "blocked"
+msgstr "🚫 Bloklangan: "
+
+msgid "referral_link"
+msgstr "🔗 Sizning referral havolangiz"
+
+msgid "❗️Ваш аккаунт был заблокирован администратором. Пожалуйста, обратитесь к администратору, чтобы снять это ограничение."
+msgstr "❗️Accountingiz administrator tomonidan bloklangan. Ushbu cheklovni olib tashlash uchun administratoringizga murojaat qiling."
+
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format
 msgid "Successfully deleted %(count)d %(items)s."
