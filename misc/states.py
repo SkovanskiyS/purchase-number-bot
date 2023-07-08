@@ -6,7 +6,9 @@ class Purchase(StatesGroup):
     country: State = State()
     operator: State = State()
     confirm: State = State()
+    bonus: State = State()
     payment: State = State()
+    pay: State = State()
 
 
 class Language(StatesGroup):

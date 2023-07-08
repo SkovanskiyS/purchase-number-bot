@@ -165,3 +165,14 @@ class DB_API:
                 """,
                 (amount, user_id,)
             )
+
+    def clear_referral_number(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE botusers SET referral = null  WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+
+

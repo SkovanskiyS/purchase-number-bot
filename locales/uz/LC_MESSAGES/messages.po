@@ -298,8 +298,37 @@ msgstr "❌ Muammo yuz berdi. To‘lov amalga oshmadi.\n\nAgar siz to‘lagan bo
 msgid "checking"
 msgstr "⏱ Biz to'lov holatini tekshiryapmiz. Iltimos, kuting, bu jarayon bir necha soniya vaqt olishi mumkin."
 
-msgid "get_ref_bonuse"
+msgid "get_ref_bonuses"
 msgstr "⭐️ Referral bonuslarini olish"
+
+msgid "bonus_changed"
+msgstr "✅ Bonuslar muvaffaqiyatli qo'shildi"
+
+msgid "not_enough"
+msgstr "❌ Sizda referralar yetarli emas"
+
+msgid "use_all_text"
+msgstr "💥 Barcha ballarni ishlatish"
+
+msgid "your_bonuses"
+msgstr "🎁 Jami ballaringiz"
+
+msgid "use_bonuses"
+msgstr "🎈 Bonuslardan foydalanish"
+
+msgstr "cheklov"
+msgstr "❗️ Siz chegaraga yetdingiz"
+
+msgid "use_bonus"
+msgstr "🌟 Bonuslarni qo‘llash"
+
+msgid "limit"
+msgstr "❗️ Siz chegara etdingiz."
+
+msgid "choose_bonus"
+msgstr "❗️Kechirasiz, xatolik yuz berdi. Iltimos, kamida bitta bonus qo'shing."
+
+
 
 
 
