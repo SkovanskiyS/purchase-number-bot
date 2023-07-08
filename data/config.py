@@ -31,11 +31,17 @@ class I18N:
 
 
 @dataclass
+class Payme:
+    merchant_id: int
+
+
+@dataclass
 class Config:
     tg_bot: TgBot
     db: DataBase
     api: FiveSimAPI
     i18n: I18N
+    payme: Payme
 
 
 def load_config(path: str | None) -> Config:
@@ -49,8 +55,7 @@ def load_config(path: str | None) -> Config:
     DB_HOST = env.str('DB_HOST')
     DB_USER = env.str('DB_USER')
     DB_PASSWORD = env.str('DB_PASSWORD')
-
+    MERCHANT_ID = env.str('MERCHANT_ID')
     return Config(tg_bot=TgBot(BOT_TOKEN=BOT_TOKEN, ADMINS=ADMINS), db=DataBase(
         database=DATABASE, db_host=DB_HOST, db_user=DB_USER, db_password=DB_PASSWORD
-    ), api=FiveSimAPI(API_KEY=API_KEY), i18n=I18N(I18N_DOMAIN=I18N_DOMAIN))
-
+    ), api=FiveSimAPI(API_KEY=API_KEY), i18n=I18N(I18N_DOMAIN=I18N_DOMAIN),payme=Payme(merchant_id=MERCHANT_ID))
