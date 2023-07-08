@@ -146,3 +146,22 @@ class DB_API:
                 """
             )
             return cursor.fetchall()
+
+    def get_bonus(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT bonus from botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            return cursor.fetchone()
+
+    def update_bonus(self, amount, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE botusers SET bonus = %s WHERE user_id = %s
+                """,
+                (amount, user_id,)
+            )

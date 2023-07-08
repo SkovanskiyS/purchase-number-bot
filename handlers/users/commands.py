@@ -1,7 +1,7 @@
 from aiogram import Dispatcher
+from aiogram.types import Message
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
-
 
 from database.dbApi import DB_API
 from i18n import _
@@ -9,6 +9,7 @@ from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
 from misc.states import Language
 from misc.throttling_limit import rate_limit
+from services.Payments.payme import PaymePay
 
 
 @rate_limit(limit=3)
@@ -27,8 +28,9 @@ async def start_handler(msg: Message):
             last_name=msg.from_user.last_name,
             referral=referral
         )
-        await msg.answer("<b>Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.\n\n❗️По умолчанию русский язык</b>",
-                         reply_markup=CreateInlineBtn.language())
+        await msg.answer(
+            "<b>Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.\n\n❗️По умолчанию русский язык</b>",
+            reply_markup=CreateInlineBtn.language())
 
 
 @rate_limit(limit=3)

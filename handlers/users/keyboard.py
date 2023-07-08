@@ -14,6 +14,7 @@ from misc.states import Purchase, Language
 from misc.throttling_limit import rate_limit
 from datetime import datetime
 
+
 async def buy_handler(msg: Message) -> None:
     await msg.answer(_('notification'), reply_markup=CreateBtn.CancelBtn())
     await msg.answer(_('choose_service'), reply_markup=CreateInlineBtn.services())
@@ -40,14 +41,15 @@ async def my_profile(msg: Message):
     all_data = db_api.get_all_info(msg.from_user.id)
     ref_count = len(db_api.check_referral(msg.from_user.id))
     user_id = db_api.get_user_id(msg.from_user.id)
-    ref_link = f'https://t.me/dadadbaabybot?start={user_id[0]}'
+    bot_username = await msg.bot.get_me()
+    ref_link = f'https://t.me/{bot_username.username}?start={user_id[0]}'
     dateTime: datetime = all_data[6]
 
     caption_text = f"""
          <b>{_("my_profile")}</b>\n
 <i>ID:</i> <b>{all_data[0]}</b>
-<i>Telegram ID: </i> <b>{all_data[1]}</b>
-<i>Username: </i> <b>@{all_data[2]}</b>\n
+<i>Telegram ID: </i><b>{all_data[1]}</b>
+<i>Username: </i><b>@{all_data[2]}</b>\n
 {_('your_name')}: <b>{all_data[3]}</b>
 {_('your_lastname')}: <b>{all_data[4]}</b>
 {_('your_language')}: <b>{all_data[5]}</b>\n
@@ -59,9 +61,9 @@ async def my_profile(msg: Message):
     """
     from pathlib import Path
 
-    current_directory = str(Path(__file__).resolve().parent.parent.parent)+'/logo.jpg'
+    current_directory = str(Path(__file__).resolve().parent.parent.parent) + '/logo.jpg'
     with open(current_directory, 'rb') as photo:
-        await msg.bot.send_photo(msg.from_user.id, photo=photo, caption=caption_text)
+        await msg.bot.send_photo(msg.from_user.id, photo=photo, caption=caption_text,reply_markup=CreateInlineBtn.get_bonus_for_referrals())
     # await msg.answer(caption_text)
 
 

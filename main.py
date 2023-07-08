@@ -5,7 +5,8 @@ from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data.config import load_config
 from handlers.register import register_all_handlers
-from middleware.language_middleware import setup_middleware
+from middleware.bonus import BonusModification
+from middleware.language import setup_middleware
 from middleware.registration import Registration
 from middleware.throttling import ThrottlingMiddleware
 from services.commands import set_main_menu
@@ -27,7 +28,7 @@ async def main() -> None:
     dp.middleware.setup(ThrottlingMiddleware())
     dp.middleware.setup(setup_middleware())
     dp.middleware.setup(Registration())
-
+    dp.middleware.setup(BonusModification())
     register_all_handlers(dp)
 
     await set_main_menu(bot)

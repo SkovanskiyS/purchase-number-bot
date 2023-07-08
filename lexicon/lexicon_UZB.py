@@ -30,7 +30,7 @@ Boshlash uchun, oddiy tanlovni menyuda yoki qo'shimcha ma'lumot olish uchun /yor
 </i>
 Agar sizda savollar yoki muammo bo'lsa, biz bilan bog'laning. Biz sizga har qanday vaqtda yordam berishga tayyormiz.
 
-<b>Virtual raqamlarni sotib olish uchun Telegram botimizni tanlaganingiz uchun rahmat. Onlayn tajribangiz uchun sizga eng yaxshi xizmat va xavfsizlikni taqdim etishga intilamiz.</b>""",
+<b>Virtual raqamlarni sotib olish uchun Telegram botimizni tanlaganingiz uchun rahmat. Onlayn tajribangiz uchun sizga en yaxshi xizmat va xavfsizlikni taqdim etishga intilamiz.</b>""",
     # ------------------------------------
 
     'faq': """<b>Virtual raqamlar nima?</b>
@@ -58,7 +58,7 @@ Agar sizda savollar, muammolar yoki qo'shimcha yordam talab qilishingiz bo'lsa, 
 
 Yordam xodimlarimiz savollaringizga javob berib, zarur yordamni tezroq taqdim qilishadi. Biz bilan bog'lanib, qo'ng'iroq qiling!
 
-Xizmatimizni tanlaganingiz uchun tashakkur. Sizning ishonchingizni qadrlaymiz va virtual raqamlarni sotib olishda eng yaxshi tajribani ta'minlashga qodir bo'lamiz.
+Xizmatimizni tanlaganingiz uchun tashakkur. Sizning ishonchingizni qadrlaymiz va virtual raqamlarni sotib olishda en yaxshi tajribani ta'minlashga qodir bo'lamiz.
 
 Hurmat bilan,
 <b>Delta Dynisma Jamoasi.</b>""",

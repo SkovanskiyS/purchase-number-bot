@@ -6,6 +6,7 @@ from i18n import _
 from keyboards.inline.constructor import Constructor
 from misc.cost_modification import change_price
 from services.API_5sim.fetch_operator import GetPrice
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class CreateInlineBtn(Constructor):
@@ -16,7 +17,7 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def confirmation():
-        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}],[{'back':_('back')}]])
+        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}], [{'back': _('back')}]])
 
     @staticmethod
     def payment():
@@ -27,8 +28,21 @@ class CreateInlineBtn(Constructor):
     @staticmethod
     def language():
         return Constructor.create_inline_btn([[{'lang:ru': '🇷🇺 RU'},
-                                               {'lang:uzb': '🇺🇿 UZB'},
-                                               {'lang:eng': '🇺🇸 ENG'}]])
+                                               {'lang:uz': '🇺🇿 UZB'},
+                                               {'lang:en': '🇺🇸 ENG'}]])
+
+    @staticmethod
+    def pay(url):
+        inline_btn = [
+            [InlineKeyboardButton(text=_('pay_text'), callback_data='pay', url=url)],
+            [InlineKeyboardButton(text=_('confirm_btn'), callback_data='confirm_payment')]]
+
+        inline_btn = InlineKeyboardMarkup(inline_keyboard=inline_btn)
+        return inline_btn
+
+    @staticmethod
+    def get_bonus_for_referrals():
+        return Constructor.create_inline_btn([[{'ref_bonus':_('get_ref_bonuse')}]])
 
 
 class Pagination:
@@ -48,7 +62,7 @@ class Pagination:
         countries_data = countries_btn_[self.lang]
         bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{17}'}, {'next': '>>'}]
         countries_btn = [{key: value for d in countries_data[self.page] for key, value in d.items()}]
-        back_btn = [{'back':_('back')}]
+        back_btn = [{'back': _('back')}]
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn, back_btn])
 
         return btn
@@ -86,5 +100,4 @@ class Operator:
     <i>{_('rate')}: {rate} </i>
     
                 """
-            return Constructor.create_inline_btn([[operators_dict],[{'back':_('back')}]])
-
+            return Constructor.create_inline_btn([[operators_dict], [{'back': _('back')}]])
