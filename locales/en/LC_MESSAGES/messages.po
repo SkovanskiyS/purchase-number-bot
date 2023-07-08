@@ -293,8 +293,32 @@ msgstr "❌ Something went wrong, the payment did not go through.\n\nIf you paid
 msgid "checking"
 msgstr "⏱ We are checking the payment status. Please wait, this process may take a few seconds."
 
-msgid "get_ref_bonuse"
+msgid "get_ref_bonuses"
 msgstr "⭐️ Get referral bonuses"
+
+msgid "bonus_changed"
+msgstr "✅ Bonuses added successfully"
+
+msgid "not_enough"
+msgstr "❌ You don't have enough referrals
+
+msgid "use_all_text"
+msgstr "💥 Use all points"
+
+msgid "your_bonuses"
+msgstr "🎁 Your total bonuses"
+
+msgid "use_bonuses"
+msgstr "🎈 Use bonuses"
+
+msgid "limit"
+msgstr "❗️ You have reached the limit"
+
+msgid "use_bonus"
+msgstr "🌟 Apply bonuses"
+
+msgid "choose_bonus"
+msgstr "❗️Sorry, an error has occurred. Please add at least one bonus."
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54
 #, python-format

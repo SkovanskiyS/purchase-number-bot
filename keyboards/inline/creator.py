@@ -17,7 +17,7 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def confirmation():
-        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}], [{'back': _('back')}]])
+        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}],[{'bonus':_('use_bonus')}] ,[{'back': _('back')}]])
 
     @staticmethod
     def payment():
@@ -42,7 +42,7 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def get_bonus_for_referrals():
-        return Constructor.create_inline_btn([[{'ref_bonus':_('get_ref_bonuse')}]])
+        return Constructor.create_inline_btn([[{'ref_bonus':_('get_ref_bonuses')}]])
 
 
 class Pagination:
@@ -75,8 +75,7 @@ class Operator:
         self.description = ''
 
     def __call__(self):
-        url = f'https://5sim.net/v1/guest/prices?country={self.country}&product={self.product}'
-        getPrice = GetPrice(url)
+        getPrice = GetPrice(self.country,self.product)
         response_dict: dict = getPrice()
         operators_dict: dict = dict()
         if response_dict:
@@ -101,3 +100,15 @@ class Operator:
     
                 """
             return Constructor.create_inline_btn([[operators_dict], [{'back': _('back')}]])
+
+
+class Bonuses:
+    def __call__(self):
+        top_btn = [{'minus_ten:change': '-30'},{'minus_one:change':'-'}, {'plus_one:change':'+'}, {'plus_ten:change': '+30'}]
+        bottom_btn = [{'use_all:change':_('use_all_text')}]
+        confirm_btn = [{'confirm_bonus': _('confirm_btn')}]
+        back_btn = [{'back': _('back')}]
+        return Constructor.create_inline_btn([top_btn,bottom_btn,confirm_btn,back_btn])
+
+
+

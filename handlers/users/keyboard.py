@@ -1,5 +1,5 @@
 import datetime
-import os
+from datetime import datetime
 
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
@@ -12,7 +12,6 @@ from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
 from misc.states import Purchase, Language
 from misc.throttling_limit import rate_limit
-from datetime import datetime
 
 
 async def buy_handler(msg: Message) -> None:
@@ -36,11 +35,13 @@ async def change_language(msg: Message):
 
 @rate_limit(limit=3)
 async def my_profile(msg: Message):
+    userId = msg.from_user.id
     db_api = DB_API()
     db_api.connect()
-    all_data = db_api.get_all_info(msg.from_user.id)
-    ref_count = len(db_api.check_referral(msg.from_user.id))
-    user_id = db_api.get_user_id(msg.from_user.id)
+    all_data = db_api.get_all_info(userId)
+    referrals = db_api.check_referral(userId)
+    ref_count = len(referrals) if referrals is not None else 0
+    user_id = db_api.get_user_id(userId)
     bot_username = await msg.bot.get_me()
     ref_link = f'https://t.me/{bot_username.username}?start={user_id[0]}'
     dateTime: datetime = all_data[6]
@@ -64,7 +65,6 @@ async def my_profile(msg: Message):
     current_directory = str(Path(__file__).resolve().parent.parent.parent) + '/logo.jpg'
     with open(current_directory, 'rb') as photo:
         await msg.bot.send_photo(msg.from_user.id, photo=photo, caption=caption_text,reply_markup=CreateInlineBtn.get_bonus_for_referrals())
-    # await msg.answer(caption_text)
 
 
 def register_buy_handler(dp: Dispatcher):
@@ -73,3 +73,4 @@ def register_buy_handler(dp: Dispatcher):
     dp.register_message_handler(buy_handler, lambda message: message.text == _('buy_number'))
     dp.register_message_handler(change_language, lambda message: message.text == _('change_lang'))
     dp.register_message_handler(my_profile, lambda message: message.text == _('my_profile'))
+

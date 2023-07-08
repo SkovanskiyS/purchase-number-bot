@@ -1,5 +1,5 @@
 from database.dbApi import DB_API
-from aiogram.types import User
+from aiogram.types import User, Message
 
 
 class Bonus:
@@ -22,13 +22,19 @@ class Bonus:
 
     def referral_bonus(self):
         if self.check_the_limit():
-            user_id: int = User.get_current().id
-            count_of_referrals = len(self.db_api.check_referral(user_id))
-            current_bonus_amount = self.db_api.get_bonus(user_id)[0]
-            bonus_per_user = 20
-            bonus_plus_referrals = (count_of_referrals * bonus_per_user) + current_bonus_amount
-            self.db_api.update_bonus(bonus_plus_referrals, user_id)
+            try:
+                user_id: int = User.get_current().id
+                referrals = self.db_api.check_referral(user_id)
+                print(len(referrals))
+                if len(referrals) != 0:
+                    current_bonus_amount = self.db_api.get_bonus(user_id)[0]
+                    bonus_per_user = 50
+                    bonus_plus_referrals = (len(referrals) * bonus_per_user) + current_bonus_amount
+                    self.db_api.update_bonus(bonus_plus_referrals, user_id)
 
-
-
-
+                    for user_id_ref in referrals:
+                        self.db_api.clear_referral_number(user_id_ref)
+                else:
+                    return 'empty'
+            except Exception as err:
+                print(err)
