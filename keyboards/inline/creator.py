@@ -17,7 +17,8 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def confirmation():
-        return Constructor.create_inline_btn([[{'confirm_callback': _('confirm_btn')}],[{'bonus':_('use_bonus')}] ,[{'back': _('back')}]])
+        return Constructor.create_inline_btn(
+            [[{'confirm_callback': _('confirm_btn')}], [{'bonus': _('use_bonus')}], [{'back': _('back')}]])
 
     @staticmethod
     def payment():
@@ -31,6 +32,11 @@ class CreateInlineBtn(Constructor):
                                                {'lang:uz': '🇺🇿 UZB'},
                                                {'lang:en': '🇺🇸 ENG'}]])
 
+    def language_register():
+        return Constructor.create_inline_btn([[{'register:ru': '🇷🇺 RU'},
+                                               {'register:uz': '🇺🇿 UZB'},
+                                               {'register:en': '🇺🇸 ENG'}]])
+
     @staticmethod
     def pay(url):
         inline_btn = [
@@ -42,7 +48,7 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def get_bonus_for_referrals():
-        return Constructor.create_inline_btn([[{'ref_bonus':_('get_ref_bonuses')}]])
+        return Constructor.create_inline_btn([[{'ref_bonus': _('get_ref_bonuses')}]])
 
 
 class Pagination:
@@ -75,7 +81,7 @@ class Operator:
         self.description = ''
 
     def __call__(self):
-        getPrice = GetPrice(self.country,self.product)
+        getPrice = GetPrice(self.country, self.product)
         response_dict: dict = getPrice()
         operators_dict: dict = dict()
         if response_dict:
@@ -104,11 +110,9 @@ class Operator:
 
 class Bonuses:
     def __call__(self):
-        top_btn = [{'minus_ten:change': '-30'},{'minus_one:change':'-'}, {'plus_one:change':'+'}, {'plus_ten:change': '+30'}]
-        bottom_btn = [{'use_all:change':_('use_all_text')}]
+        top_btn = [{'minus_ten:change': '-30'}, {'minus_one:change': '-'}, {'plus_one:change': '+'},
+                   {'plus_ten:change': '+30'}]
+        bottom_btn = [{'use_all:change': _('use_all_text')}]
         confirm_btn = [{'confirm_bonus': _('confirm_btn')}]
         back_btn = [{'back': _('back')}]
-        return Constructor.create_inline_btn([top_btn,bottom_btn,confirm_btn,back_btn])
-
-
-
+        return Constructor.create_inline_btn([top_btn, bottom_btn, confirm_btn, back_btn])
