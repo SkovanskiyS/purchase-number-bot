@@ -7,7 +7,7 @@ from i18n import _
 
 async def add_ref_bonuses(call: CallbackQuery):
     bonus = Bonus()
-    result = bonus.referral_bonus()
+    result = await bonus.referral_bonus()
     match result:
         case 'empty':
             await call.message.answer(_('not_enough'))

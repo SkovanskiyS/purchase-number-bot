@@ -269,7 +269,7 @@ msgid "referrals"
 msgstr "🖇 The number of your referrals"
 
 msgid "blocked"
-msgstr "🚫 Banned: "
+msgstr "🚫 Banned"
 
 msgid "referral_link"
 msgstr "🔗 Your referral link"

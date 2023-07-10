@@ -29,8 +29,7 @@ async def cancel_purchase(msg: Message, state: FSMContext) -> None:
 
 @rate_limit(limit=3)
 async def change_language(msg: Message):
-    await msg.answer(_('Choose language:') + '\n\nCancel: /cancel', reply_markup=CreateInlineBtn.language())
-    await Language.first()
+    await msg.answer(_('Choose language:'), reply_markup=CreateInlineBtn.language())
 
 
 @rate_limit(limit=3)
@@ -54,7 +53,7 @@ async def my_profile(msg: Message):
 {_('your_name')}: <b>{all_data[3]}</b>
 {_('your_lastname')}: <b>{all_data[4]}</b>
 {_('your_language')}: <b>{all_data[5]}</b>\n
-{_('reg_date')}: <b>{dateTime.strftime("%Y-%m-%d %H:%m")}</b>
+{_('reg_date')}: <b>{dateTime.strftime("%Y-%m-%d %H:%M:%S")}</b>
 {_('bonus')}: <b>{all_data[7]}</b>
 {_('referrals')}: <b>{ref_count}</b>
 {_('blocked')}: <b>{False if all_data[9] == 0 else True}</b>\n
@@ -64,7 +63,8 @@ async def my_profile(msg: Message):
 
     current_directory = str(Path(__file__).resolve().parent.parent.parent) + '/logo.jpg'
     with open(current_directory, 'rb') as photo:
-        await msg.bot.send_photo(msg.from_user.id, photo=photo, caption=caption_text,reply_markup=CreateInlineBtn.get_bonus_for_referrals())
+        await msg.bot.send_photo(msg.from_user.id, photo=photo, caption=caption_text,
+                                 reply_markup=CreateInlineBtn.get_bonus_for_referrals())
 
 
 def register_buy_handler(dp: Dispatcher):
@@ -73,4 +73,3 @@ def register_buy_handler(dp: Dispatcher):
     dp.register_message_handler(buy_handler, lambda message: message.text == _('buy_number'))
     dp.register_message_handler(change_language, lambda message: message.text == _('change_lang'))
     dp.register_message_handler(my_profile, lambda message: message.text == _('my_profile'))
-

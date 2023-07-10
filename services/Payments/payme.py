@@ -1,13 +1,10 @@
 import requests
-from aiogram.types import User
 from bs4 import BeautifulSoup
-from fake_useragent import FakeUserAgent
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from data.config import Config, load_config
-from database.dbApi import DB_API
 
 
 class PaymePay:
@@ -20,7 +17,7 @@ class PaymePay:
         self.account_value = 'Payment for virtual number'
         self.description = description
 
-    def bill(self):
+    async def bill(self):
         data = {
             'merchant': self.merchant_id,
             'amount': self.amount,
@@ -32,7 +29,7 @@ class PaymePay:
         response_url = soup.find('meta', property='og:url')['content']
         return response_url
 
-    def check_status_of_payment(self, url):
+    async def check_status_of_payment(self, url):
         options = webdriver.ChromeOptions()
         url_to_check = url
         options.add_argument('--headless')

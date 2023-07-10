@@ -1,17 +1,15 @@
-import logging
-
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 
+from database.dbApi import DB_API
 from handlers.users.keyboard import cancel_purchase, buy_handler
 from i18n import _
-from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from keyboards.inline.creator import Bonuses
+from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.cost_modification import change_price, percent_from_bonus
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
-from database.dbApi import DB_API
 from services.Payments.payme import PaymePay
 
 
@@ -37,6 +35,10 @@ async def back_btn(call: CallbackQuery, state: FSMContext):
                                   reply_markup=inline_keyboard)
         await Purchase.operator.set()
     elif current_state == 'bonus':
+        if 'new_cost' in data and 'bonus_count' in data:
+            await state.update_data(new_cost=None)
+            await state.update_data(bonus_count=None)
+        print(data)
         await generate_confirmation_message(call, state)
 
 
@@ -116,19 +118,21 @@ async def generate_confirmation_message(call, state):
 
 async def confirm_data(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
-    print(data)
     await call.message.delete()
     text = f'{_("choose")}'
+    print(data)
     await call.message.answer(text, reply_markup=CreateInlineBtn.payment())
     await Purchase.payment.set()
 
 
 async def use_bonuses(call: CallbackQuery, state: FSMContext):
+    all_data = await state.get_data()
+    print(all_data)
     await call.message.delete()  # top_btn = [{'minus_ten': '-10'},{'minus_one':'-'}, {'plus_one':'+'}, {'plus_ten': '+10'}]
     db_api = DB_API()
     db_api.connect()
     all_bonuses = db_api.get_bonus(call.from_user.id)[0]
-    use_bonuses_count = 0
+    use_bonuses_count = all_data['bonus_count'] if 'bonus_count' in all_data else 0
     description = f"""
     <b>{_('your_bonuses')}: {all_bonuses}</b> 🌟\n
 <b>{_('use_bonuses')}: {use_bonuses_count}</b> 🌟
@@ -176,7 +180,8 @@ async def handle_bonuses_change(call: CallbackQuery, state: FSMContext):
 async def confirm_bonus(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     if 'bonus_count' in data:
-        percent_bonus = float('{:.1f}'.format(percent_from_bonus(data["bonus_count"])))
+        new_cost = await percent_from_bonus(data['bonus_count'])
+        percent_bonus = float('{:.1f}'.format(new_cost))
         await call.message.delete()
         all_data = await state.get_data()
         service: str = all_data.get('service')
@@ -187,9 +192,9 @@ async def confirm_bonus(call: CallbackQuery, state: FSMContext):
         new_cost = '{:,.2f} сум'.format(old_cost_float - ((percent_bonus / 100) * old_cost_float))
         text = f"<b>{_('confirm_text')}\n\n{_('service')}: <i>{service.title()}</i>\n" \
                f"\n{_('country')}: <i>{country.title()}</i>\n\n" \
-               f"{_('operator')}: <i>{operator.title()}</i>\n\n{_('cost')}: <s>{old_cost}</s> - {percent_bonus}% = {new_cost} сум</b>"
+               f"{_('operator')}: <i>{operator.title()}</i>\n\n{_('cost')}: <s>{old_cost}</s> - {percent_bonus}% = {new_cost}</b>"
         await call.message.answer(text, reply_markup=CreateInlineBtn.confirmation())
-        await state.update_data(cost=new_cost)
+        await state.update_data(new_cost=new_cost)
         await Purchase.confirm.set()
     else:
         await call.answer(_('choose_bonus'), show_alert=True)
@@ -197,10 +202,11 @@ async def confirm_bonus(call: CallbackQuery, state: FSMContext):
 
 async def payme_callback(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
-    formatting = str(data['cost']).replace('сум', '').replace(',', '')
+    cost_data: str = data['cost'] if 'new_cost' not in data or data['new_cost'] is None else data['new_cost']
+    formatting = cost_data.replace('сум', '').replace(',', '')
     formatted_output = f'{float(formatting) * 100:.2f}'
     payme_obj = PaymePay(formatted_output, data['service'] + ' ' + data['country'])
-    url_to_pay = payme_obj.bill()
+    url_to_pay = await payme_obj.bill()
     await state.update_data(url_for_payment=url_to_pay)
     await call.message.delete()
     await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
@@ -211,7 +217,7 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     url_to_check = data['url_for_payment']
     payme_obj = PaymePay(0, '')
-    paid = payme_obj.check_status_of_payment(url_to_check)
+    paid = await payme_obj.check_status_of_payment(url_to_check)
     if paid:
         await call.answer(_('paid'), show_alert=True)
         await call.message.delete()

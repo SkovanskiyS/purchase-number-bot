@@ -5,6 +5,6 @@ def change_price(cost: float):
     return '{:,.2f} сум'.format(cost_to_pay)
 
 
-def percent_from_bonus(bonus):
+async def percent_from_bonus(bonus):
     return (bonus / 1000) * 100
 

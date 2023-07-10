@@ -30,7 +30,7 @@ async def start_handler(msg: Message):
         )
         await msg.answer(
             "<b>Пожалуйста, выберите язык, на котором вы хотели бы взаимодействовать с ботом.\n\n❗️По умолчанию русский язык</b>",
-            reply_markup=CreateInlineBtn.language())
+            reply_markup=CreateInlineBtn.language_register())
 
 
 @rate_limit(limit=3)

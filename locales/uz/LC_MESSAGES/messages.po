@@ -274,7 +274,7 @@ msgid "referrals"
 msgstr "🖇 Siz taklif qilganlar soni"
 
 msgid "blocked"
-msgstr "🚫 Bloklangan: "
+msgstr "🚫 Bloklangan"
 
 msgid "referral_link"
 msgstr "🔗 Sizning referral havolangiz"
@@ -315,9 +315,6 @@ msgstr "🎁 Jami ballaringiz"
 
 msgid "use_bonuses"
 msgstr "🎈 Bonuslardan foydalanish"
-
-msgstr "cheklov"
-msgstr "❗️ Siz chegaraga yetdingiz"
 
 msgid "use_bonus"
 msgstr "🌟 Bonuslarni qo‘llash"
