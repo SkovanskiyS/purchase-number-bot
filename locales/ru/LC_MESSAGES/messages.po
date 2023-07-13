@@ -317,6 +317,47 @@ msgstr "🌟 Применить бонусы"
 msgid "choose_bonus"
 msgstr "❗️Извините, произошла ошибка. Пожалуйста, добавьте хотя бы один бонус."
 
+msgid "phone"
+msgstr "📱 Номер телефона"
+
+msgid "operator_text"
+msgstr "📡 Оператор"
+
+msgid "service_text"
+msgstr "🪩 Сервис"
+
+msgid "price"
+msgstr "💸 Цена"
+
+msgid "status"
+msgstr "📊 Статус"
+
+msgid "expires"
+msgstr "⏳ Истекает"
+
+msgid "sms"
+msgstr "📔 Код | СМС"
+
+msgid "created_at"
+msgstr "🕔 Создан в"
+
+msgid "country_text"
+msgstr "🌆 Страна"
+
+msgid "get_sms_text"
+msgstr "📔 Получить SMS-код"
+
+msgid "rebuy_text"
+msgstr "♻️ Повторная покупка"
+
+msgid "cancel_order_text"
+msgstr "❌ Отменить"
+
+msgid "number_banned"
+msgstr "🚫 Заблокирован"
+
+msgid "finish_order_text"
+msgstr "✅ Завершить заказ"
 
 
 #: venv/lib/python3.10/site-packages/django/contrib/admin/actions.py:54

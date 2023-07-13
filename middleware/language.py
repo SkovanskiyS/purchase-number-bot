@@ -11,6 +11,7 @@ async def get_lang(user_id):
     db_api = DB_API()
     db_api.connect()
     lang = db_api.get_current_language(user_id)
+    print(lang)
     if lang:
         return lang[0]
     return None

@@ -325,8 +325,47 @@ msgstr "❗️ Siz chegara etdingiz."
 msgid "choose_bonus"
 msgstr "❗️Kechirasiz, xatolik yuz berdi. Iltimos, kamida bitta bonus qo'shing."
 
+msgid "phone"
+msgstr "📱 Telefon raqami"
 
+msgid "operator_text"
+msgstr "📡 Operator"
 
+msgid "service_text"
+msgstr "🪩 Servis"
+
+msgid "price"
+msgstr "💸 Narx"
+
+msgid "status"
+msgstr "📊 Status"
+
+msgid "expires"
+msgstr "⏳ Muddati tugaydi"
+
+msgid "sms"
+msgstr "📔 Kod | SMS"
+
+msgid "created_at"
+msgstr "🕔 Yaratilgan vaqti"
+
+msgid "country_text"
+msgstr "🌆 Davlat"
+
+msgid "get_sms_text"
+msgstr "📔 SMS kodi olish"
+
+msgid "rebuy_text"
+msgstr "♻️ Qayta xarid qilish"
+
+msgid "cancel_order_text"
+msgstr "❌ Bekor qilish"
+
+msgid "number_banned"
+msgstr "🚫 Bloklangan"
+
+msgid "finish_order_text"
+msgstr "✅ Buyurtmani tugatish"
 
 
 
