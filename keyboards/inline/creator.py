@@ -12,8 +12,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class CreateInlineBtn(Constructor):
     @staticmethod
     def services():
-        return Constructor.create_inline_btn([[{'telegram': _('telegram')}
-                                                  , {'openai': _('chatgpt')}]])
+        return Constructor.create_inline_btn([[{'openai': _('chatgpt')}]])
 
     @staticmethod
     def confirmation():
@@ -49,6 +48,12 @@ class CreateInlineBtn(Constructor):
     @staticmethod
     def get_bonus_for_referrals():
         return Constructor.create_inline_btn([[{'ref_bonus': _('get_ref_bonuses')}]])
+
+    @staticmethod
+    def purchase_number():
+        return Constructor.create_inline_btn([[{'getsms':_('get_sms_text')}],
+                                              [{'cancel_order':_('cancel_order_text')},{'banned':_('number_banned')}],
+                                              [{'finish_order':_('finish_order_text')}]])
 
 
 class Pagination:

@@ -23,6 +23,5 @@ class Registration(BaseMiddleware):
 
         if update.callback_query:
             lang = update.callback_query.data.split(':')  # lang:ru - output [lang,ru]
-            if 'lang' in update.callback_query.data:
+            if 'register' in update.callback_query.data or 'lang' in update.callback_query.data:
                 database_api.change_language(update.callback_query.from_user.id, lang[1])
-                await update.callback_query.message.delete()

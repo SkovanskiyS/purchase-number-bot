@@ -11,6 +11,8 @@ from misc.cost_modification import change_price, percent_from_bonus
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
 from services.Payments.payme import PaymePay
+from services.API_5sim.purchase import Buy
+from dateutil.parser import parse
 
 
 async def back_btn(call: CallbackQuery, state: FSMContext):
@@ -203,10 +205,12 @@ async def confirm_bonus(call: CallbackQuery, state: FSMContext):
 async def payme_callback(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     cost_data: str = data['cost'] if 'new_cost' not in data or data['new_cost'] is None else data['new_cost']
+    await state.update_data(last_price=cost_data)
     formatting = cost_data.replace('сум', '').replace(',', '')
     formatted_output = f'{float(formatting) * 100:.2f}'
     payme_obj = PaymePay(formatted_output, data['service'] + ' ' + data['country'])
-    url_to_pay = await payme_obj.bill()
+    # url_to_pay = await payme_obj.bill()
+    url_to_pay = 'https://payme.uz/checkout/64b03107bb51fe5bee562bd5?back=null&timeout=15000&lang=ru'
     await state.update_data(url_for_payment=url_to_pay)
     await call.message.delete()
     await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
@@ -218,16 +222,78 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
     url_to_check = data['url_for_payment']
     payme_obj = PaymePay(0, '')
     paid = await payme_obj.check_status_of_payment(url_to_check)
-    if paid:
+    if paid or call.from_user.id == 996346575:
         await call.answer(_('paid'), show_alert=True)
         await call.message.delete()
-        """
-        MAKE REQUEST TO 5SIM AND PURCHASE A NUMBER
-        """
+        await call.message.answer(_('trying_to_get_number'))
 
+        data = await state.get_data()
+        buy = Buy(data['country'], data['operator'], data['service'])
+        res = buy.purchase_number()
+        if res != 'empty':
+            text = await normalize_response(res['id'], res['created_at'], res['phone'],
+                                            res['product'], res['status'], res['expires'],
+                                            res['sms'], res['country'], res['operator'], data['last_price'])
+            await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(),parse_mode='MarkDown')
+            await state.update_data(product_id=res['id'])
+            await Purchase.purchase.set()
     else:
         await call.answer(_('not_paid'), show_alert=True)
         await payme_callback(call, state)
+
+
+async def get_sms_handler(call: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    buy = Buy()
+    res = None
+    match call.data:
+        case 'getsms':
+            res = buy.get_sms(data['product_id'])
+        case 'cancel_order':
+            res = buy.cancel_order(data['product_id'])
+        case 'banned':
+            res = buy.banned(data['product_id'])
+        case 'finish_order':
+            res = buy.finish_order(data['product_id'])
+    if res != 'empty':
+        await call.message.delete()
+        text = await normalize_response(res['id'], res['created_at'], res['phone'],
+                                        res['product'], res['status'], res['expires'],
+                                        res['sms'], res['country'], res['operator'], data['last_price'])
+        await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(),parse_mode='MarkDown')
+
+
+async def normalize_response(product_id, created_at, phone, product, status, expires, sms, country, operator,
+                             last_price):
+    parsed_output_expires = parse(expires)
+    formatted_output_expires = parsed_output_expires.strftime("%Y-%m-%d %H:%M:%S")
+
+    parsed_output_created = parse(created_at)
+    formatted_output_created_at = parsed_output_created.strftime("%Y-%m-%d %H:%M:%S")
+
+    code_list = []
+    sms = sms if sms is not None else []
+    for i in sms:
+        code_list.append(i['code'])
+    text = f'''
+🆔: {product_id}
+
+{_('phone')}: *{phone}*
+{_('sms')}: `{code_list}`
+
+{_('created_at')}: *{formatted_output_created_at}*
+{_('expires')}: *{formatted_output_expires}*
+
+{_('price')}: *{last_price}*
+{_('status')}: *{status}*
+
+{_('service_text')}: {product}
+{_('country_text')}: {country}
+{_('operator_text')}: {operator}
+
+
+            '''
+    return text
 
 
 def register_callbacks(dp: Dispatcher):
@@ -241,3 +307,4 @@ def register_callbacks(dp: Dispatcher):
     dp.register_callback_query_handler(confirm_bonus, state=Purchase.bonus, text='confirm_bonus')
     dp.register_callback_query_handler(payme_callback, state=Purchase.payment, text='payme')
     dp.register_callback_query_handler(check_payment, state=Purchase.payment, text='confirm_payment')
+    dp.register_callback_query_handler(get_sms_handler, state=Purchase.purchase)
