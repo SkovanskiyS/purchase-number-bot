@@ -365,8 +365,16 @@ msgid "number_banned"
 msgstr "🚫 Bloklangan"
 
 msgid "finish_order_text"
-msgstr "✅ Buyurtmani tugatish"
+msgstr "✅ Tugatish"
 
+msgid "trying_to_get_number"
+msgstr "Bo'sh raqam mavjud boʻlishi bilanoq beriladi. Iltimos, kuting va hech narsani bosmang.\n\nRaqam olishga urinilmoqda...\n\n<b>❗️E'tibor bering, agar siz toʻlagan boʻlsangiz va hech qanday raqamni ololmagan bo'slangiz, qo'llab-quvvatlash xizmatiga murojaat qiling</b>"
+
+msgid "not_finished"
+msgstr "❗️Xaridni yakunlash uchun siz tasdiqlash kodini olishingiz kerak. Tugatishdan oldin kodni olguncha kuting."
+
+msgid "paid_check"
+msgstr "<b>✅ Toʻlov allaqachon amalga oshirilgan \n\nTasdiqlash tugmasini bosing!</b>"
 
 
 

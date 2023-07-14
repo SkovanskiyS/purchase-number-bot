@@ -6,7 +6,6 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
 from database.dbApi import DB_API
-from database.pages import current_page
 from i18n import _
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import CreateInlineBtn
@@ -23,7 +22,6 @@ async def buy_handler(msg: Message) -> None:
 @rate_limit(limit=3)
 async def cancel_purchase(msg: Message, state: FSMContext) -> None:
     await state.reset_state()
-    current_page['page'] = 0
     await msg.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
 
 

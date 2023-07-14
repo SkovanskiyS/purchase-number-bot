@@ -38,3 +38,9 @@ class Bonus:
                     return 'empty'
             except Exception as err:
                 print(err)
+
+    async def remove_bonus(self, bonus_count):
+        user_id: int = User.get_current().id
+        current_bonus_amount = self.db_api.get_bonus(user_id)[0]
+        bonus_to_remove = current_bonus_amount - bonus_count
+        self.db_api.update_bonus(bonus_to_remove, user_id)

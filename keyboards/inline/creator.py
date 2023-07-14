@@ -46,14 +46,18 @@ class CreateInlineBtn(Constructor):
         return inline_btn
 
     @staticmethod
+    def confirm_btn():
+        return Constructor.create_inline_btn([[{'confirm_payment':_('confirm_btn')}]])
+
+    @staticmethod
     def get_bonus_for_referrals():
         return Constructor.create_inline_btn([[{'ref_bonus': _('get_ref_bonuses')}]])
 
     @staticmethod
     def purchase_number():
         return Constructor.create_inline_btn([[{'getsms':_('get_sms_text')}],
-                                              [{'cancel_order':_('cancel_order_text')},{'banned':_('number_banned')}],
-                                              [{'finish_order':_('finish_order_text')}]])
+                                              [{'cancel_order':_('cancel_order_text')},
+                                              {'finish_order':_('finish_order_text')}]])
 
 
 class Pagination:

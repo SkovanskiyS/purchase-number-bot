@@ -1,5 +1,4 @@
 import logging
-
 import psycopg2
 
 from data.config import Config, load_config
@@ -174,5 +173,3 @@ class DB_API:
                 """,
                 (user_id,)
             )
-
-

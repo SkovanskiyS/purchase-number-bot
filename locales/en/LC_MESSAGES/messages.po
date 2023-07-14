@@ -360,7 +360,16 @@ msgid "number_banned"
 msgstr "🚫 Banned"
 
 msgid "finish_order_text"
-msgstr "✅ Complete order"
+msgstr "✅ Complete"
+
+msgid "trying_to_get_number"
+msgstr "Free number will be issued, as soon as appears. Please, wait and don't click anything.\n\nAttempt to get number...\n\n<b>❗️Note, if you paid and couldn't get any number, please contact support</b>"
+
+msgid "not_finished"
+msgstr "❗️️To complete the purchase, you need to receive a confirmation code. Please wait until you receive the code before completing."
+
+msgid "paid_check"
+msgstr "<b>✅ Already paid\n\nClick on the confirm button!</b>"
 
 
 
