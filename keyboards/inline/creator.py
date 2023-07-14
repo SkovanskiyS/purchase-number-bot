@@ -64,16 +64,16 @@ class Pagination:
     def __init__(self):
         self.user_id = User.get_current().id
         self.db_api = DB_API()
-        self.db_api.connect()
-        self.page = self.db_api.get_current_page(self.user_id)[0]
-        self.lang = self.db_api.get_current_language(self.user_id)[0]
+        await self.db_api.connect()
+        self.page = await self.db_api.get_current_page(self.user_id)[0]
+        self.lang = await self.db_api.get_current_language(self.user_id)[0]
 
     def __call__(self, *args, **kwargs) -> InlineKeyboardMarkup:
         if self.page < 0:
             self.page = 17
         elif self.page > 17:
             self.page = 0
-        self.db_api.update_page(self.user_id, self.page)
+        await self.db_api.update_page(self.user_id, self.page)
         countries_data = countries_btn_[self.lang]
         bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{17}'}, {'next': '>>'}]
         countries_btn = [{key: value for d in countries_data[self.page] for key, value in d.items()}]
@@ -97,7 +97,7 @@ class Operator:
             for item in response_dict[self.country][self.product]:
                 cost: str = response_dict[self.country][self.product][item]['cost']
                 # cost modification
-                cost = change_price(cost)
+                cost = await change_price(cost)
                 quantity: str = response_dict[self.country][self.product][item]['count']
                 rate: str = ''
                 if 'rate' not in response_dict[self.country][self.product][item]:

@@ -1,5 +1,4 @@
 import logging
-
 import psycopg2
 
 from data.config import Config, load_config
@@ -15,7 +14,7 @@ class DB_API:
         self.database = self.config.db.database
         self.connection = None
 
-    def connect(self):
+    async def connect(self):
         try:
             self.connection = psycopg2.connect(
                 host=self.host,
@@ -27,7 +26,7 @@ class DB_API:
         except Exception as err:
             logging.info(str(err))
 
-    def create_table(self):
+    async def create_table(self):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -46,7 +45,7 @@ class DB_API:
                 """
             )
 
-    def insert_user(self, telegram_id, username, first_name, last_name, referral=None):
+    async def insert_user(self, telegram_id, username, first_name, last_name, referral=None):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -56,7 +55,7 @@ class DB_API:
                 (telegram_id, username, first_name, last_name, referral)
             )
 
-    def check_referral(self, user_id):
+    async def check_referral(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -67,7 +66,7 @@ class DB_API:
             )
             return cursor.fetchall()
 
-    def user_exists(self, user_id):
+    async def user_exists(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -78,7 +77,7 @@ class DB_API:
             user_exists = cursor.fetchone() is not None
             return user_exists
 
-    def get_current_language(self, user_id):
+    async def get_current_language(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -89,7 +88,7 @@ class DB_API:
 
             return cursor.fetchone()
 
-    def change_language(self, user_id, new_language):
+    async def change_language(self, user_id, new_language):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -98,7 +97,7 @@ class DB_API:
                 (new_language, user_id,)
             )
 
-    def get_current_page(self, user_id):
+    async def get_current_page(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -109,7 +108,7 @@ class DB_API:
 
             return cursor.fetchone()
 
-    def update_page(self, user_id, page):
+    async def update_page(self, user_id, page):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -118,7 +117,7 @@ class DB_API:
                 (page, user_id,)
             )
 
-    def get_all_info(self, user_id):
+    async def get_all_info(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -128,7 +127,7 @@ class DB_API:
             )
             return cursor.fetchone()
 
-    def get_user_id(self, user_id):
+    async def get_user_id(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -138,7 +137,7 @@ class DB_API:
             )
             return cursor.fetchone()
 
-    def get_all_banned_users(self):
+    async def get_all_banned_users(self):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -147,7 +146,7 @@ class DB_API:
             )
             return cursor.fetchall()
 
-    def get_bonus(self, user_id):
+    async def get_bonus(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -157,7 +156,7 @@ class DB_API:
             )
             return cursor.fetchone()
 
-    def update_bonus(self, amount, user_id):
+    async def update_bonus(self, amount, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -166,7 +165,7 @@ class DB_API:
                 (amount, user_id,)
             )
 
-    def clear_referral_number(self, user_id):
+    async def clear_referral_number(self, user_id):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """

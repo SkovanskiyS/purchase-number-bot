@@ -1,4 +1,4 @@
-def change_price(cost: float):
+async def change_price(cost: float):
     exchange_rate_of_rubl = 150.0
     cost_in_sum = cost * exchange_rate_of_rubl
     cost_to_pay = cost_in_sum + (cost_in_sum * 3)

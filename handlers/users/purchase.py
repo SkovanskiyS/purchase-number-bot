@@ -113,7 +113,7 @@ async def generate_confirmation_message(call, state):
     operator: str = all_data.get('operator')
     operator_info = GetPrice(country, service)
     d_dict = operator_info()[country][service][operator]
-    cost = change_price(d_dict['cost'])
+    cost = await change_price(d_dict['cost'])
     await state.update_data(cost=cost)
     text = f"<b>{_('confirm_text')}\n\n{_('service')}: <i>{service.title()}</i>\n" \
            f"\n{_('country')}: <i>{country.title()}</i>\n\n" \
@@ -136,8 +136,8 @@ async def use_bonuses(call: CallbackQuery, state: FSMContext):
     print(all_data)
     await call.message.delete()  # top_btn = [{'minus_ten': '-10'},{'minus_one':'-'}, {'plus_one':'+'}, {'plus_ten': '+10'}]
     db_api = DB_API()
-    db_api.connect()
-    all_bonuses = db_api.get_bonus(call.from_user.id)[0]
+    await db_api.connect()
+    all_bonuses = await db_api.get_bonus(call.from_user.id)[0]
     use_bonuses_count = all_data['bonus_count'] if 'bonus_count' in all_data else 0
     description = f"""
     <b>{_('your_bonuses')}: {all_bonuses}</b> 🌟\n
@@ -150,8 +150,8 @@ async def use_bonuses(call: CallbackQuery, state: FSMContext):
 
 async def handle_bonuses_change(call: CallbackQuery, state: FSMContext):
     db_api = DB_API()
-    db_api.connect()
-    all_bonuses = db_api.get_bonus(call.from_user.id)[0]
+    await db_api.connect()
+    all_bonuses = await db_api.get_bonus(call.from_user.id)[0]
     use_bonuses_count = 0
     all_data = await state.get_data()
     if 'bonus_count' in all_data:

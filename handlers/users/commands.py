@@ -15,13 +15,13 @@ from services.Payments.payme import PaymePay
 @rate_limit(limit=3)
 async def start_handler(msg: Message):
     db_api = DB_API()
-    db_api.connect()
-    if db_api.user_exists(msg.chat.id):
+    await db_api.connect()
+    if await db_api.user_exists(msg.chat.id):
         await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
     else:
         # adding user
         referral = msg.get_args() if len(msg.get_args()) > 0 else None
-        db_api.insert_user(
+        await db_api.insert_user(
             telegram_id=msg.from_user.id,
             username=msg.from_user.username,
             first_name=msg.from_user.first_name,
