@@ -1,6 +1,7 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
+from aiogram.types import ReplyKeyboardRemove
 
 from database.dbApi import DB_API
 from handlers.users.keyboard import cancel_purchase, buy_handler
@@ -239,14 +240,15 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
     if paid or call.from_user.id in config.tg_bot.ADMINS:
         await call.answer(_('paid'), show_alert=True)
         await call.message.delete()
-        await call.message.answer(_('trying_to_get_number'))
+        await call.message.answer(_('trying_to_get_number'),reply_markup=ReplyKeyboardRemove())
 
         data = await state.get_data()
         buy = Buy(data['country'], data['operator'], data['service'])
         res = await buy.purchase_number()
         if res != 'empty':
-            bonus = Bonus()
-            await bonus.remove_bonus(data['bonus_count'])
+            if 'bonus' in data:
+                bonus = Bonus()
+                await bonus.remove_bonus(data['bonus_count'])
             text = await normalize_response(res['id'], res['created_at'], res['phone'],
                                             res['product'], res['status'], res['expires'],
                                             res['sms'], res['country'], res['operator'], data['last_price'])

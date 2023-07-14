@@ -31,6 +31,8 @@ class Buy:
                 self.operator = 'any'
             if i > 200:
                 self.country = 'germany'
+            if i > 300:
+                self.country = 'any'
             print(i)
         try:
             print(response.json())
