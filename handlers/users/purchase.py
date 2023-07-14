@@ -7,12 +7,15 @@ from handlers.users.keyboard import cancel_purchase, buy_handler
 from i18n import _
 from keyboards.inline.creator import Bonuses
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
+from misc.bonuses import Bonus
 from misc.cost_modification import change_price, percent_from_bonus
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
 from services.Payments.payme import PaymePay
 from services.API_5sim.purchase import Buy
 from dateutil.parser import parse
+from keyboards.default.creator import CreateBtn
+from data.config import load_config
 
 
 async def back_btn(call: CallbackQuery, state: FSMContext):
@@ -208,34 +211,48 @@ async def payme_callback(call: CallbackQuery, state: FSMContext):
     await state.update_data(last_price=cost_data)
     formatting = cost_data.replace('сум', '').replace(',', '')
     formatted_output = f'{float(formatting) * 100:.2f}'
-    payme_obj = PaymePay(formatted_output, data['service'] + ' ' + data['country'])
-    # url_to_pay = await payme_obj.bill()
-    url_to_pay = 'https://payme.uz/checkout/64b03107bb51fe5bee562bd5?back=null&timeout=15000&lang=ru'
-    await state.update_data(url_for_payment=url_to_pay)
-    await call.message.delete()
-    await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
+    if formatted_output == '0.00':
+        await state.update_data(paid=True)
+        await call.message.delete()
+        await call.message.answer(_('paid_check'), reply_markup=CreateInlineBtn.confirm_btn())
+    else:
+        payme_obj = PaymePay(formatted_output, data['service'] + ' ' + data['country'])
+        url_to_pay = await payme_obj.bill()
+        # url_to_pay = 'https://payme.uz/checkout/64b03107bb51fe5bee562bd5?back=null&timeout=15000&lang=ru'
+        await state.update_data(url_for_payment=url_to_pay)
+        await call.message.delete()
+        await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
 
 
 async def check_payment(call: CallbackQuery, state: FSMContext):
     await call.message.answer(_('checking'))
     data = await state.get_data()
-    url_to_check = data['url_for_payment']
-    payme_obj = PaymePay(0, '')
-    paid = await payme_obj.check_status_of_payment(url_to_check)
-    if paid or call.from_user.id == 996346575:
+    print(data)
+    paid = None
+    config = load_config('../../.env')
+    if 'paid' not in data:
+        url_to_check = data['url_for_payment']
+        payme_obj = PaymePay(0, '')
+        paid = await payme_obj.check_status_of_payment(url_to_check)
+    else:
+        paid = True
+    if paid or call.from_user.id in config.tg_bot.ADMINS:
         await call.answer(_('paid'), show_alert=True)
         await call.message.delete()
         await call.message.answer(_('trying_to_get_number'))
 
         data = await state.get_data()
         buy = Buy(data['country'], data['operator'], data['service'])
-        res = buy.purchase_number()
+        res = await buy.purchase_number()
         if res != 'empty':
+            bonus = Bonus()
+            await bonus.remove_bonus(data['bonus_count'])
             text = await normalize_response(res['id'], res['created_at'], res['phone'],
                                             res['product'], res['status'], res['expires'],
                                             res['sms'], res['country'], res['operator'], data['last_price'])
-            await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(),parse_mode='MarkDown')
+            await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(), parse_mode='MarkDown')
             await state.update_data(product_id=res['id'])
+            await state.update_data(phone=res['phone'])
             await Purchase.purchase.set()
     else:
         await call.answer(_('not_paid'), show_alert=True)
@@ -248,19 +265,31 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
     res = None
     match call.data:
         case 'getsms':
-            res = buy.get_sms(data['product_id'])
+            res = await buy.get_sms(data['product_id'])
+        # case 're_buy':
+        #     formatted_phone = data['phone'].replace('+','')
+        #     res = buy.re_buy(data['service'],formatted_phone)
         case 'cancel_order':
-            res = buy.cancel_order(data['product_id'])
-        case 'banned':
-            res = buy.banned(data['product_id'])
+            res = await buy.cancel_order(data['product_id'])
+            await call.message.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
+            await state.finish()
+        # case 'banned':
+        #     res = buy.banned(data['product_id'])
+        #     await call.message.answer(_('blocked'))
+        #     await state.finish()
         case 'finish_order':
-            res = buy.finish_order(data['product_id'])
+            res = await buy.finish_order(data['product_id'])
+            if res == 'empty':
+                await call.answer(_('not_finished'), show_alert=True)
+            else:
+                await state.finish()
+                await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
     if res != 'empty':
         await call.message.delete()
         text = await normalize_response(res['id'], res['created_at'], res['phone'],
                                         res['product'], res['status'], res['expires'],
                                         res['sms'], res['country'], res['operator'], data['last_price'])
-        await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(),parse_mode='MarkDown')
+        await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(), parse_mode='MarkDown')
 
 
 async def normalize_response(product_id, created_at, phone, product, status, expires, sms, country, operator,

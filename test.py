@@ -1,8 +1,3 @@
-from datetime import datetime
-from dateutil.parser import parse
-
-output = "2023-07-13T19:42:29.056052354Z"
-parsed_output = parse(output)
-formatted_output = parsed_output.strftime("%Y-%m-%d %H:%M:%S")
-
-print(formatted_output)
+formatting = '0.00 сум'.replace('сум', '').replace(',', '')
+formatted_output = f'{float(formatting) * 100:.2f}'
+print(formatted_output == '0.00')
