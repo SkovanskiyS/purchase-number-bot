@@ -22,7 +22,6 @@ async def buy_handler(msg: Message) -> None:
 @rate_limit(limit=3)
 async def cancel_purchase(msg: Message, state: FSMContext) -> None:
     await state.reset_state()
-    current_page['page'] = 0
     await msg.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
 
 
@@ -35,11 +34,11 @@ async def change_language(msg: Message):
 async def my_profile(msg: Message):
     userId = msg.from_user.id
     db_api = DB_API()
-    await db_api.connect()
-    all_data = await db_api.get_all_info(userId)
-    referrals = await db_api.check_referral(userId)
+    db_api.connect()
+    all_data = db_api.get_all_info(userId)
+    referrals = db_api.check_referral(userId)
     ref_count = len(referrals) if referrals is not None else 0
-    user_id = await db_api.get_user_id(userId)
+    user_id = db_api.get_user_id(userId)
     bot_username = await msg.bot.get_me()
     ref_link = f'https://t.me/{bot_username.username}?start={user_id[0]}'
     dateTime: datetime = all_data[6]

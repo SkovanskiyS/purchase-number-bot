@@ -38,8 +38,8 @@ async def main() -> None:
 
     # create a table
     database_api = DB_API()
-    await database_api.connect()
-    await database_api.create_table()
+    database_api.connect()
+    database_api.create_table()
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.skip_updates()

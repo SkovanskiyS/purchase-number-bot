@@ -14,9 +14,9 @@ async def choose_language(call: CallbackQuery):
 
 async def change_language(call: CallbackQuery, state: FSMContext):
     database_api = DB_API()
-    await database_api.connect()
+    database_api.connect()
     lang = call.data.split(':')  # lang:ru - output [lang,ru]
-    await database_api.change_language(call.from_user.id, lang[1])
+    database_api.change_language(call.from_user.id, lang[1])
     await call.message.answer(_('language_changed'), reply_markup=CreateBtn.MenuBtn())
 
 
