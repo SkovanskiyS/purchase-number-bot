@@ -91,3 +91,12 @@ class DB_API_ADMIN:
                 """,
                 (user_id,)
             )
+
+    def get_user_id(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT user_id FROM botusers
+                """
+            )
+            return cursor.fetchall()

@@ -1,10 +1,12 @@
 from datetime import datetime
 
 import pandas as pd
-from aiogram import Dispatcher
+
+from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from aiogram.types import Message, InputFile
+from aiogram.dispatcher.filters import ContentTypeFilter
 
 from database.admin_panel import DB_API_ADMIN
 from filters.isAdmin import AdminFilter
@@ -157,6 +159,45 @@ async def convert_to_excel(data):
     writer.close()
 
 
+async def mailing_with_photo(msg: Message):
+    await msg.answer('Отправьте фото и текст как одно сообщение')
+    await AdminState.with_pic.set()
+
+
+async def mailing_with_photo_state(msg: Message, state: FSMContext):
+    try:
+        largest_photo = msg.photo[-1].file_id
+        db = DB_API_ADMIN()
+        db.connect()
+        user_id_list = db.get_user_id()
+        for i in user_id_list:
+            await msg.bot.send_photo(i[0], photo=largest_photo, caption=msg.caption)
+            await msg.answer(f'Успешно отправлено: {i[0]}')
+    except Exception as err:
+        await msg.answer(err)
+    finally:
+        await state.finish()
+
+
+async def mailing_text(msg: Message):
+    await msg.answer('Отправьте текст как одно сообщение')
+    await AdminState.without_pic.set()
+
+
+async def mailing_text_state(msg: Message, state: FSMContext):
+    try:
+        db = DB_API_ADMIN()
+        db.connect()
+        user_id_list = db.get_user_id()
+        for i in user_id_list:
+            await msg.bot.send_message(i[0], msg.text)
+            await msg.answer(f'Успешно отправлено: {i[0]}')
+    except Exception as err:
+        await msg.answer(err)
+    finally:
+        await state.finish()
+
+
 def register_admin_handler(dp: Dispatcher):
     dp.register_message_handler(start_command, Command('admin'), AdminFilter())
     with_text: dict = {
@@ -166,7 +207,9 @@ def register_admin_handler(dp: Dispatcher):
         unblock_user: Text(equals='✅ Разблокировать'),
         change_bonus: Text(equals='🌟 Изменить баллы'),
         referral_check: Text(equals='🔗 Получить все рефералы'),
-        delete_user: Text(equals='🗑 Удалить пользователя')
+        delete_user: Text(equals='🗑 Удалить пользователя'),
+        mailing_with_photo: Text(equals='🖼 Рассылка с фото'),
+        mailing_text: Text(equals='💬 Рассылка без фото')
     }
     for key, value in with_text.items():
         dp.register_message_handler(key, value, AdminFilter())
@@ -176,7 +219,10 @@ def register_admin_handler(dp: Dispatcher):
         unblock_user_state: AdminState.user_id_unblock,
         change_bonus_state: AdminState.bonus,
         referrals_check_state: AdminState.referral,
-        delete_user_state: AdminState.delete_user
+        delete_user_state: AdminState.delete_user,
+        mailing_text_state: AdminState.without_pic
     }
     for key, value in only_states.items():
         dp.register_message_handler(key, state=value)
+    dp.register_message_handler(mailing_with_photo_state, content_types=types.ContentType.PHOTO,
+                                state=AdminState.with_pic)

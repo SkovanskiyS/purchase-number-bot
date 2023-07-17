@@ -23,3 +23,5 @@ class AdminState(StatesGroup):
     bonus = State()
     referral = State()
     delete_user = State()
+    with_pic = State()
+    without_pic = State()
