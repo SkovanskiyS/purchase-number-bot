@@ -34,7 +34,7 @@ class PaymePay:
     def check_status_of_payment(self, url, loop):
         options = webdriver.ChromeOptions()
         url_to_check = url
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         service = Service(executable_path='../../chromedriver/chromedriver')
         driver = webdriver.Chrome(service=service, options=options)
         driver.implicitly_wait(10)

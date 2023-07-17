@@ -23,7 +23,6 @@ class Buy:
         i = 0
         while response.text == 'no free phones':
             await asyncio.sleep(.5)
-            print(i)
             buy_url = f'https://5sim.net/v1/user/buy/activation/{self.country}/{self.operator}/{self.product}?reuse=1'
             response = requests.get(buy_url, headers=self.header)
             if i > 20:
