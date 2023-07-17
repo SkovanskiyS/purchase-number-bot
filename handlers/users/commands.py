@@ -25,8 +25,8 @@ async def start_handler(msg: Message):
         db_api.insert_user(
             telegram_id=msg.from_user.id,
             username=msg.from_user.username,
-            first_name=msg.from_user.first_name,
-            last_name=msg.from_user.last_name,
+            first_name=msg.from_user.first_name.encode('utf-8'),
+            last_name=msg.from_user.last_name.encode('utf-8'),
             referral=referral
         )
         await msg.answer(
