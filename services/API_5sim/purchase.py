@@ -1,3 +1,5 @@
+import asyncio
+
 import requests
 from data.config import load_config
 
@@ -16,26 +18,24 @@ class Buy:
         }
 
     async def purchase_number(self):
-        print(self.country)
-        print(self.operator)
         buy_url = f'https://5sim.net/v1/user/buy/activation/{self.country}/{self.operator}/{self.product}?reuse=1'
         response = requests.get(buy_url, headers=self.header)
         i = 0
         while response.text == 'no free phones':
-            buy_url = f'https://5sim.net/v1/user/buy/activation/{self.country}/{self.operator}/{self.product}?reuse=1'
-            print(self.operator)
-            print(self.country)
-            i += 1
-            response = requests.get(buy_url, headers=self.header)
-            if i > 100:
-                self.operator = 'any'
-            if i > 200:
-                self.country = 'germany'
-            if i > 300:
-                self.country = 'any'
+            await asyncio.sleep(.5)
             print(i)
+            buy_url = f'https://5sim.net/v1/user/buy/activation/{self.country}/{self.operator}/{self.product}?reuse=1'
+            response = requests.get(buy_url, headers=self.header)
+            if i > 20:
+                self.operator = 'any'
+            if i > 30:
+                self.country = 'germany'
+            if i > 50:
+                self.country = 'any'
+            if i > 100:
+                return 'failed'
+            i += 1
         try:
-            print(response.json())
             return response.json()
         except Exception as err:
             return 'empty'
@@ -55,8 +55,11 @@ class Buy:
 
     async def cancel_order(self, product_id):
         cancel_url = f'https://5sim.net/v1/user/cancel/{product_id}'
-        response = requests.get(cancel_url, headers=self.header).json()
-        return response
+        response = requests.get(cancel_url, headers=self.header)
+        try:
+            return response.json()
+        except Exception as err:
+            return 'cancel error'
 
     def banned(self, product_id):
         banned_url = f'https://5sim.net/v1/user/ban/{product_id}'
@@ -64,11 +67,8 @@ class Buy:
         return response
 
     def re_buy(self, product, number):
-        print(number)
         re_buy_url = f'https://5sim.net/v1/user/reuse/{product}/{number}'
-        print(re_buy_url)
         response = requests.get(re_buy_url, headers=self.header)
-        print(response)
         i = 0
         while response.text == 'no free phones':
             i += 1
@@ -77,9 +77,7 @@ class Buy:
                 self.operator = 'any'
             elif i > 200:
                 self.country = 'germany'
-            print(i)
         try:
-            print(response.json())
             return response.json()
         except Exception as err:
             return 'empty'

@@ -1,22 +1,26 @@
+from datetime import timedelta
+from misc.threading import ThreadWithReturnValue
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 from aiogram.types import ReplyKeyboardRemove
+from dateutil.parser import parse
 
+from data.config import load_config
 from database.dbApi import DB_API
 from handlers.users.keyboard import cancel_purchase, buy_handler
 from i18n import _
+from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import Bonuses
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.bonuses import Bonus
 from misc.cost_modification import change_price, percent_from_bonus
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
-from services.Payments.payme import PaymePay
 from services.API_5sim.purchase import Buy
-from dateutil.parser import parse
-from keyboards.default.creator import CreateBtn
-from data.config import load_config
+from services.Payments.payme import PaymePay
+
+
 
 
 async def back_btn(call: CallbackQuery, state: FSMContext):
@@ -44,7 +48,6 @@ async def back_btn(call: CallbackQuery, state: FSMContext):
         if 'new_cost' in data and 'bonus_count' in data:
             await state.update_data(new_cost=None)
             await state.update_data(bonus_count=None)
-        print(data)
         await generate_confirmation_message(call, state)
 
 
@@ -126,14 +129,12 @@ async def confirm_data(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     await call.message.delete()
     text = f'{_("choose")}'
-    print(data)
     await call.message.answer(text, reply_markup=CreateInlineBtn.payment())
     await Purchase.payment.set()
 
 
 async def use_bonuses(call: CallbackQuery, state: FSMContext):
     all_data = await state.get_data()
-    print(all_data)
     await call.message.delete()  # top_btn = [{'minus_ten': '-10'},{'minus_one':'-'}, {'plus_one':'+'}, {'plus_ten': '+10'}]
     db_api = DB_API()
     db_api.connect()
@@ -188,6 +189,8 @@ async def confirm_bonus(call: CallbackQuery, state: FSMContext):
     if 'bonus_count' in data:
         new_cost = await percent_from_bonus(data['bonus_count'])
         percent_bonus = float('{:.1f}'.format(new_cost))
+        if percent_bonus > 100:
+            percent_bonus = 100
         await call.message.delete()
         all_data = await state.get_data()
         service: str = all_data.get('service')
@@ -212,41 +215,50 @@ async def payme_callback(call: CallbackQuery, state: FSMContext):
     await state.update_data(last_price=cost_data)
     formatting = cost_data.replace('сум', '').replace(',', '')
     formatted_output = f'{float(formatting) * 100:.2f}'
-    if formatted_output == '0.00':
+    config = load_config('../../.env')
+    if formatted_output == '0.00' or call.from_user.id in config.tg_bot.ADMINS:
         await state.update_data(paid=True)
         await call.message.delete()
         await call.message.answer(_('paid_check'), reply_markup=CreateInlineBtn.confirm_btn())
     else:
-        payme_obj = PaymePay(formatted_output, data['service'] + ' ' + data['country'])
+        payme_obj = PaymePay(formatted_output,
+                             data['service'] + ' | ' + data['country'] + ' | ' + str(call.from_user.id))
         url_to_pay = await payme_obj.bill()
-        # url_to_pay = 'https://payme.uz/checkout/64b03107bb51fe5bee562bd5?back=null&timeout=15000&lang=ru'
         await state.update_data(url_for_payment=url_to_pay)
         await call.message.delete()
         await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
 
 
+async def other_payments(call: CallbackQuery, state: FSMContext):
+    await call.answer(_('not_available'), show_alert=True)
+
+
 async def check_payment(call: CallbackQuery, state: FSMContext):
+    import asyncio
     await call.message.answer(_('checking'))
     data = await state.get_data()
-    print(data)
     paid = None
     config = load_config('../../.env')
     if 'paid' not in data:
         url_to_check = data['url_for_payment']
         payme_obj = PaymePay(0, '')
-        paid = await payme_obj.check_status_of_payment(url_to_check)
+        loop = asyncio.get_event_loop()
+        thread = ThreadWithReturnValue(target=payme_obj.check_status_of_payment, args=(url_to_check, loop,))
+        thread.start()
+        paid = thread.join()
     else:
         paid = True
     if paid or call.from_user.id in config.tg_bot.ADMINS:
-        await call.answer(_('paid'), show_alert=True)
+        await call.answer(_('paid'), show_alert=True, cache_time=60)
         await call.message.delete()
-        await call.message.answer(_('trying_to_get_number'),reply_markup=ReplyKeyboardRemove())
+        await call.message.answer(_('trying_to_get_number'), reply_markup=ReplyKeyboardRemove())
 
         data = await state.get_data()
         buy = Buy(data['country'], data['operator'], data['service'])
-        res = await buy.purchase_number()
+        import asyncio
+        res = await asyncio.create_task(buy.purchase_number())
         if res != 'empty':
-            if 'bonus' in data:
+            if 'bonus_count' in data:
                 bonus = Bonus()
                 await bonus.remove_bonus(data['bonus_count'])
             text = await normalize_response(res['id'], res['created_at'], res['phone'],
@@ -256,6 +268,9 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
             await state.update_data(product_id=res['id'])
             await state.update_data(phone=res['phone'])
             await Purchase.purchase.set()
+        if res == 'failed':
+            await state.finish()
+            await call.message.answer(_('smth_wrong'))
     else:
         await call.answer(_('not_paid'), show_alert=True)
         await payme_callback(call, state)
@@ -297,10 +312,14 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
 async def normalize_response(product_id, created_at, phone, product, status, expires, sms, country, operator,
                              last_price):
     parsed_output_expires = parse(expires)
-    formatted_output_expires = parsed_output_expires.strftime("%Y-%m-%d %H:%M:%S")
+    modified_datetime_expires = parsed_output_expires + timedelta(hours=5)
+
+    formatted_output_expires = modified_datetime_expires.strftime("%Y-%m-%d %H:%M:%S")
 
     parsed_output_created = parse(created_at)
-    formatted_output_created_at = parsed_output_created.strftime("%Y-%m-%d %H:%M:%S")
+    modified_datetime_created = parsed_output_created + timedelta(hours=5)
+
+    formatted_output_created_at = modified_datetime_created.strftime("%Y-%m-%d %H:%M:%S")
 
     code_list = []
     sms = sms if sms is not None else []
@@ -309,7 +328,7 @@ async def normalize_response(product_id, created_at, phone, product, status, exp
     text = f'''
 🆔: {product_id}
 
-{_('phone')}: *{phone}*
+{_('phone')}: `{phone}`
 {_('sms')}: `{code_list}`
 
 {_('created_at')}: *{formatted_output_created_at}*
@@ -336,6 +355,8 @@ def register_callbacks(dp: Dispatcher):
     dp.register_callback_query_handler(use_bonuses, state=Purchase.confirm, text='bonus')
     dp.register_callback_query_handler(handle_bonuses_change, state=Purchase.bonus, text_contains='change')
     dp.register_callback_query_handler(confirm_bonus, state=Purchase.bonus, text='confirm_bonus')
+    dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='click')
+    dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='qiwi')
     dp.register_callback_query_handler(payme_callback, state=Purchase.payment, text='payme')
     dp.register_callback_query_handler(check_payment, state=Purchase.payment, text='confirm_payment')
     dp.register_callback_query_handler(get_sms_handler, state=Purchase.purchase)

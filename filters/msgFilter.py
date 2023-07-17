@@ -1,2 +1,0 @@
-class MessageFilter:
-    pass

@@ -1,3 +1,11 @@
-aiogram~=2.25.1
 environs~=9.5.0
-psycopg2-binary~=2.9.6
+aiogram~=2.25.1
+
+requests~=2.31.0
+dataclasses~=0.6
+beautifulsoup4~=4.12.2
+httplib2~=0.22.0
+selenium~=4.10.0
+python-dateutil~=2.8.2
+pandas~=2.0.3
+XlsxWriter~=3.1.2

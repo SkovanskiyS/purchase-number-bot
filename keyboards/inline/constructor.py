@@ -4,14 +4,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class Constructor:
     def create_inline_btn(
             btn: list,
-            url=None,
-            web_app=None,
-            login_url=None,
-            switch_inline_query=None,
-            switch_inline_query_current_chat=None,
-            switch_inline_query_chosen_chat=None,
-            callback_game=None,
-            pay=None,
+            url=None
     ):
         inlineBtnObject = []
         for i, j in enumerate(btn):
@@ -21,24 +14,9 @@ class Constructor:
                 for k in j:
                     for key, value in k.items():
                         inlineBtnObject[index].append(InlineKeyboardButton(
-                            text=value, callback_data=key, url=url,
-                            web_app=web_app,
-                            login_url=login_url,
-                            switch_inline_query=switch_inline_query,
-                            switch_inline_query_current_chat=switch_inline_query_current_chat,
-                            switch_inline_query_chosen_chat=switch_inline_query_chosen_chat,
-                            callback_game=callback_game,
-                            pay=pay,
-                        ))
+                            text=value, callback_data=key, url=url))
             else:
                 for key, value in j[0].items():
-                    inlineBtnObject.append([InlineKeyboardButton(text=value, callback_data=key, url=url,
-                                                                 web_app=web_app,
-                                                                 login_url=login_url,
-                                                                 switch_inline_query=switch_inline_query,
-                                                                 switch_inline_query_current_chat=switch_inline_query_current_chat,
-                                                                 switch_inline_query_chosen_chat=switch_inline_query_chosen_chat,
-                                                                 callback_game=callback_game,
-                                                                 pay=pay, )])
+                    inlineBtnObject.append([InlineKeyboardButton(text=value, callback_data=key, url=url)])
 
         return InlineKeyboardMarkup(inline_keyboard=inlineBtnObject)

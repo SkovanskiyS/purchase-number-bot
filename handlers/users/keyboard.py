@@ -19,7 +19,6 @@ async def buy_handler(msg: Message) -> None:
     await Purchase.first()
 
 
-@rate_limit(limit=3)
 async def cancel_purchase(msg: Message, state: FSMContext) -> None:
     await state.reset_state()
     await msg.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
