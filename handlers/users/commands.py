@@ -18,6 +18,7 @@ async def start_handler(msg: Message):
     db_api.connect()
     if db_api.user_exists(msg.chat.id):
         await msg.answer(_('start'), reply_markup=CreateBtn.MenuBtn())
+        await msg.answer(_('faq'))
     else:
         # adding user
         referral = msg.get_args() if len(msg.get_args()) > 0 else None
@@ -40,7 +41,11 @@ async def help_handler(msg: Message):
 
 @rate_limit(limit=3)
 async def faq_handler(msg: Message):
-    await msg.answer(_('faq'), reply_markup=CreateBtn.MenuBtn())
+    await msg.answer("""
+English: https://telegra.ph/How-to-use-the-bot---BAN-Buy-Activation-Number-07-16\n
+Russian: https://telegra.ph/Kak-polzovatsya-botom---BAN-Buy-Activation-Number-07-16\n
+Uzbek: https://telegra.ph/Botdan-qanday-foydalanish---BAN-Buy-Activation-Number-07-16
+    """, reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=3)

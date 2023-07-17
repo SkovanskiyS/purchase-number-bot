@@ -14,3 +14,12 @@ class Purchase(StatesGroup):
 
 class Language(StatesGroup):
     change_language = State()
+
+
+class AdminState(StatesGroup):
+    user_id_search = State()
+    user_id_block = State()
+    user_id_unblock = State()
+    bonus = State()
+    referral = State()
+    delete_user = State()

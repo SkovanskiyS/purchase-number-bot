@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, User
 
 from database.dbApi import DB_API
-from database.others import countries_btn_
+from database.countries import countries_btn_
 from i18n import _
 from keyboards.inline.constructor import Constructor
 from misc.cost_modification import change_price
@@ -12,7 +12,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 class CreateInlineBtn(Constructor):
     @staticmethod
     def services():
-        return Constructor.create_inline_btn([[{'openai': _('chatgpt')}]])
+        return Constructor.create_inline_btn([[{'openai': _('chatgpt')}],[{'google':'🌐 Google'},{'yandex':'🌮 Yandex'}],[{'amazon':'🚚 Amazon'}]])
 
     @staticmethod
     def confirmation():
@@ -70,12 +70,12 @@ class Pagination:
 
     def __call__(self, *args, **kwargs) -> InlineKeyboardMarkup:
         if self.page < 0:
-            self.page = 17
-        elif self.page > 17:
+            self.page = 7
+        elif self.page > 7:
             self.page = 0
         self.db_api.update_page(self.user_id, self.page)
         countries_data = countries_btn_[self.lang]
-        bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{17}'}, {'next': '>>'}]
+        bottom_btn = [{'previous': '<<'}, {'page': f'{self.page}/{7}'}, {'next': '>>'}]
         countries_btn = [{key: value for d in countries_data[self.page] for key, value in d.items()}]
         back_btn = [{'back': _('back')}]
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn, back_btn])

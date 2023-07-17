@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import threading
 
 from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -11,6 +12,7 @@ from middleware.registration import Registration
 from middleware.throttling import ThrottlingMiddleware
 from services.commands import set_main_menu
 from database.dbApi import DB_API
+from services.Payments.payme import PaymePay
 
 
 async def main() -> None:
@@ -48,3 +50,4 @@ async def main() -> None:
 
 if __name__ == '__main__':
     asyncio.run(main())
+
