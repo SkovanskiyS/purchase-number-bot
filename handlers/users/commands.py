@@ -22,11 +22,12 @@ async def start_handler(msg: Message):
     else:
         # adding user
         referral = msg.get_args() if len(msg.get_args()) > 0 else None
+        last_name = ' ' if msg.from_user.last_name == None else msg.from_user.last_name
         db_api.insert_user(
             telegram_id=msg.from_user.id,
             username=msg.from_user.username,
-            first_name=msg.from_user.first_name,
-            last_name=msg.from_user.last_name,
+            first_name=msg.from_user.first_name.encode('utf-8',errors='replace'),
+            last_name=last_name.encode('utf-8',errors='replace'),
             referral=referral
         )
         await msg.answer(

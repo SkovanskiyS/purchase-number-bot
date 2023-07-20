@@ -35,7 +35,9 @@ class PaymePay:
         options = webdriver.ChromeOptions()
         url_to_check = url
         options.add_argument('--headless')
-        service = Service(executable_path='../../chromedriver/chromedriver')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        service = Service(executable_path='/home/ban_bot/purchase-number-bot/chromedriver')
         driver = webdriver.Chrome(service=service, options=options)
         driver.implicitly_wait(10)
         try:

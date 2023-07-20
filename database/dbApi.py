@@ -20,7 +20,8 @@ class DB_API:
                 host=self.host,
                 user=self.user,
                 password=self.password,
-                database=self.database
+                database=self.database,
+		client_encoding="utf8"
             )
             self.connection.autocommit = True
         except Exception as err:
