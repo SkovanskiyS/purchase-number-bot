@@ -4,7 +4,7 @@ import psycopg2
 from data.config import Config, load_config
 
 
-class DB_API:
+class  DB_API:
     config: Config = load_config('.env')
 
     def __init__(self):
