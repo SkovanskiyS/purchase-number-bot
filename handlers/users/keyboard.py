@@ -41,14 +41,12 @@ async def my_profile(msg: Message):
     bot_username = await msg.bot.get_me()
     ref_link = f'https://t.me/{bot_username.username}?start={user_id[0]}'
     dateTime: datetime = all_data[6]
-
+    
     caption_text = f"""
          <b>{_("my_profile")}</b>\n
 <i>ID:</i> <b>{all_data[0]}</b>
 <i>Telegram ID: </i><b>{all_data[1]}</b>
 <i>Username: </i><b>@{all_data[2]}</b>\n
-{_('your_name')}: <b>{all_data[3]}</b>
-{_('your_lastname')}: <b>{all_data[4]}</b>
 {_('your_language')}: <b>{all_data[5]}</b>\n
 {_('reg_date')}: <b>{dateTime.strftime("%Y-%m-%d %H:%M:%S")}</b>
 {_('bonus')}: <b>{all_data[7]}</b>
