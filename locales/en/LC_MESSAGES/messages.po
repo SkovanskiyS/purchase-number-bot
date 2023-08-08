@@ -129,7 +129,7 @@ msgstr "🔽 Choose one of the provided services."
 
 #: handlers/users/keyboard.py:28
 msgid "canceled"
-msgstr "⛔️ You canceled the order"
+msgstr "⛔️ You canceled the order\n\n<b>Money and bonuses have been refunded to your account</b>"
 
 #: handlers/users/keyboard.py:38 keyboards/default/creator.py:12
 msgid "cancel"
@@ -137,11 +137,11 @@ msgstr "🚫 Cancel Purchase"
 
 #: handlers/users/keyboard.py:40 keyboards/default/creator.py:8
 msgid "buy_number"
-msgstr "📲 Start Shopping"
+msgstr "🛍 Start Shopping"
 
 #: handlers/users/keyboard.py:41 keyboards/default/creator.py:8
 msgid "change_lang"
-msgstr "🏳️ Language"
+msgstr "👅 Language"
 
 #: handlers/users/language.py:30
 msgid "language_changed"
@@ -215,7 +215,7 @@ msgid "back"
 msgstr "🔙 Back"
 
 msgid "my_profile"
-msgstr "👤 My profile"
+msgstr "🧰 My profile"
 
 msgid "your_name"
 msgstr "💥 Your name"
@@ -251,8 +251,7 @@ msgid "check_payment"
 msgstr "⚠️ Follow the link by clicking on the button <i>Pay</i>\n\n<b>✅ After successful payment, click on the confirm button!</b>"
 
 msgid "paid"
-msgstr "✅Great, the payment has been successful."
-
+msgstr "<b>✅ Great, the payment was successful.\n\nNow check your balance in the "💰 My Balance" tab</b>"
 
 msgid "not_paid"
 msgstr "❌ Something went wrong, the payment did not go through.\n\nIf you paid and received this notification, please contact support!"
@@ -352,3 +351,62 @@ msgstr "<b>Before buying, read the tutorial on using the bot</b>:\n\nhttps://tel
 
 msgid "cant_cancel"
 msgstr "❗️You cannot cancel the order so fast"
+
+msgid "balance_btn"
+msgstr "💰 My balance"
+
+msgid "replenish_balance"
+msgstr "🤑 Replenish the balance"
+
+msgid "your_balance"
+msgstr "💶 Your balance is"
+
+msgid "balance_add_info"
+msgstr "Keep in mind, after the replenishment, you won't be able to withdraw the money back, but if there are any issues from the bot's side, please contact the administrator.\n\n👇 Select the amount to fill"
+
+msgid "other_sum_text"
+msgstr "🔮 Other amount"
+
+msgid "cancel_balance"
+msgstr "🚫 Cancel"
+
+msgid "write_sum"
+msgstr "🧑‍💻 Enter the amount to fill\n\n<b>Minimum amount: 1,000 sum\nMaximum amount: 1,000,000 sum</b>\n\n<i>Example: 11 500</i>"
+
+msgid "not_enough_money"
+msgstr "🤷 You don't have enough money to purchase this product. Please top up your balance by going to the "💰 My Balance" tab in the main menu."
+
+msgid "top_countries_text"
+msgstr "⚡️ TOP 10"
+
+msgid "all_countries_text"
+msgstr "🌆 All countries"
+
+msgid "choose_country"
+msgstr ""
+
+msgid "choose_top10"
+msgstr "👇 Top 10 countries with successful SMS arrival services."
+
+msgid "choose_type_country"
+msgstr "💯 Select country type"
+
+msgid "top10_not_available"
+msgstr "🤷‍♀️ This service doesn't have a top 10 country ranking.\n\nOnly Telegram and ChatGPT support the top 10 countries list."
+
+msgid "no_sms_text"
+msgstr "🚫 Why SMS does not arrive?"
+
+msgid "sms_notification"
+msgstr "1. Repeat sending the SMS code from the selected service to the purchased phone number.\n2. Use only official telegram application\n3. Try to buy another phone number."
+
+msgid "how_use"
+msgstr "❓ How to use the bot"
+
+msgid "support"
+msgstr "🆘 Support"
+
+
+
+
+

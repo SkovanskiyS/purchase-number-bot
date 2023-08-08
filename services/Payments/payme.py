@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from data.config import Config, load_config
-
+from aiogram.types import Message, User
 
 class PaymePay:
     config: Config = load_config('../../.env')
@@ -31,7 +31,7 @@ class PaymePay:
         response_url = soup.find('meta', property='og:url')['content']
         return response_url
 
-    def check_status_of_payment(self, url, loop):
+    def check_status_of_payment(self, url, loop=None):
         options = webdriver.ChromeOptions()
         url_to_check = url
         options.add_argument('--headless')
@@ -39,7 +39,7 @@ class PaymePay:
         options.add_argument('--disable-dev-shm-usage')
         service = Service(executable_path='/home/ban_bot/purchase-number-bot/chromedriver')
         driver = webdriver.Chrome(service=service, options=options)
-        driver.implicitly_wait(10)
+        driver.implicitly_wait(20)
         try:
             driver.get(url_to_check)
             output = driver.find_element(By.CLASS_NAME, 'mb-2').text

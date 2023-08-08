@@ -100,3 +100,21 @@ class DB_API_ADMIN:
                 """
             )
             return cursor.fetchall()
+
+    def get_balance(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT balance FROM botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            return cursor.fetchone()
+
+    def update_balance(self, user_id, money):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE botusers SET balance = %s WHERE user_id = %s
+                """, (money, user_id)
+            )

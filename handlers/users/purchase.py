@@ -1,26 +1,24 @@
 from datetime import timedelta
-from misc.threading import ThreadWithReturnValue
+
 from aiogram import Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery, Message
 from aiogram.types import ReplyKeyboardRemove
 from dateutil.parser import parse
 
-from data.config import load_config
 from database.dbApi import DB_API
-from handlers.users.keyboard import cancel_purchase, buy_handler
+from handlers.users.keyboard import cancel_purchase, buy_handler, back_buy_handler
 from i18n import _
 from keyboards.default.creator import CreateBtn
-from keyboards.inline.creator import Bonuses
+from keyboards.inline.creator import Bonuses, TopCountries_Btn
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.bonuses import Bonus
 from misc.cost_modification import change_price, percent_from_bonus
 from misc.states import Purchase
 from services.API_5sim.fetch_operator import GetPrice
 from services.API_5sim.purchase import Buy
-from services.Payments.payme import PaymePay
-
-
+from database.countries import telegram_top_countries
+from database.countries import chatgpt_top_countries
 
 
 async def back_btn(call: CallbackQuery, state: FSMContext):
@@ -29,14 +27,23 @@ async def back_btn(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     if current_state == 'service':
         await cancel_purchase(call.message, state)
-    elif current_state == 'country':
+    elif current_state == 'country' or current_state == 'top':
         await call.message.delete()
-        await buy_handler(call.message)
+        await call.message.answer(_('choose_type_country'), reply_markup=CreateInlineBtn.choose_type_country())
+        await Purchase.country_choose.set()
+    elif current_state == 'country_choose':
+        await call.message.delete()
+        await back_buy_handler(call.message)
     elif current_state == 'operator':
-        pagination_obj = Pagination()
-        await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
-        await Purchase.country.set()
         await call.message.delete()
+        if 'type' in data and data['type'] == 'top':
+            countries_btn = TopCountries_Btn(data['count_obj'])
+            await call.message.answer(_('choose_top10'), reply_markup=countries_btn())
+            await Purchase.top.set()
+        else:
+            pagination_obj = Pagination()
+            await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+            await Purchase.country.set()
     elif current_state == 'confirm':
         operator_obj = Operator(country=data['country'], product=data['service'])
         inline_keyboard = operator_obj()
@@ -47,7 +54,7 @@ async def back_btn(call: CallbackQuery, state: FSMContext):
     elif current_state == 'bonus':
         if 'new_cost' in data and 'bonus_count' in data:
             await state.update_data(new_cost=None)
-            await state.update_data(bonus_count=None)
+        await state.update_data(bonus_count=0)
         await generate_confirmation_message(call, state)
 
 
@@ -55,9 +62,55 @@ async def service_handler(call: CallbackQuery, state: FSMContext) -> None:
     async with state.proxy() as data:
         data['service'] = call.data
     await call.message.delete()
-    pagination_obj = Pagination()
-    await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
-    await Purchase.next()
+    await call.message.answer(_('choose_type_country'), reply_markup=CreateInlineBtn.choose_type_country())
+    await Purchase.country_choose.set()
+
+
+async def country_choose_handler(call: CallbackQuery, state: FSMContext):
+    all_data = await state.get_data()
+    if call.data == 'all':
+        await call.message.delete()
+        pagination_obj = Pagination()
+        await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+        await Purchase.country.set()
+    elif call.data == 'top':
+        service = all_data.get('service')
+        countries_obj = telegram_top_countries if service == 'telegram' else chatgpt_top_countries if service == 'openai' else None
+        if countries_obj:
+            await call.message.delete()
+            pagination = Pagination()
+            pagination.type = 'top'
+            pagination.countries_obj = countries_obj
+            countries_btn = TopCountries_Btn(countries_obj)
+            await call.message.answer(_('choose_top10'), reply_markup=countries_btn())
+            await state.update_data(count_obj=countries_obj)
+            await state.update_data(type='top')
+            await Purchase.top.set()
+        else:
+            await call.answer(_('top10_not_available'), show_alert=True)
+
+
+async def top10_handler(call: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    async with state.proxy() as data:
+        data['country'] = call.data
+    await call.message.delete()
+    operator_obj = Operator(country=data['country'], product=data['service'])
+    inline_keyboard = operator_obj()
+    if inline_keyboard:
+        await call.message.answer(_('choose_operator') + '\n' + operator_obj.description,
+                                  reply_markup=inline_keyboard, disable_web_page_preview=True)
+        await Purchase.operator.set()
+    else:
+        await call.answer(_('no_operator'), show_alert=True)
+        if data['type'] == 'top':
+            countries_btn = TopCountries_Btn(data['count_obj'])
+            await call.message.answer(_('choose_top10'), reply_markup=countries_btn())
+            await Purchase.top.set()
+        else:
+            pagination_obj = Pagination()
+            await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+            await Purchase.country.set()
 
 
 async def country_handler(call: CallbackQuery, state: FSMContext):
@@ -68,7 +121,7 @@ async def country_handler(call: CallbackQuery, state: FSMContext):
         case 'previous':
             pagination_obj.page -= 1
         case 'page':
-            pagination_obj.page += 5
+            pagination_obj.page += 3
         case _:
             async with state.proxy() as data:
                 data['country'] = call.data
@@ -98,12 +151,16 @@ async def operator_handler(call: CallbackQuery, state: FSMContext):
     operator_info = GetPrice(country, service)
     d_dict = operator_info()[country][service][operator]
     if not d_dict['count']:
-        pagination_obj = Pagination()
         await call.message.delete()
         await call.answer(_('empty'), show_alert=True)
-        await call.message.answer(_('empty'))
-        await Purchase.country.set()
-        await call.message.answer(_('choose_country'), reply_markup=pagination_obj())
+        if data['type'] == 'top':
+            countries_btn = TopCountries_Btn(data['count_obj'])
+            await call.message.answer(_('choose_top10'), reply_markup=countries_btn())
+            await Purchase.top.set()
+        else:
+            pagination_obj = Pagination()
+            await call.message.answer(_('choose_type_country'), reply_markup=pagination_obj())
+            await Purchase.country.set()
     else:
         await generate_confirmation_message(call, state)
 
@@ -126,11 +183,19 @@ async def generate_confirmation_message(call, state):
 
 
 async def confirm_data(call: CallbackQuery, state: FSMContext):
+    db = DB_API()
+    db.connect()
     data = await state.get_data()
-    await call.message.delete()
-    text = f'{_("choose")}'
-    await call.message.answer(text, reply_markup=CreateInlineBtn.payment())
-    await Purchase.payment.set()
+    current_balance = int(db.get_balance(call.from_user.id)[0])
+    cost_data: str = data['cost'] if 'new_cost' not in data or data['new_cost'] is None else data['new_cost']
+    await state.update_data(last_price=cost_data)
+    number_formatted_cost = int(cost_data.replace(',', '').replace('сум', '').split('.')[0])
+    if current_balance >= number_formatted_cost:
+        await call.message.delete()
+        await Purchase.purchase.set()
+        await purchase_phone_number(call, state)
+    else:
+        await call.answer(_('not_enough_money'), show_alert=True)
 
 
 async def use_bonuses(call: CallbackQuery, state: FSMContext):
@@ -159,19 +224,20 @@ async def handle_bonuses_change(call: CallbackQuery, state: FSMContext):
         use_bonuses_count = all_data['bonus_count']
     call_data = call.data.split(':')[0]
     if call_data == 'minus_ten' and use_bonuses_count > 0:
-        use_bonuses_count -= 30
+        use_bonuses_count -= 25
     elif call_data == 'minus_one' and use_bonuses_count > 0:
-        use_bonuses_count -= 1
+        use_bonuses_count -= 5
     elif call_data == 'plus_one' and use_bonuses_count < all_bonuses:
-        use_bonuses_count += 1
+        use_bonuses_count += 5
     elif call_data == 'plus_ten' and use_bonuses_count < all_bonuses:
-        use_bonuses_count += 30
+        use_bonuses_count += 25
     elif call_data == 'use_all':
         use_bonuses_count = all_bonuses
-
     if use_bonuses_count < 0 or use_bonuses_count > all_bonuses:
         await call.answer(_('limit'), show_alert=True)
     else:
+        if use_bonuses_count >= 1000:
+            use_bonuses_count = 1000
         await state.update_data(bonus_count=use_bonuses_count)
         description = f"""
 <b>{_('your_bonuses')}: {all_bonuses}</b> 🌟\n
@@ -209,80 +275,45 @@ async def confirm_bonus(call: CallbackQuery, state: FSMContext):
         await call.answer(_('choose_bonus'), show_alert=True)
 
 
-async def payme_callback(call: CallbackQuery, state: FSMContext):
+async def purchase_phone_number(call: CallbackQuery, state: FSMContext):
+    await call.message.answer(_('trying_to_get_number'), reply_markup=ReplyKeyboardRemove())
+
     data = await state.get_data()
-    cost_data: str = data['cost'] if 'new_cost' not in data or data['new_cost'] is None else data['new_cost']
-    await state.update_data(last_price=cost_data)
-    formatting = cost_data.replace('сум', '').replace(',', '')
-    formatted_output = f'{float(formatting) * 100:.2f}'
-    config = load_config('../../.env')
-    if formatted_output == '0.00' or call.from_user.id in config.tg_bot.ADMINS:
-        await state.update_data(paid=True)
-        await call.message.delete()
-        await call.message.answer(_('paid_check'), reply_markup=CreateInlineBtn.confirm_btn())
-    else:
-        payme_obj = PaymePay(formatted_output,
-                             data['service'] + ' | ' + data['country'] + ' | ' + str(call.from_user.id))
-        url_to_pay = await payme_obj.bill()
-        await state.update_data(url_for_payment=url_to_pay)
-        await call.message.delete()
-        await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
-
-
-async def other_payments(call: CallbackQuery, state: FSMContext):
-    await call.answer(_('not_available'), show_alert=True)
-
-
-async def check_payment(call: CallbackQuery, state: FSMContext):
+    buy = Buy(data['country'], data['operator'], data['service'])
     import asyncio
-    await call.message.answer(_('checking'))
-    data = await state.get_data()
-    paid = None
-    config = load_config('../../.env')
-    if 'paid' not in data:
-        url_to_check = data['url_for_payment']
-        payme_obj = PaymePay(0, '')
-        loop = asyncio.get_event_loop()
-        thread = ThreadWithReturnValue(target=payme_obj.check_status_of_payment, args=(url_to_check, loop,))
-        thread.start()
-        paid = thread.join()
-    else:
-        paid = True
-    if paid or call.from_user.id in config.tg_bot.ADMINS:
-        await call.answer(_('paid'), show_alert=True, cache_time=60)
-        await call.message.delete()
-        await call.message.answer(_('trying_to_get_number'), reply_markup=ReplyKeyboardRemove())
-
-        data = await state.get_data()
-        buy = Buy(data['country'], data['operator'], data['service'])
-        import asyncio
-        res = await asyncio.create_task(buy.purchase_number())
-        if res != 'empty':
-            if 'bonus_count' in data:
-                bonus = Bonus()
-                await bonus.remove_bonus(data['bonus_count'])
-            text = await normalize_response(res['id'], res['created_at'], res['phone'],
-                                            res['product'], res['status'], res['expires'],
-                                            res['sms'], res['country'], res['operator'], data['last_price'])
-            await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(), parse_mode='MarkDown')
-            await state.update_data(product_id=res['id'])
-            await state.update_data(phone=res['phone'])
-            await Purchase.purchase.set()
-        if res == 'failed':
-            await state.finish()
-            await call.message.answer(_('smth_wrong'))
-    else:
-        await call.answer(_('not_paid'), show_alert=True)
-        await payme_callback(call, state)
+    res = await asyncio.create_task(buy.purchase_number())
+    if res != 'empty':
+        text = await normalize_response(res['id'], res['created_at'], res['phone'],
+                                        res['product'], res['status'], res['expires'],
+                                        res['sms'], res['country'], res['operator'], data['last_price'])
+        await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(), parse_mode='MarkDown')
+        await state.update_data(product_id=res['id'])
+        await state.update_data(phone=res['phone'])
+        await Purchase.purchase.set()
+    if res == 'failed':
+        await state.finish()
+        await call.message.answer(_('smth_wrong'))
 
 
 async def get_sms_handler(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
+    db = DB_API()
+    db.connect()
     buy = Buy()
     res = None
     match call.data:
         case 'getsms':
             res = await buy.get_sms(data['product_id'])
+            sms_code: list = res['sms']
+            if len(sms_code) > 0:
+                last_price: str = data['last_price']
+                formatted_price = int(last_price.replace(',', '').replace('сум', '').split('.')[0])
+                balance = db.get_balance(call.from_user.id)[0]
+                left_price = balance - formatted_price
+                db.update_balance(call.from_user.id, left_price)
+                if 'bonus_count' in data:
+                    bonus = Bonus()
+                    await bonus.remove_bonus(data['bonus_count'])
         # case 're_buy':
         #     formatted_phone = data['phone'].replace('+','')
         #     res = buy.re_buy(data['service'],formatted_phone)
@@ -301,12 +332,15 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
             else:
                 await state.finish()
                 await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
-    if res != 'empty':
+    if res != 'empty' and res is not None:
         await call.message.delete()
         text = await normalize_response(res['id'], res['created_at'], res['phone'],
                                         res['product'], res['status'], res['expires'],
                                         res['sms'], res['country'], res['operator'], data['last_price'])
         await call.message.answer(text, reply_markup=CreateInlineBtn.purchase_number(), parse_mode='MarkDown')
+
+    if call.data == 'no_sms':
+        await call.answer(_('sms_notification'), show_alert=True)
 
 
 async def normalize_response(product_id, created_at, phone, product, status, expires, sms, country, operator,
@@ -337,26 +371,34 @@ async def normalize_response(product_id, created_at, phone, product, status, exp
 {_('price')}: *{last_price}*
 {_('status')}: *{status}*
 
-{_('service_text')}: {product}
-{_('country_text')}: {country}
-{_('operator_text')}: {operator}
+{_('service_text')}: *{str(product).upper()}*
+{_('country_text')}: *{str(country).upper()}*
+{_('operator_text')}: *{str(operator).upper()}*
 
 
             '''
     return text
 
 
+async def cancel(msg: Message, state: FSMContext):
+    await msg.answer('❌', reply_markup=CreateBtn.MenuBtn())
+    await state.finish()
+
+
 def register_callbacks(dp: Dispatcher):
+    dp.register_message_handler(cancel, lambda message: message.text == _("cancel_balance"), state='*')
     dp.register_callback_query_handler(back_btn, text='back', state=Purchase.all_states_names)
     dp.register_callback_query_handler(service_handler, state=Purchase.service)
+    dp.register_callback_query_handler(country_choose_handler, state=Purchase.country_choose)
+    dp.register_callback_query_handler(top10_handler, state=Purchase.top)
     dp.register_callback_query_handler(country_handler, state=Purchase.country)
     dp.register_callback_query_handler(operator_handler, state=Purchase.operator)
     dp.register_callback_query_handler(confirm_data, state=Purchase.confirm, text='confirm_callback')
     dp.register_callback_query_handler(use_bonuses, state=Purchase.confirm, text='bonus')
     dp.register_callback_query_handler(handle_bonuses_change, state=Purchase.bonus, text_contains='change')
     dp.register_callback_query_handler(confirm_bonus, state=Purchase.bonus, text='confirm_bonus')
-    dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='click')
-    dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='qiwi')
-    dp.register_callback_query_handler(payme_callback, state=Purchase.payment, text='payme')
-    dp.register_callback_query_handler(check_payment, state=Purchase.payment, text='confirm_payment')
+    # dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='click')
+    # dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='qiwi')
+    # dp.register_callback_query_handler(payme_callback, state=Purchase.payment, text='payme')
+    # dp.register_callback_query_handler(check_payment, state=Purchase.payment, text='confirm_payment')
     dp.register_callback_query_handler(get_sms_handler, state=Purchase.purchase)

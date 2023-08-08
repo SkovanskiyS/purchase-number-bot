@@ -126,7 +126,7 @@ msgstr "🔽 Taqdim etilgan xizmatlardan birini tanlang."
 
 #: handlers/users/keyboard.py:28
 msgid "canceled"
-msgstr "⛔️ Siz buyurtmani bekor qildingiz"
+msgstr "⛔️ Siz buyurtmani bekor qildingiz\n\n<b>Pul va bonuslar hisobingizga qaytarildi</b>"
 
 #: handlers/users/keyboard.py:38 keyboards/default/creator.py:12
 msgid "cancel"
@@ -134,11 +134,11 @@ msgstr "🚫 Xaridni bekor qilish"
 
 #: handlers/users/keyboard.py:40 keyboards/default/creator.py:8
 msgid "buy_number"
-msgstr "📲 Xarid qilishni boshlash"
+msgstr "🛍 Xarid qilishni boshlash"
 
 #: handlers/users/keyboard.py:41 keyboards/default/creator.py:8
 msgid "change_lang"
-msgstr "🏳️ Tilni o'zgartirish"
+msgstr "👅 Tilni o'zgartirish"
 
 #: handlers/users/language.py:30
 msgid "language_changed"
@@ -216,7 +216,7 @@ msgid "back"
 msgstr "🔙 Orqaga"
 
 msgid "my_profile"
-msgstr "👤 Mening profilim"
+msgstr "🧰 Mening profilim"
 
 msgid "your_name"
 msgstr "💥 Sizning ismingiz"
@@ -252,7 +252,7 @@ msgid "check_payment"
 msgstr "⚠️ <i>Toʻlash</i> tugmasini bosish orqali havolaga oʻting\n\n<b>✅ Toʻlov muvaffaqiyatli amalga oshirilgandan soʻng tasdiqlash tugmasini bosing!</b>"
 
 msgid "paid"
-msgstr "✅Ajoyib, to'lov muvaffaqiyatli amalga oshdi."
+msgstr "<b>✅ Ajoyib, to'lov muvaffaqiyatli amalga oshirildi.\n\nEndi balansingizni "💰 Mening Balansim" bo'limida tekshiring</b>"
 
 msgid "not_paid"
 msgstr "❌ Muammo yuz berdi. To‘lov amalga oshmadi.\n\nAgar siz to‘lagan bo‘lsangiz va ushbu xabarni olgan bo‘lsangiz, qo‘llab-quvvatlash xizmatiga murojaat qiling!"
@@ -352,3 +352,55 @@ msgstr "<b>Xarid qilishdan oldin botdan foydalanish bo'yicha qo'llanmani o'qing:
 
 msgid "cant_cancel"
 msgstr "❗️Siz buyurtmani shunchalik tez bekor qila olmaysiz"
+
+msgid "balance_btn"
+msgstr "💰 Mening balansim"
+
+msgid "replenish_balance"
+msgstr "🤑 Balansni to'ldirish"
+
+msgid "your_balance"
+msgstr "💶 Sizning balansingiz"
+
+msgid "balance_add_info"
+msgstr "Yodda tutingki, to'ldirishdan so'ng pulni orqaga olish imkoni yo'q, lekin agar botdan to'lov tomonidan muammo yuzaga kelsa, iltimos, administratorga murojaat qiling.\n\n<b>👇 To'ldirish uchun summa tanlang</b>"
+
+msgid "other_sum_text"
+msgstr "🔮 Boshqa summa"
+
+msgid "cancel_balance"
+msgstr "🚫 Bekor qilish"
+
+msgid "write_sum"
+msgstr "🧑‍💻 To'ldirish uchun summani kiriting\n\n<b>Eng kam summa: 1,000 so'm\nEng yuqori summa: 1,000,000 so'm</b>\n\n<i>Misol: 11 500</i>"
+
+msgid "not_enough_money"
+msgstr "🤷 Ushbu mahsulotni sotib olish uchun mablag' yetarli emas. Iltimos, asosiy menyuda "💰 Mening Balansim" bo'limiga o'tib hisobingizni to'ldiring."
+
+msgid "top_countries_text"
+msgstr "⚡️ TOP 10'
+
+msgid "all_countries_text"
+msgstr "🌆 Barcha mamlakatlar"
+
+msgid "choose_top10"
+msgstr "👇 Muvaffaqiyatli SMS yetkazib berish xizmatlariga ega 10 ta davlat."
+
+msgid "choose_type_country"
+msgstr "💯 Mamlakat turini tanlang"
+
+msgid "top10_not_available"
+msgstr "🤷‍♀️ Ushbu xizmatda hali eng yaxshi 10 ta mamlakat reytingi yo'q.\n\nFaqat Telegram va ChatGPT eng yaxshi 10 ta mamlakat ro'yxatini qo'llaydi."
+
+msgid "no_sms_text"
+msgstr "🚫 Nega SMS kelmaydi?"
+
+msgid "sms_notification"
+msgstr "1. Tanlangan xizmatdagi SMS-kodini sotib olingan telefon raqamiga yana bir marta yuboring.\n2. Faqat rasmiy Telegram ilovasidan foydalaning.\n3. Boshqa telefon raqamini sotib olishni urinib ko'ring."
+
+msgid "how_use"
+msgstr "❓ Botdan qanday foydalanish kerak"
+
+msgid "support"
+msgstr "🆘 Yordam"
+

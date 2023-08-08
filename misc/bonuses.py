@@ -7,10 +7,13 @@ class Bonus:
     db_api.connect()
 
     async def check_the_limit(self):
-        user_id: int = User.get_current().id
-        current_bonus_amount = self.db_api.get_bonus(user_id)[0]
-        if current_bonus_amount > 1000:
-            return False
+        # user_id: int = User.get_current().id
+        # current_bonus_amount = self.db_api.get_bonus(user_id)[0]
+        # if current_bonus_amount >= 1000:
+        #     return False
+        # return True
+
+        # пока отменим лимиты
         return True
 
     async def add_bonus(self, amount):
@@ -38,6 +41,8 @@ class Bonus:
                     return 'empty'
             except Exception as err:
                 print(err)
+        else:
+            return 'limit'
 
     async def remove_bonus(self, bonus_count):
         user_id: int = User.get_current().id

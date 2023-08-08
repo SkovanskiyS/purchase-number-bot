@@ -1,29 +1,34 @@
-from aiogram.types import InlineKeyboardMarkup, User
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import User
 
-from database.dbApi import DB_API
 from database.countries import countries_btn_
+from database.dbApi import DB_API
 from i18n import _
 from keyboards.inline.constructor import Constructor
 from misc.cost_modification import change_price
 from services.API_5sim.fetch_operator import GetPrice
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class CreateInlineBtn(Constructor):
     @staticmethod
     def services():
-        return Constructor.create_inline_btn([[{'openai': _('chatgpt')}],[{'google':'🌐 Google'},{'yandex':'🌮 Yandex'}],[{'amazon':'🚚 Amazon'}]])
+        return Constructor.create_inline_btn(
+            [[{'telegram': '✈️ Telegram'}], [{'openai': _('chatgpt')}],
+             [{'yandex': '🌮 Yandex'},{'amazon': '🚚 Amazon'}], [{'other': '🌐 Other | Другие'}]])
 
     @staticmethod
     def confirmation():
         return Constructor.create_inline_btn(
             [[{'confirm_callback': _('confirm_btn')}], [{'bonus': _('use_bonus')}], [{'back': _('back')}]])
 
+    # @staticmethod
+    # def payment():
+    #     return Constructor.create_inline_btn([[{'payme': _('payme')},
+    #                                            {'click': _('click')}],
+    #                                           [{'qiwi': _('qiwi')}]])
     @staticmethod
     def payment():
-        return Constructor.create_inline_btn([[{'payme': _('payme')},
-                                               {'click': _('click')}],
-                                              [{'qiwi': _('qiwi')}]])
+        return Constructor.create_inline_btn([[{'payme': _('payme')}]])
 
     @staticmethod
     def language():
@@ -47,7 +52,7 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def confirm_btn():
-        return Constructor.create_inline_btn([[{'confirm_payment':_('confirm_btn')}]])
+        return Constructor.create_inline_btn([[{'confirm_payment': _('confirm_btn')}]])
 
     @staticmethod
     def get_bonus_for_referrals():
@@ -55,9 +60,29 @@ class CreateInlineBtn(Constructor):
 
     @staticmethod
     def purchase_number():
-        return Constructor.create_inline_btn([[{'getsms':_('get_sms_text')}],
-                                              [{'cancel_order':_('cancel_order_text')},
-                                              {'finish_order':_('finish_order_text')}]])
+        return Constructor.create_inline_btn([[{'getsms': _('get_sms_text')}],
+                                              [{'cancel_order': _('cancel_order_text')},
+                                               {'finish_order': _('finish_order_text')}],[{'no_sms':_('no_sms_text')}]])
+
+    @staticmethod
+    def my_balance_btn():
+        return Constructor.create_inline_btn([[{'replenish': _('replenish_balance')}]])
+
+    @staticmethod
+    def count_of_money():
+        return Constructor.create_inline_btn(
+            [[{'100000': '💥 100 000 so\'m'}],
+             [{'50000': '⚡️ 50 000 so\'m'}, {'40000': '💫 40 000 so\'m'}],
+             [{'30000': '🔥 30 000 so\'m'}, {'20000': '🌝 20 000 so\'m'}, {'10000': '🌚 10 000 so\'m'}],
+             [{'other_sum': _('other_sum_text')}]])
+
+    @staticmethod
+    def choose_type_country():  # '⚡️ TOP 10'
+        return Constructor.create_inline_btn(
+            [
+                [{'top': _('top_countries_text')}, {'all': _('all_countries_text')}],[{'back': _('back')}]
+            ]
+        )
 
 
 class Pagination:
@@ -80,6 +105,22 @@ class Pagination:
         back_btn = [{'back': _('back')}]
         btn = Constructor.create_inline_btn([countries_btn, bottom_btn, back_btn])
 
+        return btn
+
+
+class TopCountries_Btn:
+    def __init__(self, country_obj):
+        self.country_obj = country_obj
+        self.db_api = DB_API()
+        self.db_api.connect()
+        self.user_id = User.get_current().id
+        self.lang = self.db_api.get_current_language(self.user_id)[0]
+
+    def __call__(self, *args, **kwargs) -> InlineKeyboardMarkup:
+        countries_data = self.country_obj[self.lang]
+        countries_btn = [{key: value for d in countries_data[0] for key, value in d.items()}]
+        back_btn = [{'back': _('back')}]
+        btn = Constructor.create_inline_btn([countries_btn, back_btn])
         return btn
 
 
@@ -119,8 +160,8 @@ class Operator:
 
 class Bonuses:
     def __call__(self):
-        top_btn = [{'minus_ten:change': '-30'}, {'minus_one:change': '-'}, {'plus_one:change': '+'},
-                   {'plus_ten:change': '+30'}]
+        top_btn = [{'minus_ten:change': '-25'}, {'minus_one:change': '-5'}, {'plus_one:change': '+5'},
+                   {'plus_ten:change': '+25'}]
         bottom_btn = [{'use_all:change': _('use_all_text')}]
         confirm_btn = [{'confirm_bonus': _('confirm_btn')}]
         back_btn = [{'back': _('back')}]

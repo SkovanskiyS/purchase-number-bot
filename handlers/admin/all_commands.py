@@ -198,6 +198,27 @@ async def mailing_text_state(msg: Message, state: FSMContext):
         await state.finish()
 
 
+async def change_balance(msg: Message):
+    await msg.answer('Введите Telegram ID пользователя и бонус в виде: ID|СКОЛЬКО НУЖНО ДОБАВИТЬ')
+    await AdminState.balance.set()
+
+
+async def change_balance_state(msg: Message, state: FSMContext):
+    try:
+        data = msg.text.split('|')
+        db = DB_API_ADMIN()
+        db.connect()
+        chosen_sum = data[1]
+        formatted_sum = chosen_sum.replace(' ', '')
+        user_balance = db.get_balance(data[0])[0]
+        new_balance = int(formatted_sum) + int(user_balance)
+        db.update_balance(data[0],new_balance)
+        await msg.answer('Успешно добавлен!')
+    except Exception as err:
+        await msg.answer(f'Некорректные данные\n\n{err}')
+    await state.finish()
+
+
 def register_admin_handler(dp: Dispatcher):
     dp.register_message_handler(start_command, Command('admin'), AdminFilter())
     with_text: dict = {
@@ -209,7 +230,8 @@ def register_admin_handler(dp: Dispatcher):
         referral_check: Text(equals='🔗 Получить все рефералы'),
         delete_user: Text(equals='🗑 Удалить пользователя'),
         mailing_with_photo: Text(equals='🖼 Рассылка с фото'),
-        mailing_text: Text(equals='💬 Рассылка без фото')
+        mailing_text: Text(equals='💬 Рассылка без фото'),
+        change_balance: Text(equals='💰 Пополнить баланс')
     }
     for key, value in with_text.items():
         dp.register_message_handler(key, value, AdminFilter())
@@ -220,7 +242,8 @@ def register_admin_handler(dp: Dispatcher):
         change_bonus_state: AdminState.bonus,
         referrals_check_state: AdminState.referral,
         delete_user_state: AdminState.delete_user,
-        mailing_text_state: AdminState.without_pic
+        mailing_text_state: AdminState.without_pic,
+        change_balance_state: AdminState.balance
     }
     for key, value in only_states.items():
         dp.register_message_handler(key, state=value)

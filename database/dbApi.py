@@ -4,7 +4,7 @@ import psycopg2
 from data.config import Config, load_config
 
 
-class  DB_API:
+class DB_API:
     config: Config = load_config('.env')
 
     def __init__(self):
@@ -21,7 +21,7 @@ class  DB_API:
                 user=self.user,
                 password=self.password,
                 database=self.database,
-		client_encoding="utf8"
+                client_encoding="utf8"
             )
             self.connection.autocommit = True
         except Exception as err:
@@ -36,24 +36,24 @@ class  DB_API:
                 user_id BIGINT NOT NULL UNIQUE,
                 username VARCHAR(255),
                 first_name VARCHAR(255) NOT NULL,
-                last_name VARCHAR(255),
                 language VARCHAR(255) DEFAULT 'ru',
                 registered_at TIMESTAMP DEFAULT NOW(),
                 bonus INTEGER DEFAULT 0 NOT NULL,
                 referral INTEGER,
                 blocked INTEGER DEFAULT 0 NOT NULL,
-                page INTEGER DEFAULT 0 NOT NULL)
+                page INTEGER DEFAULT 0 NOT NULL,
+                balance BIGINT DEFAULT 0 NOT NULL)
                 """
             )
 
-    def insert_user(self, telegram_id, username, first_name, last_name, referral=None):
+    def insert_user(self, telegram_id, username, first_name, referral=None):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 """
-                INSERT INTO botUsers (user_id, username, first_name, last_name,referral) 
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO botusers (user_id, username, first_name, referral) 
+                VALUES (%s, %s, %s, %s)
                 """,
-                (telegram_id, username, first_name, last_name, referral)
+                (telegram_id, username, first_name, referral)
             )
 
     def check_referral(self, user_id):
@@ -174,3 +174,21 @@ class  DB_API:
                 """,
                 (user_id,)
             )
+
+    def update_balance(self, user_id, money):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE botusers SET balance = %s WHERE user_id = %s
+                """, (money, user_id)
+            )
+
+    def get_balance(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT balance FROM botusers WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            return cursor.fetchone()

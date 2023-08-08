@@ -28,7 +28,8 @@ class Buy:
             if i > 20:
                 self.operator = 'any'
             if i > 30:
-                self.country = 'germany'
+                self.country = 'usa'
+                self.operator = 'any'
             if i > 50:
                 self.country = 'any'
             if i > 100:
