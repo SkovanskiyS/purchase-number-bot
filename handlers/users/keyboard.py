@@ -51,10 +51,13 @@ async def change_language(msg: Message):
     await msg.answer(_('Choose language:'), reply_markup=CreateInlineBtn.language())
 
 
-@rate_limit(limit=10)
+@rate_limit(limit=20)
 async def how_touse(msg: Message):
-    await msg.answer('Video')
-
+    current_directory = str(Path(__file__).resolve().parent.parent.parent) + '/guide.mp4'
+    with open(current_directory, 'rb') as video:
+        from aiogram.types import InputFile
+        video = InputFile(video)
+        await msg.bot.send_video(msg.from_user.id,video)
 
 @rate_limit(limit=5)
 async def support(msg: Message):

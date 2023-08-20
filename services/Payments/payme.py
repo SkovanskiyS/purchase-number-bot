@@ -32,17 +32,20 @@ class PaymePay:
         return response_url
 
     def check_status_of_payment(self, url, loop=None):
+        print('i am here')
         options = webdriver.ChromeOptions()
         url_to_check = url
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        service = Service(executable_path='/home/ban_bot/purchase-number-bot/chromedriver')
+        service = Service(executable_path='/home/ban_new_update/purchase-number-bot/chromedriver')
         driver = webdriver.Chrome(service=service, options=options)
         driver.implicitly_wait(20)
+
         try:
             driver.get(url_to_check)
             output = driver.find_element(By.CLASS_NAME, 'mb-2').text
+            print(output)
             if output.lower() == 'успешно':
                 return True
             return False

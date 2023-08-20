@@ -1,12 +1,14 @@
 from datetime import datetime
 
 import pandas as pd
-
+import asyncio
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
 from aiogram.types import Message, InputFile
 from aiogram.dispatcher.filters import ContentTypeFilter
+from aiogram.utils.exceptions import BotBlocked
+
 
 from database.admin_panel import DB_API_ADMIN
 from filters.isAdmin import AdminFilter
@@ -151,38 +153,35 @@ async def delete_user_state(msg: Message, state: FSMContext):
 
 async def convert_to_excel(data):
     df = pd.DataFrame(data,
-                      columns=['ID', 'User ID', 'Username', 'First Name', 'Last Name', 'Language', 'Reg Date',
+                      columns=['ID', 'User ID', 'Username', 'First Name', 'Language', 'Reg Date',
                                'Bonuses',
-                               'Referral', 'Blocked', 'Page'])
+                               'Referral', 'Blocked', 'Page', 'Balance'])
     writer = pd.ExcelWriter('botusers.xlsx', engine='xlsxwriter')
     df.to_excel(writer, sheet_name='users_data', index=False)
     writer.close()
 
 
 async def mailing_with_photo(msg: Message):
-    await msg.answer('Отправьте фото и текст как одно сообщение')
+    await msg.answer('Отправьте фото и текст как одно сообщение\nCancel - /cancel')
     await AdminState.with_pic.set()
 
 
 async def mailing_with_photo_state(msg: Message, state: FSMContext):
-    try:
-        largest_photo = msg.photo[-1].file_id
-        db = DB_API_ADMIN()
-        db.connect()
-        user_id_list = db.get_user_id()
-        for i in user_id_list:
-            await msg.bot.send_photo(i[0], photo=largest_photo, caption=msg.caption)
-            await msg.answer(f'Успешно отправлено: {i[0]}')
-    except Exception as err:
-        await msg.answer(err)
-    finally:
-        await state.finish()
-
+    largest_photo = msg.photo[-1].file_id
+    db = DB_API_ADMIN()
+    db.connect()
+    user_id_list = db.get_user_id()
+    for i in user_id_list:
+       try:
+          await msg.bot.send_photo(i[0], photo=largest_photo, caption=msg.caption)
+          await msg.answer(f'Успешно отправлено: {i[0]}')
+       except:
+          await asyncio.sleep(1)
+    await state.finish()
 
 async def mailing_text(msg: Message):
-    await msg.answer('Отправьте текст как одно сообщение')
+    await msg.answer('Отправьте текст как одно сообщение\nCancel - /cancel')
     await AdminState.without_pic.set()
-
 
 async def mailing_text_state(msg: Message, state: FSMContext):
     try:

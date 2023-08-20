@@ -103,7 +103,7 @@ async def top10_handler(call: CallbackQuery, state: FSMContext):
         await Purchase.operator.set()
     else:
         await call.answer(_('no_operator'), show_alert=True)
-        if data['type'] == 'top':
+        if 'type' in data and data['type'] == 'top':
             countries_btn = TopCountries_Btn(data['count_obj'])
             await call.message.answer(_('choose_top10'), reply_markup=countries_btn())
             await Purchase.top.set()
@@ -305,6 +305,7 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
         case 'getsms':
             res = await buy.get_sms(data['product_id'])
             sms_code: list = res['sms']
+            print(sms_code)
             if len(sms_code) > 0:
                 last_price: str = data['last_price']
                 formatted_price = int(last_price.replace(',', '').replace('сум', '').split('.')[0])
@@ -314,12 +315,18 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
                 if 'bonus_count' in data:
                     bonus = Bonus()
                     await bonus.remove_bonus(data['bonus_count'])
+                await state.finish()
+                await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
+
         # case 're_buy':
         #     formatted_phone = data['phone'].replace('+','')
         #     res = buy.re_buy(data['service'],formatted_phone)
         case 'cancel_order':
             res = await buy.cancel_order(data['product_id'])
-            await call.message.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
+            sms_code: list = res['sms']
+            if len(sms_code) == 0:
+                await call.message.answer(_('canceled'), reply_markup=CreateBtn.MenuBtn())
+
             await state.finish()
         # case 'banned':
         #     res = buy.banned(data['product_id'])
@@ -333,6 +340,7 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
                 await state.finish()
                 await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
     if res != 'empty' and res is not None:
+        print(res)
         await call.message.delete()
         text = await normalize_response(res['id'], res['created_at'], res['phone'],
                                         res['product'], res['status'], res['expires'],
