@@ -14,7 +14,7 @@ class CreateInlineBtn(Constructor):
     def services():
         return Constructor.create_inline_btn(
             [[{'telegram': '✈️ Telegram'}], [{'openai': _('chatgpt')}],
-             [{'yandex': '🌮 Yandex'},{'amazon': '🚚 Amazon'}], [{'other': '🌐 Other | Другие'}]])
+             [{'yandex': '🌮 Yandex'}, {'amazon': '🚚 Amazon'}], [{'other': '🌐 Other | Другие'}]])
 
     @staticmethod
     def confirmation():
@@ -36,6 +36,7 @@ class CreateInlineBtn(Constructor):
                                                {'lang:uz': '🇺🇿 UZB'},
                                                {'lang:en': '🇺🇸 ENG'}]])
 
+    @staticmethod
     def language_register():
         return Constructor.create_inline_btn([[{'register:ru': '🇷🇺 RU'},
                                                {'register:uz': '🇺🇿 UZB'},
@@ -62,25 +63,41 @@ class CreateInlineBtn(Constructor):
     def purchase_number():
         return Constructor.create_inline_btn([[{'getsms': _('get_sms_text')}],
                                               [{'cancel_order': _('cancel_order_text')},
-                                               {'finish_order': _('finish_order_text')}],[{'no_sms':_('no_sms_text')}]])
+                                               {'finish_order': _('finish_order_text')}],
+                                              [{'no_sms': _('no_sms_text')}]])
 
     @staticmethod
     def my_balance_btn():
         return Constructor.create_inline_btn([[{'replenish': _('replenish_balance')}]])
 
+    # @staticmethod
+    # def count_of_money():
+    #     return Constructor.create_inline_btn(
+    #         [[{'100000': '💥 100 000 so\'m'}],
+    #          [{'50000': '⚡️ 50 000 so\'m'}, {'40000': '💫 40 000 so\'m'}],
+    #          [{'30000': '🔥 30 000 so\'m'}, {'20000': '🌝 20 000 so\'m'}, {'10000': '🌚 10 000 so\'m'}],
+    #          [{'other_sum': _('other_sum_text')}]])
     @staticmethod
     def count_of_money():
         return Constructor.create_inline_btn(
-            [[{'100000': '💥 100 000 so\'m'}],
-             [{'50000': '⚡️ 50 000 so\'m'}, {'40000': '💫 40 000 so\'m'}],
-             [{'30000': '🔥 30 000 so\'m'}, {'20000': '🌝 20 000 so\'m'}, {'10000': '🌚 10 000 so\'m'}],
-             [{'other_sum': _('other_sum_text')}]])
+            [
+                [{'50000': '⚡️ 50 000 so\'m ⚡️'}],
+                [{'30000': '🔥 30 000 so\'m'}, {'10000': '🌚 10 000 so\'m'}],
+                [{'other_sum': _('other_sum_text')}]])
 
     @staticmethod
     def choose_type_country():  # '⚡️ TOP 10'
         return Constructor.create_inline_btn(
             [
-                [{'top': _('top_countries_text')}, {'all': _('all_countries_text')}],[{'back': _('back')}]
+                [{'top': _('top_countries_text')}, {'all': _('all_countries_text')}], [{'back': _('back')}]
+            ]
+        )
+
+    @staticmethod
+    def yes_no():
+        return Constructor.create_inline_btn(
+            [
+                [{'yes:choose': _('yes')}, {'no:choose': _('no')}]
             ]
         )
 
@@ -135,6 +152,17 @@ class Operator:
         response_dict: dict = getPrice()
         operators_dict: dict = dict()
         if response_dict:
+            # ascending sort
+            sorted_data = {
+                self.country: {
+                    self.product: {
+                        key: value for key, value in sorted(
+                            response_dict[self.country][self.product].items(), key=lambda item: item[1]['cost']
+                        )
+                    }
+                }
+            }
+            response_dict = sorted_data
             for item in response_dict[self.country][self.product]:
                 cost: str = response_dict[self.country][self.product][item]['cost']
                 # cost modification
@@ -146,15 +174,15 @@ class Operator:
                     rate += response_dict[self.country][self.product][item]['rate']
                 else:
                     rate += str(response_dict[self.country][self.product][item]['rate']) + '/100 %'
+                if quantity != 0:
+                    operators_dict[item] = item
 
-                operators_dict[item] = item
+                    self.description += f"""\n\t<b>{str(item).upper()}</b>:\n
+        <i>{_('cost')}: {cost} </i>
+        <i>{_('quantity')}: {quantity} </i>
+        <i>{_('rate')}: {rate} </i>
+                    """
 
-                self.description += f"""\n\t<b>{str(item).upper()}</b>:\n
-    <i>{_('cost')}: {cost} </i>
-    <i>{_('quantity')}: {quantity} </i>
-    <i>{_('rate')}: {rate} </i>
-    
-                """
             return Constructor.create_inline_btn([[operators_dict], [{'back': _('back')}]])
 
 

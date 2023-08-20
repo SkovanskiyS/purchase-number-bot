@@ -29,6 +29,7 @@ class AdminState(StatesGroup):
     without_pic = State()
     balance = State()
 
+
 class Balance(StatesGroup):
     balance_add = State()
     balance_count = State()

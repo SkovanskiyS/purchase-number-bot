@@ -13,7 +13,8 @@ from services.Payments.payme import PaymePay
 
 
 @rate_limit(limit=3)
-async def start_handler(msg: Message):
+async def start_handler(msg: Message, state=FSMContext):
+    await state.finish()
     db_api = DB_API()
     db_api.connect()
     if db_api.user_exists(msg.chat.id):
@@ -33,32 +34,37 @@ async def start_handler(msg: Message):
 
 
 @rate_limit(limit=3)
-async def help_handler(msg: Message):
+async def help_handler(msg: Message, state: FSMContext):
+    await state.finish()
     await msg.answer(_('help'), reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=3)
-async def faq_handler(msg: Message):
-#     await msg.answer("""
-# English: https://telegra.ph/How-to-use-the-bot---BAN-Buy-Activation-Number-07-16\n
-# Russian: https://telegra.ph/Kak-polzovatsya-botom---BAN-Buy-Activation-Number-07-16\n
-# Uzbek: https://telegra.ph/Botdan-qanday-foydalanish---BAN-Buy-Activation-Number-07-16
-#     """, reply_markup=CreateBtn.MenuBtn())
-    await msg.answer('not available')
+async def faq_handler(msg: Message, state: FSMContext):
+    await state.finish()
+    #     await msg.answer("""
+    # English: https://telegra.ph/How-to-use-the-bot---BAN-Buy-Activation-Number-07-16\n
+    # Russian: https://telegra.ph/Kak-polzovatsya-botom---BAN-Buy-Activation-Number-07-16\n
+    # Uzbek: https://telegra.ph/Botdan-qanday-foydalanish---BAN-Buy-Activation-Number-07-16
+    #     """, reply_markup=CreateBtn.MenuBtn())
+    await msg.answer('(◍•ᴗ•◍)❤',reply_markup=CreateBtn.MenuBtn())
+
 
 @rate_limit(limit=3)
-async def contact_handler(msg: Message):
+async def contact_handler(msg: Message, state: FSMContext):
+    await state.finish()
     await msg.answer(_('contact'), reply_markup=CreateBtn.MenuBtn())
 
 
 @rate_limit(limit=3)
-async def about_handler(msg: Message):
+async def about_handler(msg: Message, state: FSMContext):
+    await state.finish()
     await msg.answer(_('about'), reply_markup=CreateBtn.MenuBtn())
 
 
 async def cancel(msg: Message, state: FSMContext):
-    await msg.answer('Canceled')
     await state.finish()
+    await msg.answer('Canceled')
 
 
 def register_user(dp: Dispatcher) -> None:
@@ -71,6 +77,6 @@ def register_user(dp: Dispatcher) -> None:
     }
 
     for handler, command in handlers_.items():
-        dp.register_message_handler(handler, Command(command))
+        dp.register_message_handler(handler, Command(command), state='*')
 
     dp.register_message_handler(cancel, Command('cancel'), state=Language.change_language)

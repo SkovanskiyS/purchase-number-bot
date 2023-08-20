@@ -1,18 +1,17 @@
 import asyncio
 import logging
-import threading
 
 from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+
 from data.config import load_config
+from database.dbApi import DB_API
 from handlers.register import register_all_handlers
 from middleware.bonus import BonusModification
 from middleware.language import setup_middleware
 from middleware.registration import Registration
 from middleware.throttling import ThrottlingMiddleware
 from services.commands import set_main_menu
-from database.dbApi import DB_API
-from services.Payments.payme import PaymePay
 
 
 async def main() -> None:

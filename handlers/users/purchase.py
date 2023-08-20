@@ -8,13 +8,14 @@ from dateutil.parser import parse
 
 from database.dbApi import DB_API
 from handlers.users.keyboard import cancel_purchase, buy_handler, back_buy_handler
+from handlers.users.topup_balance import check_payment
 from i18n import _
 from keyboards.default.creator import CreateBtn
 from keyboards.inline.creator import Bonuses, TopCountries_Btn
 from keyboards.inline.creator import Pagination, Operator, CreateInlineBtn
 from misc.bonuses import Bonus
 from misc.cost_modification import change_price, percent_from_bonus
-from misc.states import Purchase
+from misc.states import Purchase, Balance
 from services.API_5sim.fetch_operator import GetPrice
 from services.API_5sim.purchase import Buy
 from database.countries import telegram_top_countries
@@ -305,7 +306,6 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
         case 'getsms':
             res = await buy.get_sms(data['product_id'])
             sms_code: list = res['sms']
-            print(sms_code)
             if len(sms_code) > 0:
                 last_price: str = data['last_price']
                 formatted_price = int(last_price.replace(',', '').replace('сум', '').split('.')[0])
@@ -315,8 +315,8 @@ async def get_sms_handler(call: CallbackQuery, state: FSMContext):
                 if 'bonus_count' in data:
                     bonus = Bonus()
                     await bonus.remove_bonus(data['bonus_count'])
-                await state.finish()
-                await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
+                # await state.finish()
+                # await call.message.answer(_('finished'), reply_markup=CreateBtn.MenuBtn())
 
         # case 're_buy':
         #     formatted_phone = data['phone'].replace('+','')
@@ -389,8 +389,28 @@ async def normalize_response(product_id, created_at, phone, product, status, exp
 
 
 async def cancel(msg: Message, state: FSMContext):
-    await msg.answer('❌', reply_markup=CreateBtn.MenuBtn())
-    await state.finish()
+    curr_state = await state.get_state()
+    if curr_state is not None:
+        if curr_state.split(':')[1] == 'bill':
+            await msg.answer(_('u_sure'), reply_markup=CreateInlineBtn.yes_no())
+        else:
+            await msg.answer('❌', reply_markup=CreateBtn.MenuBtn())
+            await state.finish()
+    else:
+        await msg.answer('❌', reply_markup=CreateBtn.MenuBtn())
+        await state.finish()
+
+
+async def yes_or_no(call: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    if call.data.__contains__('yes'):
+        await call.message.delete()
+        await call.message.answer('❌', reply_markup=CreateBtn.MenuBtn())
+        await state.finish()
+    else:
+        await call.message.delete()
+        await call.message.answer('(◍•ᴗ•◍)❤️')
+        await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(data['url']))
 
 
 def register_callbacks(dp: Dispatcher):
@@ -405,8 +425,5 @@ def register_callbacks(dp: Dispatcher):
     dp.register_callback_query_handler(use_bonuses, state=Purchase.confirm, text='bonus')
     dp.register_callback_query_handler(handle_bonuses_change, state=Purchase.bonus, text_contains='change')
     dp.register_callback_query_handler(confirm_bonus, state=Purchase.bonus, text='confirm_bonus')
-    # dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='click')
-    # dp.register_callback_query_handler(other_payments, state=Purchase.payment, text='qiwi')
-    # dp.register_callback_query_handler(payme_callback, state=Purchase.payment, text='payme')
-    # dp.register_callback_query_handler(check_payment, state=Purchase.payment, text='confirm_payment')
     dp.register_callback_query_handler(get_sms_handler, state=Purchase.purchase)
+    dp.register_callback_query_handler(yes_or_no, state=Balance.bill, text_contains='choose')

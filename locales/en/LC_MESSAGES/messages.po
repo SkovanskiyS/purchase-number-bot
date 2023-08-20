@@ -29,11 +29,6 @@ msgid "start"
 msgstr ""
 "<b>📞 Hello! I am your bot assistant for purchasing virtual numbers!</b>\n"
 "\n"
-"🔐 Do you want to stay anonymous online or need additional numbers for "
-"your business? You've come to the right place! We offer a fast and "
-"convenient solution for registering on the OpenAI website and creating "
-"new accounts on Telegram.\n"
-"\n"
 "🌍 Our service supports various countries and operators, so you can choose"
 " a number from the desired region. We guarantee complete confidentiality "
 "and anonymity of your data.\n"
@@ -120,8 +115,7 @@ msgstr ""
 #: handlers/users/keyboard.py:19
 msgid "notification"
 msgstr ""
-"<b>❕ You are in machine state, commands like [/start | /help] will not "
-"work.</b>"
+"<b>❕ You are in machine state</b>"
 
 #: handlers/users/keyboard.py:20
 msgid "choose_service"
@@ -406,7 +400,11 @@ msgstr "❓ How to use the bot"
 msgid "support"
 msgstr "🆘 Support"
 
+msgid "u_sure"
+msgstr "<b>❗️Before canceling the order, please make sure that you have indeed pressed the "Confirm" button after making the payment.\n\nIf you have made the payment but forgot to press the "Confirm" button, your balance will not be topped up.</b>"
 
+msgid "yes"
+msgstr "✅ Yes, I am sure"
 
-
-
+msgid "no"
+msgstr "🤷‍♂️ No, I am not sure"

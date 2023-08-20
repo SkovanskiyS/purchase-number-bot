@@ -53,11 +53,7 @@ async def change_language(msg: Message):
 
 @rate_limit(limit=20)
 async def how_touse(msg: Message):
-    current_directory = str(Path(__file__).resolve().parent.parent.parent) + '/guide.mp4'
-    with open(current_directory, 'rb') as video:
-        from aiogram.types import InputFile
-        video = InputFile(video)
-        await msg.bot.send_video(msg.from_user.id,video)
+    await msg.bot.send_video(msg.from_user.id,video='BAACAgIAAxkBAAIpE2TiQrWRDrGwiIKZ8_uBSe5EeH8MAAKUMAACiokRS6gwVVwYnvsmMAQ')
 
 @rate_limit(limit=5)
 async def support(msg: Message):
