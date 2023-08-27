@@ -39,7 +39,7 @@ async def balance_other_sum(msg: Message, state: FSMContext):
     chosen_sum = msg.text
     formatted_sum = chosen_sum.replace(' ', '')
     if formatted_sum.isdigit() and 1000 <= int(formatted_sum) <= 1000000:
-        await state.update_data(sum=chosen_sum)
+        await state.update_data(sum=formatted_sum)
         await Balance.payment.set()
         await msg.answer(f'{_("choose")}', reply_markup=CreateInlineBtn.payment())
     else:
@@ -51,9 +51,10 @@ async def payme_bill(msg: Message, state: FSMContext):
     data = await state.get_data()
     amount = data['sum'] + '00'
     amount = amount.replace(' ', '')
+    print(amount)
     payme_obj = PaymePay(amount, str(msg.from_user.id))
     url_to_pay = await payme_obj.bill()
-    #url_to_pay = 'https://payme.uz/checkout/64e251ae3df64755957e78f2?back=null&timeout=15000&lang=ru'
+    # url_to_pay = 'https://payme.uz/checkout/64e251ae3df64755957e78f2?back=null&timeout=15000&lang=ru'
     await state.update_data(url=url_to_pay)
     await msg.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(url_to_pay))
 
@@ -69,15 +70,14 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
     try:
         db_api = DB_API()
         db_api.connect()
-        #await call.message.answer(_('checking'))
-        #await call.answer(_('checking'),show_alert=True)
-        #await call.message.delete()
+        # await call.message.answer(_('checking'))
+        # await call.answer(_('checking'),show_alert=True)
+        # await call.message.delete()
         data = await state.get_data()
         url_to_check = data['url']
         paid = await check_status_of_payment(url_to_check)
         if paid is True:
             await call.message.answer(_('paid'), reply_markup=CreateBtn.MenuBtn())
-
             amount = int(data['sum'])
             db_amount = int(db_api.get_balance(call.from_user.id)[0])
             amount_to_add = amount + db_amount
@@ -85,7 +85,7 @@ async def check_payment(call: CallbackQuery, state: FSMContext):
             await state.finish()
         elif paid is False:
             await call.answer(_('not_paid'), show_alert=True)
-            #await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(data['url']))
+            # await call.message.answer(_('check_payment'), reply_markup=CreateInlineBtn.pay(data['url']))
         else:
             await call.message.bot.send_message(996346575, f'{call.from_user.id} has a problem with payment:\n{paid}')
     except Exception as err:
