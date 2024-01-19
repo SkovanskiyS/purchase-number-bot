@@ -1,5 +1,4 @@
-import logging
-import psycopg2
+import logging, psycopg2
 
 from data.config import Config, load_config
 
